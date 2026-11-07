@@ -11,9 +11,6 @@
     <option name="button2Url" value="" />
     <option name="customApplicationId" value="" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="6fe7081d-b815-433c-b3a0-93ffcf79946b" />
-  </component>
   <component name="ProjectRootManager" version="2" default="true" project-jdk-name="26" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
