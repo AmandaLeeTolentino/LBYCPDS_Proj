@@ -17,8 +17,7 @@ public class Reservation {
     //constructor
     public Reservation(String reservationId, String username, String slotId,
                        String locationName, ReservationStatus status, double
-                       durationHours, double totalAmount, LocalDateTime start,
-                       LocalDateTime end) {
+                       durationHours, double totalAmount, LocalDateTime start) {
 
         this.reservationId = reservationId;
         this.username = username;
@@ -55,6 +54,9 @@ public class Reservation {
     }
     public LocalDateTime getStart() {
         return start;
+    }
+    public LocalDateTime getEnd() {
+        return end;
     }
 
     /**
