@@ -10,13 +10,15 @@ public class Reservation {
     private final String locationName;
     private final double durationHours;
     private final double totalAmount;
-    private final ReservationStatus status;
+    private ReservationStatus status;
     private final LocalDateTime start;
+    private final LocalDateTime end;
 
     //constructor
     public Reservation(String reservationId, String username, String slotId,
                        String locationName, ReservationStatus status, double
-                       durationHours, double totalAmount, LocalDateTime start) {
+                       durationHours, double totalAmount, LocalDateTime start,
+                       LocalDateTime end) {
 
         this.reservationId = reservationId;
         this.username = username;
@@ -26,6 +28,7 @@ public class Reservation {
         this.totalAmount = totalAmount;
         this.status = status;
         this.start = start;
+        this.end = start.plusMinutes(Math.round(durationHours * 60));
     }
 
     //getters
@@ -54,11 +57,18 @@ public class Reservation {
         return start;
     }
 
-    public LocalDateTime getEnd(){
-        //add duration of stay to start time after converting hrs to min
-        return start.plusMinutes(Math.round(durationHours * 60));
+    /**
+     * tool to check for overlap so no invalid reservation
+     * @param st start time of new reservation
+     * @param et end time of new reservation
+     * @return true if overlap, false if no overlap
+     */
+    public boolean overlaps(LocalDateTime st, LocalDateTime et){
+        return start.isBefore(et) && st.isBefore(end);
     }
 
-
+    public void cancel(){
+        status = ReservationStatus.CANCELED;
+    }
 
 }
