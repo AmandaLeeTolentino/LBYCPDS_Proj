@@ -36,8 +36,13 @@ public class LoginRegistration {
                     if (loginResult != null) {
                         String username = loginResult[0];
                         String role = loginResult[1];
-                        // Call Home Page Interface based on role
-                        menu = false;
+
+                        // Route user to the correct menu based on their role
+                        if (role.equalsIgnoreCase("STUDENT")) {
+                            showStudentMenu(username);
+                        } else if (role.equalsIgnoreCase("ADMIN")) {
+                            showAdminMenu(username);
+                        }
                     }
                     break;
                 case "2":
