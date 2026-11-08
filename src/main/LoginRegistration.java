@@ -10,9 +10,9 @@ public static void main(String[] args) {
     while (menu) {
         // clear console if possible
         System.out.println( "\n\t\t\t╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴\n" +
-                "\t\t\t│╷│├╴ │  │  │ ││││├╴ \n" +
-                "\t\t\t╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴\n\n"+
-                "\t\t\t\t1. Login\n\t\t\t\t2. Register\n\n");
+                              "\t\t\t│╷│├╴ │  │  │ ││││├╴ \n" +
+                              "\t\t\t╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴\n\n"+
+                            "\t\t\t\t1. Login\n\t\t\t\t2. Register\n\n");
 
         System.out.print("Enter choice (1/2):  ");
         String Choice = scanner.nextLine();
@@ -39,8 +39,8 @@ public static String Login(){
     Scanner scanner = new Scanner(System.in);
     // clear console if possible
     System.out.print(   "\n╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴\n" +
-            "│  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │ \n" +
-            "╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ \n\n");
+                          "│  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │ \n" +
+                          "╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ \n\n");
 
     System.out.print("Enter username: ");
     String Username = scanner.nextLine(); // validate pa field cannot be blank
@@ -73,8 +73,8 @@ public static void Register() {
     while (registration) {
         // clear console if possible
         System.out.print(   "\n╭─╮╭─╴╭─╴╷╭─╮╶┬╴╭─╴╭─╮   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴\n" +
-                "├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │ \n" +
-                "╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ \n\n");
+                              "├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │ \n" +
+                              "╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ \n\n");
 
         System.out.print("Enter username: ");
         String Username = scanner.nextLine(); // validate pa field cannot be blank
@@ -103,7 +103,6 @@ public static void Register() {
                         roleChoice = false;
                         break;
                     default:
-                        roleChoice = true;
                         System.out.print("\nInvalid choice!");
                         System.out.print("Press any key to continue...");
                         scanner.nextLine();
@@ -133,7 +132,5 @@ public static void Register() {
         else { System.out.println("\nError! Passwords do not match."); }
 
     }
-
-    return;
 }
 
