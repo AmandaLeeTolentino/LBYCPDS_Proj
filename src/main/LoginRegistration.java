@@ -61,13 +61,446 @@ public class LoginRegistration {
         scanner.close();
     }
 
+    // ==========================================
+    // STUDENT MENU & SUB-MENUS
+    // ==========================================
+    public static void showStudentMenu(String username) {
+        Scanner scanner = new Scanner(System.in);
+        boolean studentSession = true;
+
+        while (studentSession) {
+            System.out.println("\n========================================");
+            System.out.println("   STUDENT DASHBOARD - Welcome, " + username);
+            System.out.println("========================================");
+            System.out.println("1. Reserve Parking");
+            System.out.println("2. Print Receipt");
+            System.out.println("3. Transaction History");
+            System.out.println("4. Logout");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    showReserveParkingMenu(scanner);
+                    break;
+                case "2":
+                    // 24-hour receipt logic simulation
+                    boolean hasRecentTransaction = false; // Change to true if within 24 hours
+                    if (!hasRecentTransaction) {
+                        System.out.println("\nNo recent transaction to print receipt.");
+                    } else {
+                        System.out.println("\n[Placeholder] Printing receipt for your recent transaction...");
+                    }
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "3":
+                    System.out.println("\n[Placeholder] Transaction History selected.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "4":
+                    System.out.println("\nLogging out...");
+                    studentSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showReserveParkingMenu(Scanner scanner) {
+        boolean reserveSession = true;
+        while (reserveSession) {
+            System.out.println("\n--- RESERVE PARKING ---");
+            System.out.println("1. Filter Category (Narrow down options)");
+            System.out.println("2. Reserve Slot Directly (Select building, floor, lot)");
+            System.out.println("3. Back to Student Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    showFilterCategoryMenu(scanner);
+                    break;
+                case "2":
+                    showBuildingSelectionMenu(scanner);
+                    break;
+                case "3":
+                    reserveSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showFilterCategoryMenu(Scanner scanner) {
+        boolean filterSession = true;
+        while (filterSession) {
+            System.out.println("\n--- FILTER CATEGORY ---");
+            System.out.println("1. Filter by Location");
+            System.out.println("2. Filter by Rate");
+            System.out.println("3. Filter by Discount");
+            System.out.println("4. Back to Reserve Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("\n[Placeholder] Location filter interface active.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "2":
+                    System.out.println("\n[Placeholder] Rate filter interface active.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "3":
+                    showDiscountMenu(scanner);
+                    break;
+                case "4":
+                    filterSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showDiscountMenu(Scanner scanner) {
+        boolean discountSession = true;
+        while (discountSession) {
+            System.out.println("\n--- FILTER BY DISCOUNT ---");
+            System.out.println("1. Senior");
+            System.out.println("2. Student");
+            System.out.println("3. PWD");
+            System.out.println("4. Back to Filter Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("\n[Placeholder] Senior discount filter applied.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "2":
+                    System.out.println("\n[Placeholder] Student discount filter applied.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "3":
+                    System.out.println("\n[Placeholder] PWD discount filter applied.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "4":
+                    discountSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showBuildingSelectionMenu(Scanner scanner) {
+        boolean buildingSession = true;
+        while (buildingSession) {
+            System.out.println("\n--- SELECT PARKING BUILDING ---");
+            System.out.println("1. Razon Sports Complex");
+            System.out.println("2. EGI Taft Tower");
+            System.out.println("3. Green Court Parking");
+            System.out.println("4. University Mall");
+            System.out.println("5. Green Mall");
+            System.out.println("6. Back to Reserve Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                    showFloorSelectionMenu(scanner);
+                    break;
+                case "6":
+                    buildingSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showFloorSelectionMenu(Scanner scanner) {
+        boolean floorSession = true;
+        while (floorSession) {
+            System.out.println("\n--- SELECT FLOOR LEVEL ---");
+            System.out.println("1. Floor 1");
+            System.out.println("2. Floor 2");
+            System.out.println("3. Floor 3");
+            System.out.println("4. Back to Building Selection");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                case "2":
+                case "3":
+                    showLotSelectionMenu(scanner);
+                    break;
+                case "4":
+                    floorSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showLotSelectionMenu(Scanner scanner) {
+        boolean lotSession = true;
+        while (lotSession) {
+            System.out.println("\n--- SELECT LOT NUMBER ---");
+            System.out.println("1. Lot A (Slot 1)");
+            System.out.println("2. Lot B (Slot 2)");
+            System.out.println("3. Lot C (Slot 3)");
+            System.out.println("4. Back to Floor Selection");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                case "2":
+                case "3":
+                    System.out.println("\n[Placeholder] Lot selected successfully! Proceeding to reservation & payment...");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    lotSession = false;
+                    break;
+                case "4":
+                    lotSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    // ==========================================
+    // ADMIN MENU & SUB-MENUS
+    // ==========================================
+    public static void showAdminMenu(String username) {
+        Scanner scanner = new Scanner(System.in);
+        boolean adminSession = true;
+
+        while (adminSession) {
+            System.out.println("\n========================================");
+            System.out.println("   ADMIN DASHBOARD - Welcome, " + username);
+            System.out.println("========================================");
+            System.out.println("1. View Statistics");
+            System.out.println("2. Logout");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    showStatisticsMenu(scanner);
+                    break;
+                case "2":
+                    System.out.println("\nLogging out...");
+                    adminSession = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    public static void showStatisticsMenu(Scanner scanner) {
+        boolean statsEntry = true;
+        while (statsEntry) {
+            System.out.println("\n--- VIEW STATISTICS ---");
+            System.out.println("1. Most Used Parking (Required drill-down: Area -> Floor -> Lot)");
+            System.out.println("2. Back to Admin Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            if (choice.equals("1")) {
+                boolean completedDrillDown = showAdminAreaSelection(scanner);
+                if (completedDrillDown) {
+                    showAdvancedStatisticsDashboard(scanner);
+                }
+            } else if (choice.equals("2")) {
+                statsEntry = false;
+            } else {
+                System.out.println("\nInvalid choice! Press Enter to continue.");
+                scanner.nextLine();
+            }
+        }
+    }
+
+    public static boolean showAdminAreaSelection(Scanner scanner) {
+        while (true) {
+            System.out.println("\n--- [STATISTICS] SELECT AREA ---");
+            System.out.println("1. Razon Sports Complex");
+            System.out.println("2. EGI Taft Tower");
+            System.out.println("3. Green Court Parking");
+            System.out.println("4. University Mall");
+            System.out.println("5. Green Mall");
+            System.out.println("6. Cancel");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                case "2":
+                case "3":
+                case "4":
+                case "5":
+                    return showAdminFloorSelection(scanner);
+                case "6":
+                    return false;
+                default:
+                    System.out.println("\nInvalid choice! Try again.");
+            }
+        }
+    }
+
+    public static boolean showAdminFloorSelection(Scanner scanner) {
+        while (true) {
+            System.out.println("\n--- [STATISTICS] SELECT FLOOR ---");
+            System.out.println("1. Floor 1");
+            System.out.println("2. Floor 2");
+            System.out.println("3. Floor 3");
+            System.out.println("4. Back");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                case "2":
+                case "3":
+                    return showAdminLotSelection(scanner);
+                case "4":
+                    return false;
+                default:
+                    System.out.println("\nInvalid choice! Try again.");
+            }
+        }
+    }
+
+    public static boolean showAdminLotSelection(Scanner scanner) {
+        while (true) {
+            System.out.println("\n--- [STATISTICS] SELECT LOT NUMBER ---");
+            System.out.println("1. Lot A");
+            System.out.println("2. Lot B");
+            System.out.println("3. Lot C");
+            System.out.println("4. Back");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                case "2":
+                case "3":
+                    System.out.println("\nMost Used Parking filter loaded successfully!");
+                    System.out.print("Press Enter to view the full statistics dashboard...");
+                    scanner.nextLine();
+                    return true;
+                case "4":
+                    return false;
+                default:
+                    System.out.println("\nInvalid choice! Try again.");
+            }
+        }
+    }
+
+    public static void showAdvancedStatisticsDashboard(Scanner scanner) {
+        boolean dashboardActive = true;
+        while (dashboardActive) {
+            System.out.println("\n--- DETAILED STATISTICS DASHBOARD ---");
+            System.out.println("1. Most Used Parking Summary");
+            System.out.println("2. Average Time of Parking");
+            System.out.println("3. Peak Hours");
+            System.out.println("4. Available Slots");
+            System.out.println("5. Occupied Slots");
+            System.out.println("6. Other Analytics / Reports");
+            System.out.println("7. Back to Main Statistics Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+                case "1":
+                    System.out.println("\n[Placeholder] Most Used Parking metrics displayed.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "2":
+                    System.out.println("\n[Placeholder] Average time of parking displayed.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "3":
+                    System.out.println("\n[Placeholder] Peak hours analytics displayed.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "4":
+                    System.out.println("\n[Placeholder] Available slots count displayed.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "5":
+                    System.out.println("\n[Placeholder] Occupied slots count displayed.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "6":
+                    System.out.println("\n[Placeholder] Other supplementary reports displayed.");
+                    System.out.print("Press Enter to continue...");
+                    scanner.nextLine();
+                    break;
+                case "7":
+                    dashboardActive = false;
+                    break;
+                default:
+                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    scanner.nextLine();
+                    break;
+            }
+        }
+    }
+
+    // ==========================================
+    // LOGIN & REGISTER METHODS
+    // ==========================================
     public static String[] Login() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("""
 
             ╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
             │  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │
-            ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ 
+            ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ 
 
             """);
 
