@@ -9,10 +9,16 @@ public static void main(String[] args) {
     boolean menu = true;
     while (menu) {
         // clear console if possible
-        System.out.println( "\n\t\t\t╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴\n" +
-                              "\t\t\t│╷│├╴ │  │  │ ││││├╴ \n" +
-                              "\t\t\t╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴\n\n"+
-                            "\t\t\t\t1. Login\n\t\t\t\t2. Register\n\n");
+        System.out.println("""
+
+            ╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴
+            │╷│├╴ │  │  │ ││││├╴ 
+            ╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴
+
+                1. Login
+                2. Register
+
+        """);
 
         System.out.print("Enter choice (1/2):  ");
         String Choice = scanner.nextLine();
@@ -38,9 +44,13 @@ public static void main(String[] args) {
 public static String Login(){
     Scanner scanner = new Scanner(System.in);
     // clear console if possible
-    System.out.print(   "\n╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴\n" +
-                          "│  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │ \n" +
-                          "╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ \n\n");
+    System.out.println("""
+
+        ╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
+        │  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │ 
+        ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ 
+
+        """);
 
     System.out.print("Enter username: ");
     String Username = scanner.nextLine(); // validate pa field cannot be blank
@@ -72,9 +82,13 @@ public static void Register() {
 
     while (registration) {
         // clear console if possible
-        System.out.print(   "\n╭─╮╭─╴╭─╴╷╭─╮╶┬╴╭─╴╭─╮   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴\n" +
-                              "├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │ \n" +
-                              "╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ \n\n");
+        System.out.println("""
+
+    ╭─╮╭─╴╭─╴╷╭─╮╶┬╴╭─╴╭─╮   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
+    ├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │ 
+    ╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵ 
+
+    """);
 
         System.out.print("Enter username: ");
         String Username = scanner.nextLine(); // validate pa field cannot be blank
