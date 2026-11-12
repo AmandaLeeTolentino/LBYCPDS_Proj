@@ -6,7 +6,7 @@ import java.util.*;
 
 public class ReservationService {
     //easier to access reservation info by id (key: res Id; val: reservation info)
-    private HashMap<String, List<Reservation>> reservations;
+    private HashMap<String, List<Reservation>> reservations = new HashMap<>();
     private int idCount = 0;
 
     /**
