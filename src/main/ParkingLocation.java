@@ -49,6 +49,9 @@ public class ParkingLocation {
     public String getNotes() {
         return notes;
     }
+    public List<ParkingSlot> getSlots() {
+        return new ArrayList<>(slots); //send copy of it only so cant accidentally change
+    }
 
     /**
      *
