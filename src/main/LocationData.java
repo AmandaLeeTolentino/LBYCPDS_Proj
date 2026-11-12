@@ -18,7 +18,7 @@ public class LocationData {
 
         //razon sports complex
         locations.add(
-                new ParkingLocation("Razon Sports Complex", 140,new Rate(RateType.FIXED, 60,0,0),
+                new ParkingLocation("Razon Sports Complex", 140,new Rate(RateType.FIXED, 0,60,0),
                 "You have to buy a ticket in advanced and present receipt to DLSU sec. office first",
                 ParkingLocation.generateSlots("Razon Sports Complex", "RAZ", new int[]{20,20}))
         );
