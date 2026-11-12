@@ -44,8 +44,7 @@ public class ReservationService {
      * creates new reservation
      * @return reservation obj
      */
-    public Reservation reserve(String username, ParkingSlot slot, LocalDateTime start,
-                               ParkingLocation loc, LocalDateTime Start, double hours){
+    public Reservation reserve(String username, ParkingSlot slot, ParkingLocation loc, LocalDateTime start, double hours){
         LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
         if(!isSlotFree(slot.getSlotId(), start, end)) return null;
