@@ -58,6 +58,15 @@ public class ReservationService {
      */
     public Reservation reserve(String username, ParkingSlot slot, ParkingLocation loc, LocalDateTime start, double hours){
 
+        if (username == null || username.isBlank()) throw new IllegalArgumentException("Username is required");
+        if (slot == null) throw new IllegalArgumentException("Slot does not exist");
+        if (loc == null) throw new IllegalArgumentException("Location does not exist");
+        if (start == null) throw new IllegalArgumentException("Start time is required");
+        if (hours < 0) throw new IllegalArgumentException("Hours must be positive: " + hours);
+        if (loc.getSlot(slot.getSlotId()) == null) {
+            throw new IllegalArgumentException("Slot " + slot.getSlotId() + " is not in " + loc.getName());
+        }
+
         LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
         if(!isSlotFree(slot.getSlotId(), start, end)) return null;
@@ -124,6 +133,7 @@ public class ReservationService {
 
         //free slots at 3pm-4pm: slot 1 is taken, the other 9 are free
         List<ParkingSlot> freeAt3 = service.findFree(egi, threePm, fourPm);//find list of free parking slots during time
+        IO.println("\n\nNumber of free slots at 3pm - 4pm: "+ freeAt3.size());
     }
 
 }
