@@ -12,11 +12,13 @@ public class ReservationService {
     /**
      * @param slotId id of slot
      * @param start start time of reservation
-     * @param end end time of reservation
+     * @param hours total hours for reserving the slot
      * @return if given slot is free during specified time
      */
-    public boolean isSlotFree(String slotId, LocalDateTime start, LocalDateTime end) {
+    public boolean isSlotFree(String slotId, LocalDateTime start, double hours) {
         List<Reservation> resInSlot = allReservations.get(slotId);
+
+        LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
         if (resInSlot == null){
             return true;
@@ -37,14 +39,14 @@ public class ReservationService {
     /**
      * @param loc location of parking slot
      * @param start start time of reservation
-     * @param end end time of reservation
+     * @param hours hours to reserve slot
      * @return ArrayList of all free slots in the location
      */
-    public List<ParkingSlot> findFree(ParkingLocation loc, LocalDateTime start, LocalDateTime end){
+    public List<ParkingSlot> findFree(ParkingLocation loc, LocalDateTime start, double hours){
         List<ParkingSlot> free = new ArrayList<>(); //hold list of free slots found
 
         for (ParkingSlot slot: loc.getSlots()){ //for each slot in location
-            if(isSlotFree(slot.getSlotId(), start, end)){// check if free during specified time
+            if(isSlotFree(slot.getSlotId(), start, hours)){// check if free during specified time
                 free.add(slot);
             }
         }
@@ -67,9 +69,7 @@ public class ReservationService {
             throw new IllegalArgumentException("Slot " + slot.getSlotId() + " is not in " + loc.getName());
         }
 
-        LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
-
-        if(!isSlotFree(slot.getSlotId(), start, end)) return null;
+        if(!isSlotFree(slot.getSlotId(), start, hours)) return null;
 
         double fee = loc.getRate().computeFee(hours);
         String id = "R" + (++idCount);
@@ -132,7 +132,7 @@ public class ReservationService {
 
 
         //free slots at 3pm-4pm: slot 1 is taken, the other 9 are free
-        List<ParkingSlot> freeAt3 = service.findFree(egi, threePm, fourPm);//find list of free parking slots during time
+        List<ParkingSlot> freeAt3 = service.findFree(egi, threePm, 1);//find list of free parking slots during time
         IO.println("\n\nNumber of free slots at 3pm - 4pm: "+ freeAt3.size());
     }
 
