@@ -11,7 +11,7 @@ public class ParkingLocation {
     private final List<ParkingSlot> slots;
     private final Map<String, ParkingSlot> slotById = new HashMap<>();
 
-    //constructr
+    //constructor
     public ParkingLocation(String name, double distance, Rate rate, String notes,
                            List<ParkingSlot> slots) {
         if (name == null || distance < 0 || name.isBlank() || rate == null||slots == null) {
@@ -56,7 +56,6 @@ public class ParkingLocation {
     /**
      *
      * @param name parking area name
-     * @param code code for specific location to avoid duplicate ids accross locations
      * @param slotsPerFlr each index represents a floor, value in index is amnt of slots (ex: [3,2] 3 slots in F1, 2 slots in F2)
      * @return create slots in parking area
      */
@@ -94,14 +93,13 @@ public class ParkingLocation {
         IO.println(egiRate.computeFee(6));
 
         Rate greenRate = new Rate(RateType.HOURLY, 3,60,20);
-        List<ParkingSlot> greenSlots  = ParkingLocation.generateSlots("Green Mall", "Green", new int[]{3});
+        List<ParkingSlot> greenSlots  = ParkingLocation.generateSlots("Green Mall", "Green", new int[]{15});
         ParkingLocation greenMall = new ParkingLocation("Green Mall", 50, greenRate,null, greenSlots);
 
-        IO.println();
         IO.println(greenMall.getName());
         IO.println("Capacity: " + greenMall.getCapacity());
 
-        IO.println("\nSlots: ");
+        IO.println("Slots");
         for (ParkingSlot slot: greenSlots) {
             IO.println(slot.getSlotId());
         }
