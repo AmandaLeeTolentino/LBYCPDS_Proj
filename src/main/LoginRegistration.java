@@ -1,14 +1,11 @@
 package main;
 
-import java.util.Scanner;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.*;
+import java.io.*;
 
 public class LoginRegistration {
+    private static final List<ParkingLocation> locations = LocationData.createLocations();
+    private static final ReservationService reservationService = new ReservationService();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -81,7 +78,7 @@ public class LoginRegistration {
 
             switch (choice) {
                 case "1":
-                    showReserveParkingMenu(scanner);
+                    showReserveParkingMenu(scanner, username);
                     break;
                 case "2":
                     // 24-hour receipt logic simulation
@@ -111,7 +108,7 @@ public class LoginRegistration {
         }
     }
 
-    public static void showReserveParkingMenu(Scanner scanner) {
+    public static void showReserveParkingMenu(Scanner scanner, String username) {
         boolean reserveSession = true;
         while (reserveSession) {
             System.out.println("\n--- RESERVE PARKING ---");
@@ -126,7 +123,8 @@ public class LoginRegistration {
                     showFilterCategoryMenu(scanner);
                     break;
                 case "2":
-                    showBuildingSelectionMenu(scanner);
+                    ReservationMenu reservationMenu = new ReservationMenu(locations, reservationService, username);
+                    reservationMenu.start();
                     break;
                 case "3":
                     reserveSession = false;
