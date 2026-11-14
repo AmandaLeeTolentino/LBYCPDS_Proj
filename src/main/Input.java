@@ -1,13 +1,18 @@
 package main;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
 
 public class Input {
 
     private static final Scanner input = new Scanner(System.in);
+    private static final DateTimeFormatter DATE_FORMAT =
+            DateTimeFormatter.ofPattern("M-d-uuuu").withResolverStyle(ResolverStyle.STRICT);
 
     private Input() {}
 
@@ -84,6 +89,18 @@ public class Input {
                 return LocalTime.parse(line);
             } catch (DateTimeParseException e) {
                 IO.println("Use 24-hour HH:mm, for example 14:30.");
+            }
+        }
+    }
+
+    public static LocalDate readDate(String prompt) {
+        while (true) {
+            IO.print(prompt);
+            String line = input.nextLine().trim();
+            try {
+                return LocalDate.parse(line, DATE_FORMAT);
+            } catch (DateTimeParseException e) {
+                IO.println("Use MM-dd-yyyy, for example 05-20-2026.");
             }
         }
     }

@@ -1,22 +1,31 @@
 package main;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class ReservationMenu {
-    List<ParkingLocation> locations;
-    Scanner input = new Scanner(System.in);
-    public static ReservationService res;
-    private String username;
-    private String banner = "=".repeat(100);
+    private final List<ParkingLocation> locations;
+    private ReservationService res;
+    private final String username;
+    private final String banner = "=".repeat(100);
+
+    public ReservationMenu(List<ParkingLocation> locations,
+                           ReservationService res, String username) {
+        this.locations = locations;
+        this.res = res;
+        this.username = username;
+    }
 
     //todo: run flow order
     public void start() {
 
     }
 
-    //todo:prints the locations, get user input, return location
+
     private ParkingLocation chooseLocation() {
-        List<ParkingLocation> locations = LocationData.createLocations();
         int counter = 0;
         int selection;
 
@@ -37,12 +46,11 @@ public class ReservationMenu {
             }
         }
 
-        IO.print("\n\nChoose Parking Location: ");
-        selection = input.nextInt() - 1;
+        IO.print("\n\n");
+        selection = Input.readInt("Choose Parking Location: ", 1, locations.size()) - 1;
 
         return locations.get(selection);
     }
-
 /*
     //todo: print free slots, get user input
     private ParkingSlot chooseSlot(List<ParkingSlot> freeSlots){
@@ -51,6 +59,7 @@ public class ReservationMenu {
 
     }
 
+
     //todo: show summary of choices, return if confirmed
     private boolean isConfirmed(){
 
@@ -58,8 +67,14 @@ public class ReservationMenu {
 
      */
 
-    //test
-    public void main(String[] args){
-        IO.println(chooseLocation().getName());
+    private LocalDateTime askStartTime() {
+        while (true) {
+            LocalDate date = Input.readDate("\nDate (mm-dd-yyyy): ");
+            LocalTime time = Input.readTime("Start time (HH:mm, 24-hour): ");
+            LocalDateTime start = LocalDateTime.of(date, time);
+
+            if (start.isAfter(LocalDateTime.now())) return start;
+            IO.println("That time has already passed. Enter a future date and time.");
+        }
     }
 }
