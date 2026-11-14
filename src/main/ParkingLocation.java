@@ -77,33 +77,4 @@ public class ParkingLocation {
 
         return slots;
     }
-
-    //test
-    public static void main(String[] args){
-        Rate egiRate = new Rate(RateType.HOURLY, 3,70,20);
-        List<ParkingSlot> egiSlots = ParkingLocation.generateSlots("EGI Taft Tower", "EGI", new int[]{10, 4, 3});
-
-        ParkingLocation egi = new ParkingLocation("EGI Taft Tower", 45.0, egiRate,"You may be asked to leave your keys", egiSlots);
-
-
-        IO.println(egi.getName());
-        IO.println("Capacity: " + egi.getCapacity());
-
-        IO.println(egi.getSlot("EGI-F1-5").getFloor());
-        IO.println(egiRate.computeFee(6));
-
-        Rate greenRate = new Rate(RateType.HOURLY, 3,60,20);
-        List<ParkingSlot> greenSlots  = ParkingLocation.generateSlots("Green Mall", "Green", new int[]{15});
-        ParkingLocation greenMall = new ParkingLocation("Green Mall", 50, greenRate,null, greenSlots);
-
-        IO.println(greenMall.getName());
-        IO.println("Capacity: " + greenMall.getCapacity());
-
-        IO.println("Slots");
-        for (ParkingSlot slot: greenSlots) {
-            IO.println(slot.getSlotId());
-        }
-        IO.println(greenRate.computeFee(10));
-    }
-
 }

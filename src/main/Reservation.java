@@ -72,26 +72,4 @@ public class Reservation {
     public void cancel(){
         status = ReservationStatus.CANCELED;
     }
-
-    //test
-    public static void main(String[] args){
-        //make reservation for 2pm 3 hrs
-        LocalDateTime twoPm = LocalDateTime.of(2026, 11, 10, 14, 0); //time of reservation
-        Reservation r = new Reservation("R1", "mandy", "EGI-F1-5", "EGI Taft Tower",
-                ReservationStatus.CONFIRMED, 3, 110, twoPm);//details of reservation
-        IO.println("Reservation for " + r.username + " at " + r.getStart() + " up to " + r.getEnd());
-
-        IO.println("End: " + r.getEnd());
-
-        IO.println("\ntrying to make new reservation...");
-        LocalDateTime threePm = LocalDateTime.of(2026, 11, 10, 15, 0); //start time
-        LocalDateTime fourPm = LocalDateTime.of(2026, 11, 10, 16, 0);//end time
-        IO.println("3pm-4pm overlaps: " + r.overlaps(threePm, fourPm));
-
-        IO.println("\ntrying to make new reservation...");
-        LocalDateTime fivePm = LocalDateTime.of(2026, 11, 10, 17, 0);
-        LocalDateTime sixPm = LocalDateTime.of(2026, 11, 10, 18, 0);
-        IO.println("5pm-6pm overlaps: " + r.overlaps(fivePm, sixPm));
-    }
-
 }
