@@ -12,7 +12,7 @@ public class LocationData {
         //egi taft tower
         locations.add(
                 new ParkingLocation("EGI Taft Tower", 15,
-                new Rate(RateType.HOURLY, 70, 3, 20), "You may be asked to leave your key behind",
+                new Rate(RateType.HOURLY, 3, 70, 20), "You may be asked to leave your key behind",
                 ParkingLocation.generateSlots("EGI Taft Tower", "EGI", new int[]{60}))
         );
 
