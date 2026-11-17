@@ -44,6 +44,4 @@ public class LocationData {
 
         return locations;
     }
-
-
 }

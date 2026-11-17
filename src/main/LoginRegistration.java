@@ -141,9 +141,9 @@ public class LoginRegistration {
         boolean filterSession = true;
         while (filterSession) {
             System.out.println("\n--- FILTER CATEGORY ---");
-            System.out.println("1. Filter by Location");
+            System.out.println("1. Filter by Distance");
             System.out.println("2. Filter by Rate");
-            System.out.println("3. Filter by Discount");
+            System.out.println("3. Filter by Promo");
             System.out.println("4. Back to Reserve Menu");
             System.out.print("\nEnter choice: ");
             String choice = scanner.nextLine();
