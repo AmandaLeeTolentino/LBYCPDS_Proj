@@ -120,7 +120,7 @@ public class LoginRegistration {
 
             switch (choice) {
                 case "1":
-                    showFilterCategoryMenu(scanner);
+                    showFilterCategoryMenu(scanner, user);
                     break;
                 case "2":
                     ReservationMenu reservationMenu = new ReservationMenu(locations, reservationService, username);
@@ -137,7 +137,8 @@ public class LoginRegistration {
         }
     }
 
-    public static void showFilterCategoryMenu(Scanner scanner) {
+    public static void showFilterCategoryMenu(Scanner scanner, String username) {
+        LocationFilter filter = new LocationFilter(locations, reservationService, username, scanner);
         boolean filterSession = true;
         while (filterSession) {
             System.out.println("\n--- FILTER CATEGORY ---");
@@ -150,17 +151,13 @@ public class LoginRegistration {
 
             switch (choice) {
                 case "1":
-                    System.out.println("\n[Placeholder] Location filter interface active.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
+                    filter.filterByDistance();
                     break;
                 case "2":
-                    System.out.println("\n[Placeholder] Rate filter interface active.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
+                    filter.filterByRate();
                     break;
                 case "3":
-                    showDiscountMenu(scanner);
+                    filter.filterByPromo();
                     break;
                 case "4":
                     filterSession = false;
