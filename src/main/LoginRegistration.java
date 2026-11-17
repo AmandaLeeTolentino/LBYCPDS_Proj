@@ -170,44 +170,6 @@ public class LoginRegistration {
         }
     }
 
-    public static void showDiscountMenu(Scanner scanner) {
-        boolean discountSession = true;
-        while (discountSession) {
-            System.out.println("\n--- FILTER BY DISCOUNT ---");
-            System.out.println("1. Senior");
-            System.out.println("2. Student");
-            System.out.println("3. PWD");
-            System.out.println("4. Back to Filter Menu");
-            System.out.print("\nEnter choice: ");
-            String choice = scanner.nextLine();
-
-            switch (choice) {
-                case "1":
-                    System.out.println("\n[Placeholder] Senior discount filter applied.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "2":
-                    System.out.println("\n[Placeholder] Student discount filter applied.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "3":
-                    System.out.println("\n[Placeholder] PWD discount filter applied.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "4":
-                    discountSession = false;
-                    break;
-                default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
-                    scanner.nextLine();
-                    break;
-            }
-        }
-    }
-
     public static void showBuildingSelectionMenu(Scanner scanner) {
         boolean buildingSession = true;
         while (buildingSession) {
