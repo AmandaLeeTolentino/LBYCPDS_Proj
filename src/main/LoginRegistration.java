@@ -537,5 +537,65 @@ public class LoginRegistration {
             }
         }
     }
+
+    public static void showCurrentSlots(Scanner scanner) {
+        java.time.format.DateTimeFormatter dateFmt = java.time.format.DateTimeFormatter
+                .ofPattern("M-d-uuuu").withResolverStyle(java.time.format.ResolverStyle.STRICT);
+        java.time.format.DateTimeFormatter showFmt = java.time.format.DateTimeFormatter.ofPattern("MMM d, h:mm a");
+
+        // ask date
+        java.time.LocalDate date;
+        while (true) {
+            System.out.print("\nDate (mm-dd-yyyy): ");
+            try {
+                date = java.time.LocalDate.parse(scanner.nextLine().trim(), dateFmt);
+                break;
+            } catch (java.time.format.DateTimeParseException e) {
+                System.out.println("Use MM-dd-yyyy, for example 05-20-2026.");
+            }
+        }
+
+        // ask time (Enter = whole day)
+        java.time.LocalTime time = java.time.LocalTime.MIDNIGHT;
+        while (true) {
+            System.out.print("Time (HH:mm, 24-hour) or press Enter for the whole day: ");
+            String line = scanner.nextLine().trim();
+            if (line.isEmpty()) break;
+            try {
+                time = java.time.LocalTime.parse(line);
+                break;
+            } catch (java.time.format.DateTimeParseException e) {
+                System.out.println("Use 24-hour HH:mm, for example 14:30.");
+            }
+        }
+
+        java.time.LocalDateTime from = java.time.LocalDateTime.of(date, time);
+        java.time.LocalDateTime to = date.plusDays(1).atStartOfDay(); // end of that day
+
+        java.util.List<Reservation> taken = reservationService.getReservationsBetween(from, to);
+
+        System.out.println("\n--- RESERVED SLOTS from " + from.format(showFmt) + " to end of day ---");
+        if (taken.isEmpty()) {
+            System.out.println("No reserved slots for that period.");
+        }
+        String lastBuilding = "";
+        for (Reservation r : taken) {
+            if (!r.getLocationName().equals(lastBuilding)) {
+                System.out.println("\n" + r.getLocationName());
+                lastBuilding = r.getLocationName();
+            }
+            int floor = 0;
+            for (ParkingLocation loc : locations) {
+                if (loc.getName().equals(r.getLocationName()) && loc.getSlot(r.getSlotId()) != null) {
+                    floor = loc.getSlot(r.getSlotId()).getFloor();
+                }
+            }
+            System.out.println("  Slot " + r.getSlotId() + " | Floor " + floor + " | "
+                    + r.getStart().format(showFmt) + " - " + r.getEnd().format(showFmt)
+                    + " (" + r.getDurationHours() + " hrs)");
+        }
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
 }
 
