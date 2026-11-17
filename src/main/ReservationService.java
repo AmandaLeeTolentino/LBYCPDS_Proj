@@ -1,10 +1,7 @@
 package main;
 
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -82,16 +79,21 @@ public class ReservationService {
 
         Reservation reservation  = new Reservation(id,username,slot.getSlotId(),
                 loc.getName(),ReservationStatus.CONFIRMED, hours, fee, start);
+        addToMap(reservation);
+        saveToCsv();
 
-        List<Reservation> list = allReservations.get(slot.getSlotId());//get list of allReservations of a slot
+        return reservation;
+    }
+
+    private void addToMap(Reservation r){
+
+        List<Reservation> list = allReservations.get(r.getSlotId());//get list of allReservations of a slot
 
         if (list == null) {//if no list yet(first reservation)
             list = new ArrayList<>();
-            allReservations.put(slot.getSlotId(), list);//add reservation to map of all reservations
+            allReservations.put(r.getSlotId(), list);//add reservation to map of all reservations
         }
-        list.add(reservation);//add reservation to slot's list
-
-        return reservation;
+        list.add(r);//add reservation to slot's list
     }
 
 
@@ -117,6 +119,50 @@ public class ReservationService {
 
         } catch (IOException e) {
             IO.println("Error while saving reservations to csv: " + e.getMessage());
+        }
+    }
+
+    public void loadCsv() {
+        File file = new File(filename);
+
+        if (!file.exists()) return;
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+            String line = reader.readLine(); //to skip the labels or header
+
+            while((line = reader.readLine()) != null){
+                if(line.isBlank()) continue;
+
+                String[] info = line.split(",");
+                if(info.length < 8){ //in case a reservation row is incorrect (just in case yk)
+                    IO.println("Skipping improperly formatted reservation: " + line);
+                    continue;
+                }
+
+                try{
+                    String id = info[0];
+                    String username = info[1];
+                    String slotId = info[2];
+                    String locationName = info[3];
+                    ReservationStatus status = ReservationStatus.valueOf(info[4]);
+                    double hours = Double.parseDouble(info[5]);
+                    double fee =  Double.parseDouble(info[6]);
+                    LocalDateTime start = LocalDateTime.parse(info[7]);
+
+                    //recreating new reservation objs
+                    Reservation reservation = new Reservation(id, username, slotId, locationName, status, hours, fee, start);
+                    addToMap(reservation);
+
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        } catch (
+                FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
     }
