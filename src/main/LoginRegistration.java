@@ -232,6 +232,9 @@ public class LoginRegistration {
         }
     }
 
+    // placeholder methods for specific View Statistics options (waiting for CSV file handling
+    // of the reserved slots
+
     // private static void showMostUsedMenu(Scanner scanner) {}
     // private static void showAverageHours(Scanner scanner) {}
     // private static void showPeakHours(Scanner scanner) {}
