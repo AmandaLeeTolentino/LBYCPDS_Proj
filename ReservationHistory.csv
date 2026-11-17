@@ -1,3 +1,5 @@
 Username,Role,ReservationID,Building,Slot,Date,StartTime,EndTime,DurationHours,Fee,Status
 STDjanine,student,R1,University Mall,UM-F1-6,11-19-2026,13:00,18:00,5.0,110.00,CONFIRMED
 STDjanine,student,R2,Green Mall,GM-F1-2,11-18-2026,15:30,18:30,3.0,110.00,CONFIRMED
+STDjanine,student,R1,Razon Sports Complex,RAZ-F3-81,12-20-2026,06:00,14:00,8.0,60.00,CONFIRMED
+STDjanine,student,R2,Green Court Parking,GC-F1-21,11-20-2026,06:00,14:00,8.0,150.00,CONFIRMED

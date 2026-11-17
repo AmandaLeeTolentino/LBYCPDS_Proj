@@ -52,6 +52,22 @@ public class Input {
     }
 
     /**
+     * gets double input and makes sure it's 0 or greater
+     */
+    public static double readNonNegativeDouble(String prompt) {
+        while (true) {
+            IO.print(prompt);
+            try {
+                double value = input.nextDouble();
+                input.nextLine();
+                if (value >= 0 && !Double.isInfinite(value) && !Double.isNaN(value)) return value;
+            } catch (InputMismatchException e) {
+                input.nextLine(); //get rid of bad input
+            }
+            IO.println("Enter 0 or a positive amount.");
+        }
+    }
+    /**
      * gets string input and makes sure it's not empty or just whitespaces
      */
     public static String readNonBlank(String prompt) {
