@@ -45,7 +45,8 @@ public class ReservationMenu {
             IO.println("\nReservation cancelled.");
             return;
         }else{
-            res.reserve(username,slot,loc,startTime,hours);
+            Reservation r = res.reserve(username, slot, loc, startTime, hours);
+            IO.println("\nReservation confirmed! ID: " + r.getReservationId());
         }
     }
 
