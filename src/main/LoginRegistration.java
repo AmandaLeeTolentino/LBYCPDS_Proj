@@ -120,7 +120,7 @@ public class LoginRegistration {
 
             switch (choice) {
                 case "1":
-                    showFilterCategoryMenu(scanner, user);
+                    showFilterCategoryMenu(scanner, username);
                     break;
                 case "2":
                     ReservationMenu reservationMenu = new ReservationMenu(locations, reservationService, username);
