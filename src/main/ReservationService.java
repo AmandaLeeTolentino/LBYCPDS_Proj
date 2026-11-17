@@ -1,6 +1,10 @@
 package main;
 
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -8,6 +12,8 @@ public class ReservationService {
     //easier to access reservation info by id (key: slot Id; val: reservation in slot)
     private HashMap<String, List<Reservation>> allReservations = new HashMap<>();
     private int idCount = 0;
+    private String filename = "src/resources/reservations.csv";
+
 
     /**
      * @param slotId id of slot
@@ -87,4 +93,32 @@ public class ReservationService {
 
         return reservation;
     }
+
+
+    //csv stuff
+    public void saveToCsv() {
+        File file = new File(filename);
+
+        try(PrintWriter writer = new PrintWriter(new FileWriter(file))){
+            //header
+            writer.println("reservationId,username,slotId,locationName,status,hours,totalAmount,start");
+
+            //look through each group of info in allReservations
+            for(List<Reservation> list: allReservations.values()){
+
+                //for each info in that grp, add to file
+                for(Reservation r: list){
+                    writer.println(String.join(",",
+                            r.getReservationId(),r.getUsername(), r.getSlotId(), r.getLocationName(),
+                            r.getStatus().name(), String.valueOf(r.getDurationHours()),String.valueOf(r.getTotalAmount()),
+                            r.getStart().toString()));
+                }
+            }
+
+        } catch (IOException e) {
+            IO.println("Error while saving reservations to csv: " + e.getMessage());
+        }
+
+    }
+
 }
