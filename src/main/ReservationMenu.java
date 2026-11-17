@@ -24,6 +24,11 @@ public class ReservationMenu {
 
     public void start() {
         ParkingLocation loc = chooseLocation();
+        reserveAt(loc);
+    }
+
+    /** Runs the reservation steps for an already-chosen location (used by the filters). */
+    public void reserveAt(ParkingLocation loc) {
         if (loc == null) {
             return;
         }
@@ -45,8 +50,7 @@ public class ReservationMenu {
             IO.println("\nReservation cancelled.");
             return;
         }else{
-            Reservation r = res.reserve(username, slot, loc, startTime, hours);
-            IO.println("\nReservation confirmed! ID: " + r.getReservationId());
+            res.reserve(username,slot,loc,startTime,hours);
         }
     }
 
