@@ -181,7 +181,7 @@ public class LoginRegistration {
             System.out.println("\n========================================");
             System.out.println("   ADMIN DASHBOARD - Welcome, " + username);
             System.out.println("========================================");
-            System.out.println("1. View Current Slots");
+            System.out.println("1. View Reserved Slots (Today)");
             System.out.println("2. View Statistics");
             System.out.println("2. Logout");
             System.out.print("\nEnter choice: ");
@@ -189,7 +189,7 @@ public class LoginRegistration {
 
             switch (choice) {
                 case "1":
-                    // showCurrentSlots(scanner)
+                    showCurrentSlots(scanner);
                     break;
                 case "2":
                     showStatisticsMenu(scanner);

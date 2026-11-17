@@ -87,4 +87,21 @@ public class ReservationService {
 
         return reservation;
     }
+
+    /**
+     * @return all non-canceled reservations that overlap [from, to), sorted by building then start time
+     */
+    public List<Reservation> getReservationsBetween(LocalDateTime from, LocalDateTime to) {
+        List<Reservation> found = new ArrayList<>();
+        for (List<Reservation> list : allReservations.values()) {
+            for (Reservation r : list) {
+                if (r.getStatus() != ReservationStatus.CANCELED && r.overlaps(from, to)) {
+                    found.add(r);
+                }
+            }
+        }
+        found.sort(Comparator.comparing(Reservation::getLocationName)
+                .thenComparing(Reservation::getStart));
+        return found;
+    }
 }
