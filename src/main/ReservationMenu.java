@@ -50,7 +50,8 @@ public class ReservationMenu {
             IO.println("\nReservation cancelled.");
             return;
         }else{
-            res.reserve(username,slot,loc,startTime,hours);
+            Reservation made = res.reserve(username, slot, loc, startTime, hours);
+            ReservationHistoryWriter.save(made);   // calls history writer to save to ReservationHistory.csv
         }
     }
 
