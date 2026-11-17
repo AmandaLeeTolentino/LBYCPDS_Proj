@@ -183,7 +183,7 @@ public class LoginRegistration {
             System.out.println("========================================");
             System.out.println("1. View Reserved Slots (Today)");
             System.out.println("2. View Statistics");
-            System.out.println("2. Logout");
+            System.out.println("3. Logout");
             System.out.print("\nEnter choice: ");
             String choice = scanner.nextLine();
 
@@ -206,84 +206,37 @@ public class LoginRegistration {
         }
     }
 
+    // ==========================================
+    // NEW STATISTICS MENU DASHBOARD
+    // ==========================================
     public static void showStatisticsMenu(Scanner scanner) {
         boolean statsEntry = true;
         while (statsEntry) {
             System.out.println("\n--- VIEW STATISTICS ---");
-            System.out.println("1. Most Used Parking (Required drill-down: Area -> Floor -> Lot)");
-            System.out.println("2. Back to Admin Menu");
-            System.out.print("\nEnter choice: ");
-            String choice = scanner.nextLine();
-
-            if (choice.equals("1")) {
-                boolean completedDrillDown = showAdminAreaSelection(scanner);
-                if (completedDrillDown) {
-                    showAdvancedStatisticsDashboard(scanner);
-                }
-            } else if (choice.equals("2")) {
-                statsEntry = false;
-            } else {
-                System.out.println("\nInvalid choice! Press Enter to continue.");
-                scanner.nextLine();
-            }
-        }
-    }
-
-    public static void showAdvancedStatisticsDashboard(Scanner scanner) {
-        boolean dashboardActive = true;
-        while (dashboardActive) {
-            System.out.println("\n--- DETAILED STATISTICS DASHBOARD ---");
             System.out.println("1. Most Used Parking Summary");
-            System.out.println("2. Average Time of Parking");
+            System.out.println("2. Average Parking Hours per Day");
             System.out.println("3. Peak Hours");
-            System.out.println("4. Available Slots");
-            System.out.println("5. Occupied Slots");
-            System.out.println("6. Other Analytics / Reports");
-            System.out.println("7. Back to Main Statistics Menu");
+            System.out.println("4. Total Earnings of the Day");
+            System.out.println("5. Back to Admin Menu");
             System.out.print("\nEnter choice: ");
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
-                case "1":
-                    System.out.println("\n[Placeholder] Most Used Parking metrics displayed.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "2":
-                    System.out.println("\n[Placeholder] Average time of parking displayed.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "3":
-                    System.out.println("\n[Placeholder] Peak hours analytics displayed.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "4":
-                    System.out.println("\n[Placeholder] Available slots count displayed.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "5":
-                    System.out.println("\n[Placeholder] Occupied slots count displayed.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "6":
-                    System.out.println("\n[Placeholder] Other supplementary reports displayed.");
-                    System.out.print("Press Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "7":
-                    dashboardActive = false;
-                    break;
-                default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
-                    scanner.nextLine();
-                    break;
+                case "1": showMostUsedMenu(scanner); break;
+                case "2": showAverageHours(scanner); break;
+                case "3": showPeakHours(scanner); break;
+                case "4": showDailyEarnings(scanner); break;
+                case "5": statsEntry = false; break;
+                default: System.out.println("Enter a number from 1 to 5.");
             }
         }
     }
+
+    // private static void showMostUsedMenu(Scanner scanner) {}
+    // private static void showAverageHours(Scanner scanner) {}
+    // private static void showPeakHours(Scanner scanner) {}
+    // private static void showDailyEarnings(Scanner scanner) {}
+
 
     // ==========================================
     // LOGIN & REGISTER METHODS
