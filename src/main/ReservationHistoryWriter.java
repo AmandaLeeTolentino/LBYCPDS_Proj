@@ -52,7 +52,7 @@ public class ReservationHistoryWriter {
             List<String> lines = Files.readAllLines(Paths.get(USERS_PATH));
             for (String line : lines) {
                 String[] parts = line.split(",");
-                if (parts.length >= 3 && parts[0].trim().equalsIgnoreCase(username)) {
+                if (parts.length >= 3 && parts[0].trim().equals(username)) {
                     return parts[2].trim().toLowerCase();
                 }
             }

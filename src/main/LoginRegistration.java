@@ -279,7 +279,7 @@ public class LoginRegistration {
                         String storedPass = userDetails[1].trim();
                         String storedRole = userDetails[2].trim();
 
-                        if (storedUser.equalsIgnoreCase(Username)) {
+                        if (storedUser.equals(Username)) {
                             accountExists = true;
                             if (storedPass.equals(Password)) {
                                 passwordMatch = true;
@@ -356,7 +356,7 @@ public class LoginRegistration {
                             while ((line = br.readLine()) != null) {
                                 if (line.trim().isEmpty()) continue;
                                 String[] userDetails = line.split(",", -1);
-                                if (userDetails.length > 0 && userDetails[0].trim().equalsIgnoreCase(username)) {
+                                if (userDetails.length > 0 && userDetails[0].trim().equals(username)) {
                                     usernameExists = true;
                                     break;
                                 }
