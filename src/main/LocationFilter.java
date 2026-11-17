@@ -78,60 +78,6 @@ public class LocationFilter {
         }
     }
 
-    // ------------------------------------------------------------------- PROMO
-
-    /** Splits locations by whether the succeeding hours (after the base hours) cost extra. */
-    public void filterByPromo() {
-        while (true) {
-            System.out.println("\n--- FILTER BY PROMO ---");
-            System.out.println("1. No fee for succeeding hours");
-            System.out.println("2. With fee for succeeding hours");
-            System.out.println("3. Back to Filter Menu");
-            System.out.print("\nEnter choice: ");
-            String choice = scanner.nextLine().trim();
-
-            boolean wantFree;
-            switch (choice) {
-                case "1": wantFree = true; break;
-                case "2": wantFree = false; break;
-                case "3": return;
-                default:
-                    System.out.println("Enter a number from 1 to 3.");
-                    continue;
-            }
-
-            List<ParkingLocation> matches = new ArrayList<>();
-            for (ParkingLocation loc : locations) {
-                if (hasFreeSucceedingHours(loc) == wantFree) matches.add(loc);
-            }
-            matches.sort(Comparator.comparingDouble(l -> l.getRate().getBaseFee()));
-
-            if (matches.isEmpty()) {
-                System.out.println("\nNo parking areas match that option.");
-                continue;
-            }
-
-            System.out.println("\n--- " + (wantFree ? "NO FEE" : "WITH FEE") + " FOR SUCCEEDING HOURS ---");
-            printLocations(matches, loc -> {
-                Rate r = loc.getRate();
-                if (hasFreeSucceedingHours(loc)) {
-                    return "Succeeding hours: FREE (no extra fee) | Fee: Php " + r.getBaseFee();
-                }
-                return String.format("Succeeding hours: Php %.2f per hr after the first %d hour(s)",
-                        r.getExtraFee(), r.getBaseHours());
-            });
-            pickAndReserve(matches);
-        }
-    }
-
-    // ----------------------------------------------------------------- HELPERS
-
-    /** FIXED rates charge once; an HOURLY rate with 0 extra fee is also free past the base hours. */
-    private boolean hasFreeSucceedingHours(ParkingLocation loc) {
-        Rate r = loc.getRate();
-        return r.getType() == RateType.FIXED || r.getExtraFee() == 0;
-    }
-
     /** Prints the numbered list; 'detail' supplies the one line that depends on the filter. */
     private void printLocations(List<ParkingLocation> list,
                                 java.util.function.Function<ParkingLocation, String> detail) {
