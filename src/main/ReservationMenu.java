@@ -50,8 +50,21 @@ public class ReservationMenu {
             IO.println("\nReservation cancelled.");
             return;
         }else{
+            double paid = PaymentReceipt.collectPayment(loc.getRate(), hours, fee);
+            if (paid <= 0) {
+                IO.println("\nPayment cancelled. Reservation not made.");
+                return;
+            }
+
             Reservation made = res.reserve(username, slot, loc, startTime, hours);
-            ReservationHistoryWriter.save(made);   // calls history writer to save to ReservationHistory.csv
+            if (made == null) {
+                IO.println("\nSorry, that slot was just taken. You have not been charged.");
+                return;
+            }
+
+            ReservationHistoryWriter.save(made);                        // CSV history
+            PaymentReceipt.writeReceipt(made, slot, loc.getRate());     // receipt .txt
+            IO.println("\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file.");
         }
     }
 
