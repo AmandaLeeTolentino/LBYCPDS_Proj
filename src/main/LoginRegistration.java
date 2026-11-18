@@ -454,7 +454,7 @@ public class LoginRegistration {
             return null;
         }
 
-        String usersPath = "Users.csv";
+        String usersPath = "src/resources/Users.csv";
         File file = new File(usersPath);
         boolean accountExists = false;
         String foundRole = "";
@@ -504,7 +504,7 @@ public class LoginRegistration {
 
     public static void Register() {
         Scanner scanner = new Scanner(System.in);
-        String usersPath = "Users.csv";
+        String usersPath = "src/resources/Users.csv";
         String username = "";
         String password = "";
         String confirmation = "";
