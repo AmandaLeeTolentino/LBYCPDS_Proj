@@ -13,18 +13,23 @@ public class LoginRegistration {
         // MAIN MENU !!!
         boolean menu = true;
         while (menu) {
-            System.out.println("""
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, """
+                            ╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴
+                ╭── ⋅ ⋅ ──   │╷│├╴ │  │  │ ││││├╴  ── ⋅ ⋅ ──╮
+                            ╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴                                
+                """));
 
-                ╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴
-                │╷│├╴ │  │  │ ││││├╴
-                ╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴
+        System.out.println("""
+                            
+                    1.  Login
+                    2.  Register
+                    3.  Exit
+                                                        
+       """);
 
-    1. Login
-    2. Register
-    3. Exit
-            """);
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ✩ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
 
-            System.out.print("Enter choice (1/3):  ");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3):  "));
             String Choice = scanner.nextLine();
 
             switch (Choice) {
@@ -46,11 +51,11 @@ public class LoginRegistration {
                     Register();
                     break;
                 case "3":
-                    System.out.println("\nExiting program. Goodbye!");
+                    System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nExiting program. Goodbye!"));
                     menu = false;
                     break;
                 default:
-                    System.out.print("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -102,11 +107,11 @@ public class LoginRegistration {
                     scanner.nextLine();
                     break;
                 case "5":
-                    System.out.println("\nLogging out...");
+                    System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\nLogging out..."));
                     studentSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -135,7 +140,7 @@ public class LoginRegistration {
                     reserveSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -164,7 +169,7 @@ public class LoginRegistration {
                     filterSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -200,7 +205,7 @@ public class LoginRegistration {
                     adminSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -436,17 +441,15 @@ public class LoginRegistration {
             ╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
             │  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │
             ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
-
             """);
-
-        System.out.print("Enter username: ");
+        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username: "));
         String Username = scanner.nextLine().trim();
 
-        System.out.print("Enter password: ");
+        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password: "));
         String Password = scanner.nextLine();
 
         if (Username.isEmpty() || Password.isEmpty()) {
-            System.out.println("\nFields cannot be blank! Press Enter to go back...");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"\nFields cannot be blank! Press Enter to go back..."));
             scanner.nextLine();
             return null;
         }
@@ -479,21 +482,21 @@ public class LoginRegistration {
                     }
                 }
             } catch (IOException e) {
-                System.out.println("Error reading user database: " + e.getMessage());
+                System.out.println(Main.Colors.paint(Main.Colors.RED,"Error reading user database: " + e.getMessage()));
             }
         }
 
         if (!accountExists) {
-            System.out.println("\nNo account yet! Please register first. Press Enter to continue...");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"\nNo account yet! Please register first. Press Enter to continue..."));
             scanner.nextLine();
             return null;
         } else if (!passwordMatch) {
-            System.out.println("\nIncorrect password! Press Enter to continue...");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"\nIncorrect password! Press Enter to continue..."));
             scanner.nextLine();
             return null;
         }
 
-        System.out.println("\nLogin Successful! Role: " + foundRole + ". Press Enter to continue. ");
+        System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nLogin Successful! Role: " + foundRole + ". Press Enter to continue. "));
         scanner.nextLine();
 
         return new String[] { Username, foundRole };
@@ -514,26 +517,25 @@ public class LoginRegistration {
                 ╭─╮╭─╴╭─╴╷╭─╮╶┬╴╭─╴╭─╮   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
                 ├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │
                 ╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
-
                 """);
 
             boolean validation = true;
 
             while (validation) {
-                System.out.print("Enter username: ");
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username: "));
                 username = scanner.nextLine().trim();
 
-                System.out.print("Enter password: ");
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password: "));
                 password = scanner.nextLine();
 
-                System.out.print("Confirm password: ");
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Confirm password: "));
                 confirmation = scanner.nextLine();
 
                 if (username.isEmpty() || password.isEmpty() || confirmation.isEmpty()) {
-                    System.out.println("\nInvalid input! Fields cannot be empty.\n");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid input! Fields cannot be empty.\n"));
                 }
                 else if (!password.equals(confirmation)) {
-                    System.out.println("\nError! Passwords do not match.\n");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nError! Passwords do not match.\n"));
                 }
                 else {
                     boolean usernameExists = false;
@@ -551,12 +553,12 @@ public class LoginRegistration {
                                 }
                             }
                         } catch (IOException e) {
-                            System.out.println("Error reading user database: " + e.getMessage());
+                            System.out.println(Main.Colors.paint(Main.Colors.RED,"Error reading user database: " + e.getMessage()));
                         }
                     }
 
                     if (usernameExists) {
-                        System.out.println("\nError! Username already taken. Please choose another.\n");
+                        System.out.println(Main.Colors.paint(Main.Colors.RED,"\nError! Username already taken. Please choose another.\n"));
                     } else {
                         validation = false;
                     }
@@ -568,7 +570,7 @@ public class LoginRegistration {
                 System.out.println("\n\t\t\t\tROLE");
                 System.out.println("\t\t\t\t1. Student");
                 System.out.println("\t\t\t\t2. Administrator");
-                System.out.print("\nEnter Role: ");
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter Role: "));
                 role = scanner.nextLine().trim();
 
                 switch (role) {
@@ -581,8 +583,7 @@ public class LoginRegistration {
                         roleChoice = false;
                         break;
                     default:
-                        System.out.println("\nInvalid choice!");
-                        System.out.print("Press Enter to try again...");
+                        System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                         scanner.nextLine();
                         break;
                 }
@@ -591,13 +592,12 @@ public class LoginRegistration {
             try (PrintWriter pw = new PrintWriter(new FileWriter(usersPath, true))) {
                 pw.println(username + "," + password + "," + role);
 
-                System.out.println("\n" + username + " (" + role + ") successfully registered!");
-                System.out.print("Press Enter to continue...");
+                System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\n" + username + " (" + role + ") successfully registered! Press Enter to continue..."));
                 scanner.nextLine();
 
                 registration = false;
             } catch (IOException e) {
-                System.out.println("\nError saving user credentials: " + e.getMessage());
+                System.out.println(Main.Colors.paint(Main.Colors.RED,"\nError saving user credentials: " + e.getMessage()));
                 return;
             }
         }
