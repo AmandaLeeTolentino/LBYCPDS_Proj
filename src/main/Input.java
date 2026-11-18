@@ -101,6 +101,7 @@ public class Input {
         while (true) {
             IO.print(prompt);
             String line = input.nextLine().trim();
+            if (line.equals("0")) return null;      //  0 = go back
             try {
                 return LocalTime.parse(line);
             } catch (DateTimeParseException e) {
@@ -113,6 +114,7 @@ public class Input {
         while (true) {
             IO.print(prompt);
             String line = input.nextLine().trim();
+            if (line.equals("0")) return null;      //  0 = go back
             try {
                 return LocalDate.parse(line, DATE_FORMAT);
             } catch (DateTimeParseException e) {
