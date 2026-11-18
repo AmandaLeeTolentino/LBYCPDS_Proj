@@ -333,8 +333,45 @@ public class LoginRegistration {
         scanner.nextLine();
     }
 
-    // private static void showDailyEarnings(Scanner scanner) {}
+    // ---------- 4. EARNINGS ----------
+    private static void showDailyEarnings(Scanner scanner) {
+        java.time.LocalDate date = askDate(scanner);
+        while (true) {
+            System.out.println("\n--- TOTAL EARNINGS on " + date + " ---");
+            int n = 0;
+            for (ParkingLocation loc : locations) {
+                System.out.println((++n) + ". " + loc.getName());
+            }
+            System.out.println((++n) + ". All areas");
+            System.out.println((++n) + ". Back to Statistics");
+            System.out.print("\nEnter choice: ");
+            int pick;
+            try {
+                pick = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                pick = -1;
+            }
+            if (pick == n) return;
+            if (pick < 1 || pick > n) {
+                System.out.println("Enter a number from 1 to " + n + ".");
+                continue;
+            }
+            boolean allAreas = pick == n - 1;
+            String name = allAreas ? "All areas" : locations.get(pick - 1).getName();
 
+            double sum = 0;
+            int count = 0;
+            for (Reservation r : reservationService.getAllReservations()) {
+                if (!r.getStart().toLocalDate().equals(date)) continue;
+                if (allAreas || r.getLocationName().equals(name)) {
+                    sum += r.getTotalAmount();
+                    count++;
+                }
+            }
+            System.out.println("\n" + name + " | " + count + " reservation(s)");
+            System.out.println(String.format("Total amount paid: Php %.2f", sum));
+        }
+    }
 
     // ==========================================
     // LOGIN & REGISTER METHODS
