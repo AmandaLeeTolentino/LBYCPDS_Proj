@@ -13,18 +13,37 @@ public class LoginRegistration {
         // MAIN MENU !!!
         boolean menu = true;
         while (menu) {
-            System.out.println("""
+            /*System.out.println(Main.Colors.BOLD +  """
+                    
+                    ╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴
+▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀   │╷│├╴ │  │  │ ││││├╴    ▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀▄▀
+                    ╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴
+                        
+""" +Main.Colors.YELLOW + """
+                    \t\t1. Login
+                    \t\t2. Register
+                    \t\t3. Exit
+            """+Main.Colors.CYAN);*/
 
-                ╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴
-                │╷│├╴ │  │  │ ││││├╴
-                ╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, """
+                            ╷ ╷╭─╴╷  ╭─╴╭─╮╭┬╮╭─╴
+                ╭── ⋅ ⋅ ──   │╷│├╴ │  │  │ ││││├╴  ── ⋅ ⋅ ──╮
+                            ╰┴╯╰─╴╰─╴╰─╴╰─╯╵ ╵╰─╴                                
+                """));
 
-    1. Login
-    2. Register
-    3. Exit
-            """);
 
-            System.out.print("Enter choice (1/3):  ");
+        System.out.println("""
+                            
+                    1.  Login
+                    2.  Register
+                    3.  Exit
+                                                        
+       """);
+
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ✩ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
+
+
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3):  "));
             String Choice = scanner.nextLine();
 
             switch (Choice) {
@@ -50,7 +69,7 @@ public class LoginRegistration {
                     menu = false;
                     break;
                 default:
-                    System.out.print("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -101,7 +120,7 @@ public class LoginRegistration {
                     studentSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -130,7 +149,7 @@ public class LoginRegistration {
                     reserveSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -159,7 +178,7 @@ public class LoginRegistration {
                     filterSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -195,7 +214,7 @@ public class LoginRegistration {
                     adminSession = false;
                     break;
                 default:
-                    System.out.println("\nInvalid choice! Press Enter to continue.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                     scanner.nextLine();
                     break;
             }
@@ -433,15 +452,14 @@ public class LoginRegistration {
             ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
 
             """);
-
-        System.out.print("Enter username: ");
+        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter username: "));
         String Username = scanner.nextLine().trim();
 
-        System.out.print("Enter password: ");
+        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password: "));
         String Password = scanner.nextLine();
 
         if (Username.isEmpty() || Password.isEmpty()) {
-            System.out.println("\nFields cannot be blank! Press Enter to go back...");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"\nFields cannot be blank! Press Enter to go back..."));
             scanner.nextLine();
             return null;
         }
@@ -576,8 +594,7 @@ public class LoginRegistration {
                         roleChoice = false;
                         break;
                     default:
-                        System.out.println("\nInvalid choice!");
-                        System.out.print("Press Enter to try again...");
+                        System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid choice! Press Enter to try again...\n"));
                         scanner.nextLine();
                         break;
                 }
