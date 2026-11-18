@@ -69,18 +69,23 @@ public class LoginRegistration {
             System.out.println("\n========================================");
             System.out.println("   STUDENT DASHBOARD - Welcome, " + username);
             System.out.println("========================================");
-            System.out.println("1. Reserve Parking");
-            System.out.println("2. Print Receipt");
-            System.out.println("3. Transaction History");
-            System.out.println("4. Logout");
+            IO.println("1. DLSU Parking Status");
+            System.out.println("2. Reserve Parking");
+            System.out.println("3. Print Receipt");
+            System.out.println("4. Transaction History");
+            System.out.println("5. Logout");
             System.out.print("\nEnter choice: ");
             String choice = scanner.nextLine();
 
             switch (choice) {
-                case "1":
+                case "1" : {
+                    new ParkingStatMenu(locations, reservationService).start();
+                    break;
+                }
+                case "2":
                     showReserveParkingMenu(scanner, username);
                     break;
-                case "2":
+                case "3":
                     // 24-hour receipt logic simulation
                     boolean hasRecentTransaction = false; // Change to true if within 24 hours
                     if (!hasRecentTransaction) {
@@ -91,12 +96,12 @@ public class LoginRegistration {
                     System.out.print("Press Enter to continue...");
                     scanner.nextLine();
                     break;
-                case "3":
+                case "4":
                     System.out.println("\n[Placeholder] Transaction History selected.");
                     System.out.print("Press Enter to continue...");
                     scanner.nextLine();
                     break;
-                case "4":
+                case "5":
                     System.out.println("\nLogging out...");
                     studentSession = false;
                     break;
