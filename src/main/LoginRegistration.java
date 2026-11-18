@@ -286,7 +286,29 @@ public class LoginRegistration {
         }
     }
 
-    // private static void showAverageHours(Scanner scanner) {}
+    // ---------- 2. AVERAGE HOURS ----------
+    private static void showAverageHours(Scanner scanner) {
+        java.time.LocalDate date = askDate(scanner);
+        double total = 0;
+        int count = 0;
+        for (Reservation r : reservationService.getAllReservations()) {
+            if (r.getStart().toLocalDate().equals(date)) {
+                total += r.getDurationHours();
+                count++;
+            }
+        }
+        System.out.println("\n--- AVERAGE PARKING HOURS on " + date + " ---");
+        if (count == 0) {
+            System.out.println("No reservations on that day.");
+        } else {
+            System.out.println("Total reservations: " + count);
+            System.out.println("Total hours: " + total);
+            System.out.println(String.format("Average hours per parking: %.2f", total / count));
+        }
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
     // private static void showPeakHours(Scanner scanner) {}
     // private static void showDailyEarnings(Scanner scanner) {}
 
