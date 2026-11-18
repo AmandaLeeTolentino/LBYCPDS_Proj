@@ -309,7 +309,30 @@ public class LoginRegistration {
         scanner.nextLine();
     }
 
-    // private static void showPeakHours(Scanner scanner) {}
+    // ---------- 3. PEAK HOURS ----------
+    private static void showPeakHours(Scanner scanner) {
+        int[] perHour = new int[24]; // start-time hour -> number of reservations
+        int total = 0;
+        for (Reservation r : reservationService.getAllReservations()) {
+            perHour[r.getStart().getHour()]++;
+            total++;
+        }
+        System.out.println("\n--- PEAK HOURS (by reservation start time) ---");
+        if (total == 0) {
+            System.out.println("No reservations yet.");
+        } else {
+            int max = 0;
+            for (int c : perHour) max = Math.max(max, c);
+            for (int h = 0; h < 24; h++) {
+                if (perHour[h] == 0) continue;
+                System.out.println(String.format("%02d:00 - %02d:59 | %d reservation(s)%s",
+                        h, h, perHour[h], perHour[h] == max ? "   <-- PEAK" : ""));
+            }
+        }
+        System.out.print("\nPress Enter to continue...");
+        scanner.nextLine();
+    }
+
     // private static void showDailyEarnings(Scanner scanner) {}
 
 
