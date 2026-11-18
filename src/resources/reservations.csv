@@ -1,0 +1,2 @@
+reservationId,username,slotId,locationName,status,hours,totalAmount,start
+R1,Mandy,EGI-F1-1,EGI Taft Tower,CONFIRMED,2.0,70.0,2026-11-18T01:00

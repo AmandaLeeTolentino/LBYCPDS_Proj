@@ -1,6 +1,7 @@
 package main;
 
 
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -8,6 +9,8 @@ public class ReservationService {
     //easier to access reservation info by id (key: slot Id; val: reservation in slot)
     private HashMap<String, List<Reservation>> allReservations = new HashMap<>();
     private int idCount = 0;
+    private String filename = "src/resources/reservations.csv";
+
 
     /**
      * @param slotId id of slot
@@ -76,16 +79,47 @@ public class ReservationService {
 
         Reservation reservation  = new Reservation(id,username,slot.getSlotId(),
                 loc.getName(),ReservationStatus.CONFIRMED, hours, fee, start);
+        addToMap(reservation);
+        saveToCsv();
 
-        List<Reservation> list = allReservations.get(slot.getSlotId());//get list of allReservations of a slot
+        return reservation;
+    }
+
+    private void addToMap(Reservation r){
+
+        List<Reservation> list = allReservations.get(r.getSlotId());//get list of allReservations of a slot
 
         if (list == null) {//if no list yet(first reservation)
             list = new ArrayList<>();
-            allReservations.put(slot.getSlotId(), list);//add reservation to map of all reservations
+            allReservations.put(r.getSlotId(), list);//add reservation to map of all reservations
         }
-        list.add(reservation);//add reservation to slot's list
+        list.add(r);//add reservation to slot's list
+    }
 
-        return reservation;
+
+    //csv stuff
+    public void saveToCsv() {
+        File file = new File(filename);
+
+        try(PrintWriter writer = new PrintWriter(new FileWriter(file))){
+            //header
+            writer.println("reservationId,username,slotId,locationName,status,hours,totalAmount,start");
+
+            //look through each group of info in allReservations
+            for(List<Reservation> list: allReservations.values()){
+
+                //for each info in that grp, add to file
+                for(Reservation r: list){
+                    writer.println(String.join(",",
+                            r.getReservationId(),r.getUsername(), r.getSlotId(), r.getLocationName(),
+                            r.getStatus().name(), String.valueOf(r.getDurationHours()),String.valueOf(r.getTotalAmount()),
+                            r.getStart().toString()));
+                }
+            }
+
+        } catch (IOException e) {
+            IO.println("Error while saving reservations to csv: " + e.getMessage());
+        }
     }
 
     /**
@@ -104,4 +138,49 @@ public class ReservationService {
                 .thenComparing(Reservation::getStart));
         return found;
     }
+    public void loadCsv() {
+        File file = new File(filename);
+
+        if (!file.exists()) return;
+
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+            String line = reader.readLine(); //to skip the labels or header
+
+            while((line = reader.readLine()) != null){
+                if(line.isBlank()) continue;
+
+                String[] info = line.split(",");
+                if(info.length < 8){ //in case a reservation row is incorrect (just in case yk)
+                    IO.println("Skipping improperly formatted reservation: " + line);
+                    continue;
+                }
+
+                try{
+                    String id = info[0];
+                    String username = info[1];
+                    String slotId = info[2];
+                    String locationName = info[3];
+                    ReservationStatus status = ReservationStatus.valueOf(info[4]);
+                    double hours = Double.parseDouble(info[5]);
+                    double fee =  Double.parseDouble(info[6]);
+                    LocalDateTime start = LocalDateTime.parse(info[7]);
+
+                    //recreating new reservation objs
+                    Reservation reservation = new Reservation(id, username, slotId, locationName, status, hours, fee, start);
+                    addToMap(reservation);
+
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+        } catch (
+                FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
 }
