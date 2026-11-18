@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class ReservationHistoryWriter {
 
-    private static final String HISTORY_PATH = "ReservationHistory.csv";
+    private static final String HISTORY_PATH = "src/resources/ReservationHistory.csv";
     private static final String USERS_PATH = "Users.csv";
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm");
