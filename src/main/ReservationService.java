@@ -9,7 +9,6 @@ public class ReservationService {
     //easier to access reservation info by id (key: slot Id; val: reservation in slot)
     private HashMap<String, List<Reservation>> allReservations = new HashMap<>();
     private int idCount = 0;
-    private String filename = "src/resources/reservations.csv";
 
     //constructor
     public ReservationService() {
@@ -124,50 +123,7 @@ public class ReservationService {
                 .thenComparing(Reservation::getStart));
         return found;
     }
-    public void loadCsv() {
-        File file = new File(filename);
 
-        if (!file.exists()) return;
-
-        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
-            String line = reader.readLine(); //to skip the labels or header
-
-            while((line = reader.readLine()) != null){
-                if(line.isBlank()) continue;
-
-                String[] info = line.split(",");
-                if(info.length < 8){ //in case a reservation row is incorrect (just in case yk)
-                    IO.println("Skipping improperly formatted reservation: " + line);
-                    continue;
-                }
-
-                try{
-                    String id = info[0];
-                    String username = info[1];
-                    String slotId = info[2];
-                    String locationName = info[3];
-                    ReservationStatus status = ReservationStatus.valueOf(info[4]);
-                    double hours = Double.parseDouble(info[5]);
-                    double fee =  Double.parseDouble(info[6]);
-                    LocalDateTime start = LocalDateTime.parse(info[7]);
-
-                    //recreating new reservation objs
-                    Reservation reservation = new Reservation(id, username, slotId, locationName, status, hours, fee, start);
-                    addToMap(reservation);
-
-                } catch (IllegalArgumentException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
-        } catch (
-                FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-    }
     /** @return every non-canceled reservation */
     public List<Reservation> getAllReservations() {
         List<Reservation> all = new ArrayList<>();
