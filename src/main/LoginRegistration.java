@@ -112,8 +112,8 @@ public class LoginRegistration {
         boolean reserveSession = true;
         while (reserveSession) {
             System.out.println("\n--- RESERVE PARKING ---");
-            System.out.println("1. Filter Category (Narrow down options)");
-            System.out.println("2. Reserve Slot Directly (Select building, floor, lot)");
+            System.out.println("1. Filter Category (narrow down options)");
+            System.out.println("2. Reserve Slot Directly");
             System.out.println("3. Back to Student Menu");
             System.out.print("\nEnter choice: ");
             String choice = scanner.nextLine();
@@ -188,7 +188,7 @@ public class LoginRegistration {
                     showCurrentSlots(scanner);
                     break;
                 case "2":
-                    //showStatisticsMenu(scanner);
+                    showStatisticsMenu(scanner);
                     break;
                 case "3":
                     System.out.println("\nLogging out...");
@@ -202,31 +202,31 @@ public class LoginRegistration {
         }
     }
 
-    // ==========================================
-    // NEW STATISTICS MENU DASHBOARD
-    // ==========================================
-//    public static void showStatisticsMenu(Scanner scanner) {
-//        boolean statsEntry = true;
-//        while (statsEntry) {
-//            System.out.println("\n--- VIEW STATISTICS ---");
-//            System.out.println("1. Most Used Parking Summary");
-//            System.out.println("2. Average Parking Hours per Day");
-//            System.out.println("3. Peak Hours");
-//            System.out.println("4. Total Earnings of the Day");
-//            System.out.println("5. Back to Admin Menu");
-//            System.out.print("\nEnter choice: ");
-//            String choice = scanner.nextLine().trim();
-//
-//            switch (choice) {
-//                case "1": showMostUsedMenu(scanner); break;
-//                case "2": showAverageHours(scanner); break;
-//                case "3": showPeakHours(scanner); break;
-//                case "4": showDailyEarnings(scanner); break;
-//                case "5": statsEntry = false; break;
-//                default: System.out.println("Enter a number from 1 to 5.");
-//            }
-//        }
-//    }
+     ==========================================
+     NEW STATISTICS MENU DASHBOARD
+     ==========================================
+    public static void showStatisticsMenu(Scanner scanner) {
+        boolean statsEntry = true;
+        while (statsEntry) {
+            System.out.println("\n--- VIEW STATISTICS ---");
+            System.out.println("1. Most Used Parking Summary");
+            System.out.println("2. Average Parking Hours per Day");
+            System.out.println("3. Peak Hours");
+            System.out.println("4. Total Earnings of the Day");
+            System.out.println("5. Back to Admin Menu");
+            System.out.print("\nEnter choice: ");
+            String choice = scanner.nextLine().trim();
+
+            switch (choice) {
+                case "1": showMostUsedMenu(scanner); break;
+                case "2": showAverageHours(scanner); break;
+                case "3": showPeakHours(scanner); break;
+                case "4": showDailyEarnings(scanner); break;
+                case "5": statsEntry = false; break;
+                default: System.out.println("Enter a number from 1 to 5.");
+            }
+        }
+    }
 
     // placeholder methods for specific View Statistics options (waiting for CSV file handling
     // of the reserved slots

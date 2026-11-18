@@ -168,5 +168,14 @@ public class ReservationService {
         }
 
     }
-
+    /** @return every non-canceled reservation */
+    public List<Reservation> getAllReservations() {
+        List<Reservation> all = new ArrayList<>();
+        for (List<Reservation> list : allReservations.values()) {
+            for (Reservation r : list) {
+                if (r.getStatus() != ReservationStatus.CANCELED) all.add(r);
+            }
+        }
+        return all;
+    }
 }
