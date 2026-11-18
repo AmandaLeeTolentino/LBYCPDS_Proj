@@ -15,3 +15,6 @@ ADMINISTRATOR,12345,ADMIN
 newStudent,new,STUDENT
 newADM,new,ADMIN
 m,a,STUDENT
+trial,try,ADMIN
+janine,pass123!,STUDENT
+ADM,123,ADMIN

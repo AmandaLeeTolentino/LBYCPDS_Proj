@@ -71,15 +71,16 @@ public class LoginRegistration {
         boolean studentSession = true;
 
         while (studentSession) {
-            System.out.println("\n========================================");
-            System.out.println("   STUDENT DASHBOARD - Welcome, " + username);
-            System.out.println("========================================");
-            IO.println("1. DLSU Parking Status");
-            System.out.println("2. Reserve Parking");
-            System.out.println("3. Print Receipt");
-            System.out.println("4. Transaction History");
-            System.out.println("5. Logout");
-            System.out.print("\nEnter choice: ");
+            System.out.println(Main.Colors.YELLOW +"\n╔══════════ ≪ STUDENT DASHBOARD ≫ ══════════╗");
+            System.out.println("\n   ⋅  ⋅  ⋅  ⋅  Welcome, " + username +"! ⋅  ⋅  ⋅  ⋅"+ Main.Colors.RESET);
+            System.out.println("\n\t\t1. DLSU Parking Status");
+            System.out.println("\t\t2. Reserve Parking");
+            System.out.println("\t\t3. Print Receipt");
+            System.out.println("\t\t4. Transaction History");
+            System.out.println("\t\t5. Logout");
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════════════════╝"));
+
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice: "));
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -184,13 +185,14 @@ public class LoginRegistration {
         boolean adminSession = true;
 
         while (adminSession) {
-            System.out.println("\n========================================");
-            System.out.println("   ADMIN DASHBOARD - Welcome, " + username);
-            System.out.println("========================================");
-            System.out.println("1. View Current Reserved Slots");
-            System.out.println("2. View Statistics");
-            System.out.println("3. Logout");
-            System.out.print("\nEnter choice: ");
+            System.out.println(Main.Colors.YELLOW +"\n╔══════════ ≪ ADMIN DASHBOARD ≫ ══════════╗");
+            System.out.println("\n  ⋅  ⋅  ⋅  ⋅  Welcome, " + username +"! ⋅  ⋅  ⋅  ⋅"+ Main.Colors.RESET);
+            System.out.println("\n\t\t1. View Current Reserved Slots");
+            System.out.println("\t\t2. View Statistics");
+            System.out.println("\t\t3. Logout\n" );
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╚════════════════════════════════════════╝"));
+
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice: "));
             String choice = scanner.nextLine();
 
             switch (choice) {
@@ -201,7 +203,7 @@ public class LoginRegistration {
                     showStatisticsMenu(scanner);
                     break;
                 case "3":
-                    System.out.println("\nLogging out...");
+                    System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nLogging out..."));
                     adminSession = false;
                     break;
                 default:
@@ -436,16 +438,17 @@ public class LoginRegistration {
     // ==========================================
     public static String[] Login() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("""
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, """
+  
+      ╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
+   ══ │  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │  ══
+      ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
+   """));
 
-            ╷  ╭─╮╭─╴╷╭╮╷   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
-            │  │ ││╶╮││╰┤   ├─┤│  │  │ ││ ││╰┤ │
-            ╰─╴╰─╯╰─╯╵╵ ╵   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
-            """);
-        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username: "));
+        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username:\t\t"));
         String Username = scanner.nextLine().trim();
 
-        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password: "));
+        System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password:\t\t"));
         String Password = scanner.nextLine();
 
         if (Username.isEmpty() || Password.isEmpty()) {
@@ -512,23 +515,24 @@ public class LoginRegistration {
         boolean registration = true;
 
         while (registration) {
-            System.out.println("""
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"""
 
-                ╭─╮╭─╴╭─╴╷╭─╮╶┬╴╭─╴╭─╮   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
-                ├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │
-                ╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
-                """);
+   ╭─╮╭─╴╭─╴╷╭─╮╶┬╴╭─╴╭─╮   ╭─╮╭─╴╭─╴╭─╮╷ ╷╭╮╷╶┬╴
+══ ├┬╯├╴ │╶╮│╰─╮ │ ├╴ ├┬╯   ├─┤│  │  │ ││ ││╰┤ │  ══
+   ╵╰╴╰─╴╰─╯╵╰─╯ ╵ ╰─╴╵╰╴   ╵ ╵╰─╴╰─╴╰─╯╰─╯╵ ╵ ╵
+   """));
+
 
             boolean validation = true;
 
             while (validation) {
-                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username: "));
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username:\t\t"));
                 username = scanner.nextLine().trim();
 
-                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password: "));
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password:\t\t"));
                 password = scanner.nextLine();
 
-                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Confirm password: "));
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Confirm password:\t"));
                 confirmation = scanner.nextLine();
 
                 if (username.isEmpty() || password.isEmpty() || confirmation.isEmpty()) {
@@ -567,9 +571,13 @@ public class LoginRegistration {
 
             boolean roleChoice = true;
             while (roleChoice) {
-                System.out.println("\n\t\t\t\tROLE");
-                System.out.println("\t\t\t\t1. Student");
-                System.out.println("\t\t\t\t2. Administrator");
+                System.out.println("""
+       
+        Choose Account Role       
+            1.  Student
+            2.  Administrator              
+""");
+
                 System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter Role: "));
                 role = scanner.nextLine().trim();
 
