@@ -34,7 +34,10 @@ public class ReservationMenu {
         }
 
         LocalDateTime startTime = askStartTime();
+        if (startTime == null) return;      // user backed out
+
         double hours = askHours();
+        if (hours == 0) return;             // user backed out
 
         List<ParkingSlot> free = res.findFree(loc, startTime, hours);
         if (free.isEmpty()) {
@@ -91,9 +94,10 @@ public class ReservationMenu {
         }
 
         IO.print("\n\n");
-        selection = Input.readInt("Choose Parking Location: ", 1, locations.size()) - 1;
+        selection = Input.readInt("Choose Parking Location (0 to go back): ", 0, locations.size());
+        if (selection == 0) return null;
 
-        return locations.get(selection);
+        return locations.get(selection - 1);
     }
 
     private ParkingSlot chooseSlot(List<ParkingSlot> freeSlots){
@@ -142,8 +146,10 @@ public class ReservationMenu {
 
     private LocalDateTime askStartTime() {
         while (true) {
-            LocalDate date = Input.readDate("\nDate (mm-dd-yyyy): ");
-            LocalTime time = Input.readTime("Start time (HH:mm, 24-hour): ");
+            LocalDate date = Input.readDate("\nDate (mm-dd-yyyy, 0 to go back): ");
+            if (date == null) return null;
+            LocalTime time = Input.readTime("Start time (HH:mm, 24-hour, 0 to go back): ");
+            if (time == null) return null;
             LocalDateTime start = LocalDateTime.of(date, time);
 
             if (start.isAfter(LocalDateTime.now())) return start;
@@ -153,7 +159,8 @@ public class ReservationMenu {
 
     private double askHours() {
         while (true) {
-            double hours = Input.readPositiveDouble("Duration in hours: ");
+            double hours = Input.readNonNegativeDouble("Duration in hours (0 to go back): ");
+            if (hours == 0) return 0;
             if (hours >= MIN_HOURS && hours <= MAX_HOURS) {
                 return hours;
             }else{
