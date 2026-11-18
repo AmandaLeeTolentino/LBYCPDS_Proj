@@ -2,7 +2,11 @@ package main;
 
 import java.io.*;
 import java.nio.file.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +72,52 @@ public class ReservationHistoryWriter {
             return "\"" + value.replace("\"", "\"\"") + "\"";
         }
         return value;
+    }
+
+    public static List<Reservation> loadCsv() {
+        List<Reservation> loaded = new ArrayList<>();
+        File file = new File(HISTORY_PATH);
+
+        if (!file.exists()) return loaded;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line = reader.readLine(); // skip header
+
+            while ((line = reader.readLine()) != null) {
+                if (line.isBlank()) continue;
+
+                String[] info = line.split(",");
+                if (info.length < 11) {
+                    System.out.println("Skipping improperly formatted reservation: " + line);
+                    continue;
+                }
+
+                try {
+                    String username = info[0].trim();
+                    String id = info[2].trim();
+                    String locationName = info[3].trim();
+                    String slotId = info[4].trim();
+                    LocalDate date = LocalDate.parse(info[5].trim(), DATE_FMT);
+                    LocalTime time = LocalTime.parse(info[6].trim(), TIME_FMT);
+                    double hours = Double.parseDouble(info[8].trim());
+                    double fee = Double.parseDouble(info[9].trim());
+                    ReservationStatus status = ReservationStatus.valueOf(info[10].trim());
+
+                    LocalDateTime start = LocalDateTime.of(date, time);
+
+                    // recreating new reservation objs
+                    Reservation reservation = new Reservation(id, username, slotId, locationName, status, hours, fee, start);
+                    loaded.add(reservation);
+
+                } catch (Exception e) {
+                    System.out.println("Skipping corrupted reservation: " + line);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Warning: could not load " + HISTORY_PATH + " (" + e.getMessage() + ")");
+        }
+
+        return loaded;
     }
 
 }

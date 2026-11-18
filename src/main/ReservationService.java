@@ -11,6 +11,17 @@ public class ReservationService {
     private int idCount = 0;
     private String filename = "src/resources/reservations.csv";
 
+    //constructor
+    public ReservationService() {
+        for (Reservation r : ReservationHistoryWriter.loadCsv()) {
+            addToMap(r);
+            if (r.getReservationId().startsWith("R")) {
+                int num = Integer.parseInt(r.getReservationId().substring(1));
+                if (num > idCount) idCount = num;
+            }
+        }
+    }
+
 
     /**
      * @param slotId id of slot
@@ -80,7 +91,6 @@ public class ReservationService {
         Reservation reservation  = new Reservation(id,username,slot.getSlotId(),
                 loc.getName(),ReservationStatus.CONFIRMED, hours, fee, start);
         addToMap(reservation);
-        saveToCsv();
 
         return reservation;
     }
@@ -97,30 +107,6 @@ public class ReservationService {
     }
 
 
-    //csv stuff
-    public void saveToCsv() {
-        File file = new File(filename);
-
-        try(PrintWriter writer = new PrintWriter(new FileWriter(file))){
-            //header
-            writer.println("reservationId,username,slotId,locationName,status,hours,totalAmount,start");
-
-            //look through each group of info in allReservations
-            for(List<Reservation> list: allReservations.values()){
-
-                //for each info in that grp, add to file
-                for(Reservation r: list){
-                    writer.println(String.join(",",
-                            r.getReservationId(),r.getUsername(), r.getSlotId(), r.getLocationName(),
-                            r.getStatus().name(), String.valueOf(r.getDurationHours()),String.valueOf(r.getTotalAmount()),
-                            r.getStart().toString()));
-                }
-            }
-
-        } catch (IOException e) {
-            IO.println("Error while saving reservations to csv: " + e.getMessage());
-        }
-    }
 
     /**
      * @return all non-canceled reservations that overlap [from, to), sorted by building then start time

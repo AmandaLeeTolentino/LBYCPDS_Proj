@@ -1,2 +1,7 @@
 reservationId,username,slotId,locationName,status,hours,totalAmount,start
-R1,Mandy,EGI-F1-1,EGI Taft Tower,CONFIRMED,2.0,70.0,2026-11-18T01:00
+R2,STDjanine,GC-F1-21,Green Court Parking,CONFIRMED,8.0,150.0,2026-11-20T06:00
+R4,Mandy,EGI-F1-2,EGI Taft Tower,CONFIRMED,4.0,90.0,2026-11-18T13:00
+R1,STDjanine,RAZ-F3-81,Razon Sports Complex,CONFIRMED,8.0,60.0,2026-12-20T06:00
+R3,Mandy,EGI-F1-1,EGI Taft Tower,CONFIRMED,3.0,70.0,2026-11-18T13:00
+R1,STDjanine,UM-F1-6,University Mall,CONFIRMED,5.0,110.0,2026-11-19T13:00
+R2,STDjanine,GM-F1-2,Green Mall,CONFIRMED,3.0,110.0,2026-11-18T15:30
