@@ -177,7 +177,7 @@ public class LoginRegistration {
             System.out.println("\n========================================");
             System.out.println("   ADMIN DASHBOARD - Welcome, " + username);
             System.out.println("========================================");
-            System.out.println("1. View Reserved Slots (Today)");
+            System.out.println("1. View Current Reserved Slots");
             System.out.println("2. View Statistics");
             System.out.println("3. Logout");
             System.out.print("\nEnter choice: ");
@@ -202,9 +202,9 @@ public class LoginRegistration {
         }
     }
 
-     ==========================================
-     NEW STATISTICS MENU DASHBOARD
-     ==========================================
+     //==========================================
+     //NEW STATISTICS MENU DASHBOARD
+     //==========================================
     public static void showStatisticsMenu(Scanner scanner) {
         boolean statsEntry = true;
         while (statsEntry) {
@@ -228,8 +228,7 @@ public class LoginRegistration {
         }
     }
 
-    // placeholder methods for specific View Statistics options (waiting for CSV file handling
-    // of the reserved slots
+    // have to fix most reserved slot since it only works for razon
 
     // ---------- 1. MOST USED ----------
     private static void showMostUsedMenu(Scanner scanner) {
@@ -370,6 +369,55 @@ public class LoginRegistration {
             }
             System.out.println("\n" + name + " | " + count + " reservation(s)");
             System.out.println(String.format("Total amount paid: Php %.2f", sum));
+        }
+    }
+
+    // ---------- helpers ----------
+    private static java.time.LocalDate askDate(Scanner scanner) {
+        java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter
+                .ofPattern("M-d-uuuu").withResolverStyle(java.time.format.ResolverStyle.STRICT);
+        while (true) {
+            System.out.print("\nDate (mm-dd-yyyy): ");
+            try {
+                return java.time.LocalDate.parse(scanner.nextLine().trim(), fmt);
+            } catch (java.time.format.DateTimeParseException e) {
+                System.out.println("Use MM-dd-yyyy, for example 05-20-2026.");
+            }
+        }
+    }
+
+    private static int floorCount(ParkingLocation loc) {
+        Set<Integer> floors = new HashSet<>();
+        for (ParkingSlot s : loc.getSlots()) floors.add(s.getFloor());
+        return floors.size();
+    }
+
+    private static int floorOf(Reservation r) {
+        for (ParkingLocation loc : locations) {
+            if (loc.getName().equals(r.getLocationName()) && loc.getSlot(r.getSlotId()) != null) {
+                return loc.getSlot(r.getSlotId()).getFloor();
+            }
+        }
+        return 0;
+    }
+
+    private static void printRanking(Map<String, Integer> counts, String what) {
+        printRanking(counts, what, Integer.MAX_VALUE);
+    }
+
+    /** prints highest first and marks the top one(s); shows at most 'limit' rows */
+    private static void printRanking(Map<String, Integer> counts, String what, int limit) {
+        List<Map.Entry<String, Integer>> rows = new ArrayList<>(counts.entrySet());
+        rows.sort((a, b) -> b.getValue() - a.getValue());
+        if (rows.isEmpty() || rows.get(0).getValue() == 0) {
+            System.out.println("No reservations yet.");
+            return;
+        }
+        int max = rows.get(0).getValue();
+        for (int i = 0; i < rows.size() && i < limit; i++) {
+            Map.Entry<String, Integer> e = rows.get(i);
+            System.out.println(e.getKey() + " | " + e.getValue() + " reservation(s)"
+                    + (e.getValue() == max ? "   <-- MOST RESERVED " + what.toUpperCase() : ""));
         }
     }
 
