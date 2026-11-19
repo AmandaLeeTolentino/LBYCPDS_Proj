@@ -240,21 +240,28 @@ public class LoginRegistration {
         }
     }
 
-    // have to fix most reserved slot since it only works for razon
-
-    // ---------- 1. MOST USED ----------
+    // ---------- 1. MOST USED  ----------
     private static void showMostUsedMenu(Scanner scanner) {
+        java.time.LocalDate date = askDate(scanner);
+
+        // load the CSV and keep only this date's non-canceled reservations
+        List<Reservation> all = new ArrayList<>();
+        for (Reservation r : ReservationHistoryWriter.loadCsv()) {
+            if (r.getStatus() != ReservationStatus.CANCELED && r.getStart().toLocalDate().equals(date)) {
+                all.add(r);
+            }
+        }
+
         boolean inMenu = true;
         while (inMenu) {
-            System.out.println("\n--- MOST USED PARKING SUMMARY ---");
+            System.out.println("\n--- MOST USED PARKING SUMMARY (" + date + ") ---");
             System.out.println("1. Most reserved area");
             System.out.println("2. Most reserved floor (multi-floor areas only)");
-            System.out.println("3. Most reserved slot ");
+            System.out.println("3. Most reserved slot (all areas)");
             System.out.println("4. Back to Statistics");
             System.out.print("\nEnter choice: ");
             String choice = scanner.nextLine().trim();
 
-            List<Reservation> all = reservationService.getAllReservations();
             switch (choice) {
                 case "1": {
                     Map<String, Integer> counts = new LinkedHashMap<>();
@@ -278,19 +285,16 @@ public class LoginRegistration {
                         printRanking(counts, "floor");
                     }
                     break;
-                case "3":
-                    for (ParkingLocation loc : locations) {
-                        if (floorCount(loc) < 2) continue;
-                        Map<String, Integer> counts = new LinkedHashMap<>();
-                        for (Reservation r : all) {
-                            if (r.getLocationName().equals(loc.getName())) {
-                                counts.merge(r.getSlotId() + " (Floor " + floorOf(r) + ")", 1, Integer::sum);
-                            }
-                        }
-                        System.out.println("\n--- " + loc.getName().toUpperCase() + ": MOST RESERVED SLOTS ---");
-                        printRanking(counts, "slot", 5);
+                case "3": {
+                    Map<String, Integer> counts = new LinkedHashMap<>();
+                    for (Reservation r : all) {
+                        counts.merge(r.getLocationName() + " - " + r.getSlotId() + " (Floor " + floorOf(r) + ")",
+                                1, Integer::sum);
                     }
+                    System.out.println("\n--- MOST RESERVED SLOTS (ALL AREAS) ---");
+                    printRanking(counts, "slot", 5);
                     break;
+                }
                 case "4": inMenu = false; break;
                 default: System.out.println("Enter a number from 1 to 4.");
             }
