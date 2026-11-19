@@ -103,12 +103,12 @@ public class LoginRegistration {
                     scanner.nextLine();
                     break;
                 case "4":
-                    System.out.println("\n[Placeholder] Transaction History selected.");
-                    System.out.print("Press Enter to continue...");
+                    showTransactionHistory(scanner, username);
+                    System.out.print(Main.Colors.paint(Main.Colors.GREEN,"Press Enter to continue..."));
                     scanner.nextLine();
                     break;
                 case "5":
-                    System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\nLogging out..."));
+                    System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nLogging out..."));
                     studentSession = false;
                     break;
                 default:
@@ -117,6 +117,16 @@ public class LoginRegistration {
                     break;
             }
         }
+    }
+
+    public static void showTransactionHistory(Scanner scanner, String username) {
+        java.time.format.DateTimeFormatter dateFmt = java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy");
+        java.time.format.DateTimeFormatter timeFmt = java.time.format.DateTimeFormatter.ofPattern("h:mm a");
+
+        System.out.println("\n--- TRANSACTION HISTORY for " + username + " ---");
+
+        int counter = 0;
+        double totalSpent = 0;
     }
 
     public static void showReserveParkingMenu(Scanner scanner, String username) {
