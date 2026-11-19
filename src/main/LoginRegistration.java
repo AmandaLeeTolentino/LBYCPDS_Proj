@@ -326,15 +326,17 @@ public class LoginRegistration {
 
     // ---------- 3. PEAK HOURS ----------
     private static void showPeakHours(Scanner scanner) {
+        java.time.LocalDate date = askDate(scanner);
         int[] perHour = new int[24]; // start-time hour -> number of reservations
         int total = 0;
         for (Reservation r : reservationService.getAllReservations()) {
+            if (!r.getStart().toLocalDate().equals(date)) continue;
             perHour[r.getStart().getHour()]++;
             total++;
         }
-        System.out.println("\n--- PEAK HOURS (by reservation start time) ---");
+        System.out.println("\n--- PEAK HOURS on " + date + " (by reservation start time) ---");
         if (total == 0) {
-            System.out.println("No reservations yet.");
+            System.out.println("No reservations on that day.");
         } else {
             int max = 0;
             for (int c : perHour) max = Math.max(max, c);
