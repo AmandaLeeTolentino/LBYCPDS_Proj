@@ -99,12 +99,12 @@ public class LoginRegistration {
                     } else {
                         System.out.println("\n[Placeholder] Printing receipt for your recent transaction...");
                     }
-                    System.out.print("Press Enter to continue...");
+                    System.out.println("\nPress Enter to continue...");
                     scanner.nextLine();
                     break;
                 case "4":
                     showTransactionHistory(scanner, username);
-                    System.out.print(Main.Colors.paint(Main.Colors.GREEN,"Press Enter to continue..."));
+                    System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nPress Enter to continue..."));
                     scanner.nextLine();
                     break;
                 case "5":
@@ -123,7 +123,7 @@ public class LoginRegistration {
         java.time.format.DateTimeFormatter dateFmt = java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy");
         java.time.format.DateTimeFormatter timeFmt = java.time.format.DateTimeFormatter.ofPattern("h:mm a");
 
-        System.out.println("\n╭── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── TRANSACTION HISTORY for " + username + " ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ──╮");
+        System.out.println(Main.Colors.paint(Main.Colors.CYAN,"\n╭── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ TRANSACTION HISTORY for " + username + " ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ──╮"));
 
         int counter = 0;
         double totalSpent = 0;
@@ -132,16 +132,36 @@ public class LoginRegistration {
             if (!r.getUsername().equals(username)) continue;   // not this user's row, skip
 
             if (counter == 0) {   // print the table header once, before the first row
-                System.out.println(String.format("\n%-4s %-6s %-22s %-11s %-13s %-19s %-9s %-12s %s",
-                        "#", "ID", "Building", "Slot", "Date", "Time", "Duration", "Fee", "Status"));
-                System.out.println("⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ");
+                System.out.println(Main.Colors.paint(Main.Colors.CYAN,String.format("\n%-4s %-6s %-22s %-11s %-13s %-19s %-9s %-12s %s",
+                        "#", "ID", "Building", "Slot", "Date", "Time", "Duration", "Fee", "Status")));
+                System.out.println(Main.Colors.paint(Main.Colors.CYAN,"⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ "));
             }
 
             counter++;
+            String time = r.getStart().format(timeFmt) + " - " + r.getEnd().format(timeFmt);
 
+            System.out.println(String.format("%-4d %-6s %-22s %-11s %-13s %-19s %-9s %-12s %s",
+                    counter,
+                    r.getReservationId(),
+                    r.getLocationName(),
+                    r.getSlotId(),
+                    r.getStart().format(dateFmt),
+                    time,
+                    r.getDurationHours() + " hrs",
+                    String.format("Php %.2f", r.getTotalAmount()),
+                    r.getStatus()));
+
+            if (r.getStatus() != ReservationStatus.CANCELED) {
+                totalSpent += r.getTotalAmount();
+            }
         }
-
-
+        if (counter == 0) {
+            System.out.println("You have no reservations yet.");
+        } else {
+            System.out.println(Main.Colors.paint(Main.Colors.CYAN,"⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ "));
+            System.out.println("\nTotal reservations:\t\t" + counter);
+            System.out.println(String.format("Total spent:\t\t\tPhp %.2f", totalSpent));
+        }
     }
 
     public static void showReserveParkingMenu(Scanner scanner, String username) {
