@@ -123,10 +123,25 @@ public class LoginRegistration {
         java.time.format.DateTimeFormatter dateFmt = java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy");
         java.time.format.DateTimeFormatter timeFmt = java.time.format.DateTimeFormatter.ofPattern("h:mm a");
 
-        System.out.println("\n--- TRANSACTION HISTORY for " + username + " ---");
+        System.out.println("\n╭── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── TRANSACTION HISTORY for " + username + " ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ──╮");
 
         int counter = 0;
         double totalSpent = 0;
+
+        for (Reservation r : ReservationHistoryWriter.loadCsv()) {
+            if (!r.getUsername().equals(username)) continue;   // not this user's row, skip
+
+            if (counter == 0) {   // print the table header once, before the first row
+                System.out.println(String.format("\n%-4s %-6s %-22s %-11s %-13s %-19s %-9s %-12s %s",
+                        "#", "ID", "Building", "Slot", "Date", "Time", "Duration", "Fee", "Status"));
+                System.out.println("⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ⋅ ");
+            }
+
+            counter++;
+
+        }
+
+
     }
 
     public static void showReserveParkingMenu(Scanner scanner, String username) {
