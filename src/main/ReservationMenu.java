@@ -133,38 +133,40 @@ public class ReservationMenu {
         LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
         IO.println("\n" + banner);
-        IO.println("Location: " + loc.getName());
-        IO.println("Slot: " + slot.getSlotId() + " (Floor " + slot.getFloor() + ")");
-        IO.println("From: " + start.format(FORMAT));
-        IO.println("Until: " + end.format(FORMAT));
-        IO.println("Duration: " + hours + " hours");
-        IO.println(String.format("Fee: Php %.2f", fee));
+        System.out.println(Main.Colors.YELLOW + "\nRESERVATION DETAILS:");
+
+        IO.println("\nLocation:\t" + loc.getName());
+        IO.println("Slot:\t\t" + slot.getSlotId() + " (Floor " + slot.getFloor() + ")");
+        IO.println("\nFrom:\t\t" + start.format(FORMAT));
+        IO.println("Until:\t\t" + end.format(FORMAT));
+        IO.println("Duration:\t" + hours + " hours");
+        IO.println(String.format("\nFee:\t\tPhp %.2f\n"+ Main.Colors.RESET, fee));
         IO.println(banner);
 
-        return Input.readYesNo("Confirm reservation");
+        return Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN,"\nConfirm reservation"));
     }
 
     private LocalDateTime askStartTime() {
         while (true) {
-            LocalDate date = Input.readDate("\nDate (mm-dd-yyyy, 0 to go back): ");
+            LocalDate date = Input.readDate(Main.Colors.paint(Main.Colors.CYAN,"\nDate (mm-dd-yyyy, 0 to go back): "));
             if (date == null) return null;
-            LocalTime time = Input.readTime("Start time (HH:mm, 24-hour, 0 to go back): ");
+            LocalTime time = Input.readTime(Main.Colors.paint(Main.Colors.CYAN,"Start time (HH:mm, 24-hour, 0 to go back): "));
             if (time == null) return null;
             LocalDateTime start = LocalDateTime.of(date, time);
 
             if (start.isAfter(LocalDateTime.now())) return start;
-            IO.println("That time has already passed. Enter a future date and time.");
+            IO.println(Main.Colors.paint(Main.Colors.RED,"That time has already passed. Enter a future date and time."));
         }
     }
 
     private double askHours() {
         while (true) {
-            double hours = Input.readNonNegativeDouble("Duration in hours (0 to go back): ");
+            double hours = Input.readNonNegativeDouble(Main.Colors.paint(Main.Colors.CYAN,"Duration in hours (0 to go back): "));
             if (hours == 0) return 0;
             if (hours >= MIN_HOURS && hours <= MAX_HOURS) {
                 return hours;
             }else{
-                IO.println("Duration must be from " + MIN_HOURS + " to " + MAX_HOURS + " hours.");
+                IO.println(Main.Colors.paint(Main.Colors.RED,"Duration must be from " + MIN_HOURS + " to " + MAX_HOURS + " hours."));
             }
         }
     }
