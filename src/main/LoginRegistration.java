@@ -30,7 +30,7 @@ public class LoginRegistration {
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ✩ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
 
             System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3):  "));
-            String Choice = scanner.nextLine();
+            String Choice = scanner.nextLine().trim();
 
             switch (Choice) {
                 case "1":
@@ -81,7 +81,7 @@ public class LoginRegistration {
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════════════════╝"));
 
             System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice: "));
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1" : {
@@ -183,7 +183,7 @@ public class LoginRegistration {
        """);
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅  ✩  ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
             System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3):  "));
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
@@ -208,12 +208,14 @@ public class LoginRegistration {
         LocationFilter filter = new LocationFilter(locations, reservationService, username, scanner);
         boolean filterSession = true;
         while (filterSession) {
-            System.out.println("\n--- FILTER CATEGORY ---");
-            System.out.println("1. Filter by Distance");
-            System.out.println("2. Filter by Rate");
-            System.out.println("3. Back to Reserve Menu");
-            System.out.print("\nEnter choice: ");
-            String choice = scanner.nextLine();
+            System.out.println(Main.Colors.YELLOW +"\n╔═════════ ≪ FILTER CATEGORY ≫ ═════════╗" + Main.Colors.RESET);
+            System.out.println("\n\t\t1. Filter by Distance");
+            System.out.println("\t\t2. Filter by Rate");
+            System.out.println("\t\t3. Back to Reserve Menu");
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════════════╝"));
+
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3): "));
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
@@ -249,7 +251,7 @@ public class LoginRegistration {
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╚════════════════════════════════════════╝"));
 
             System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice: "));
-            String choice = scanner.nextLine();
+            String choice = scanner.nextLine().trim();
 
             switch (choice) {
                 case "1":
@@ -511,7 +513,7 @@ public class LoginRegistration {
         String Username = scanner.nextLine().trim();
 
         System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password:\t\t"));
-        String Password = scanner.nextLine();
+        String Password = scanner.nextLine().trim();
 
         if (Username.isEmpty() || Password.isEmpty()) {
             System.out.println(Main.Colors.paint(Main.Colors.RED,"\nFields cannot be blank! Press Enter to go back..."));
@@ -592,10 +594,10 @@ public class LoginRegistration {
                 username = scanner.nextLine().trim();
 
                 System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password:\t\t"));
-                password = scanner.nextLine();
+                password = scanner.nextLine().trim();
 
                 System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Confirm password:\t"));
-                confirmation = scanner.nextLine();
+                confirmation = scanner.nextLine().trim();
 
                 if (username.isEmpty() || password.isEmpty() || confirmation.isEmpty()) {
                     System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid input! Fields cannot be empty.\n"));

@@ -51,7 +51,7 @@ public class LocationFilter {
                 case "2": type = RateType.HOURLY; break;
                 case "3": return;
                 default:
-                    System.out.println("Enter a number from 1 to 3.");
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"Invalid input! Enter a number from 1 to 3."));
                     continue;
             }
 
@@ -95,7 +95,7 @@ public class LocationFilter {
     /** Lets the user choose one of the listed locations and continue to the reservation steps. */
     private void pickAndReserve(List<ParkingLocation> list) {
         while (true) {
-            System.out.print("\nChoose a parking area to reserve (0 to go back): ");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nChoose a parking area to reserve (0 to go back): "));
             String line = scanner.nextLine().trim();
             try {
                 int pick = Integer.parseInt(line);
@@ -107,7 +107,7 @@ public class LocationFilter {
             } catch (NumberFormatException e) {
                 // fall through to the message
             }
-            System.out.println("Enter a number from 0 to " + list.size() + ".");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"Invalid input! Enter a number from 0 to " + list.size() + "."));
         }
     }
 }
