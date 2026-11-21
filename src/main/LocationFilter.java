@@ -28,8 +28,8 @@ public class LocationFilter {
         List<ParkingLocation> sorted = new ArrayList<>(locations);
         sorted.sort(Comparator.comparingDouble(ParkingLocation::getDistance));
 
-        System.out.println("\n--- PARKING AREAS BY DISTANCE (nearest to farthest) ---");
-        printLocations(sorted, loc -> "Distance from Campus: " + loc.getDistance());
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╭─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── PARKING AREAS BY DISTANCE (nearest to farthest) ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╮"));
+        printLocations(sorted, loc -> "\t\tDistance to Campus:\t" + loc.getDistance());
         pickAndReserve(sorted);
     }
 
