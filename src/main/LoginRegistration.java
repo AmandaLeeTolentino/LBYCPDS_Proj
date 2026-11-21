@@ -167,11 +167,22 @@ public class LoginRegistration {
     public static void showReserveParkingMenu(Scanner scanner, String username) {
         boolean reserveSession = true;
         while (reserveSession) {
-            System.out.println("\n--- RESERVE PARKING ---");
-            System.out.println("1. Filter Category (narrow down options)");
-            System.out.println("2. Reserve Slot Directly");
-            System.out.println("3. Back to Student Menu");
-            System.out.print("\nEnter choice: ");
+
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, """
+            
+            ╭─╮╭─╴╭─╮╭─╴╭─╮╷ ╷╭─╴   ╭─╮╭─╮╭─╮╷╭ ╷╭╮╷╭─╴
+     ╭── ⋅ ⋅ ├┬╯├╴ ╰─╮├╴ ├┬╯│╭╯├╴    ├─╯├─┤├┬╯├┴╮││╰┤│╶╮ ⋅ ⋅ ──╮
+            ╵╰╴╰─╴╰─╯╰─╴╵╰╴╰╯ ╰─╴   ╵  ╵ ╵╵╰╴╵ ╵╵╵ ╵╰─╯
+            
+                            """));
+            System.out.println("""
+                    1.  Filter Category (rate/distance)
+                    2.  Reserve Slot Directly
+                    3.  Back to Student Menu
+                                                        
+       """);
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅  ✩  ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3):  "));
             String choice = scanner.nextLine();
 
             switch (choice) {
