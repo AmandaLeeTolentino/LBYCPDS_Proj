@@ -11,7 +11,7 @@ public class LocationFilter {
     private final ReservationService res;
     private final String username;
     private final Scanner scanner;
-    private final String banner = "=".repeat(100);
+    private final String banner = " ⋅".repeat(75);
 
     public LocationFilter(List<ParkingLocation> locations, ReservationService res,
                           String username, Scanner scanner) {
@@ -38,11 +38,13 @@ public class LocationFilter {
     /** Asks for FIXED or HOURLY, then shows the matching locations with base hours and price. */
     public void filterByRate() {
         while (true) {
-            System.out.println("\n--- FILTER BY RATE ---");
-            System.out.println("1. Fixed rate");
-            System.out.println("2. Hourly rate");
-            System.out.println("3. Back to Filter Menu");
-            System.out.print("\nEnter choice: ");
+            System.out.println(Main.Colors.YELLOW +"\n╔═════════ ≪ FILTER BY RATE ≫ ═════════╗" + Main.Colors.RESET);
+            System.out.println("\n\t\t1. Fixed rate");
+            System.out.println("\t\t2. Hourly rate");
+            System.out.println("\t\t3. Back to Filter Menu");
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚══════════════════════════════════════╝"));
+
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice (1/3): "));
             String choice = scanner.nextLine().trim();
 
             RateType type;
@@ -51,7 +53,7 @@ public class LocationFilter {
                 case "2": type = RateType.HOURLY; break;
                 case "3": return;
                 default:
-                    System.out.println(Main.Colors.paint(Main.Colors.RED,"Invalid input! Enter a number from 1 to 3."));
+                    System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid input! Enter a number from 1 to 3."));
                     continue;
             }
 
@@ -66,13 +68,13 @@ public class LocationFilter {
                 continue;
             }
 
-            System.out.println("\n--- " + type + " RATE PARKING AREAS (cheapest first) ---");
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╭─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ " + type + " RATE PARKING AREAS (cheapest first) ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╮"));
             printLocations(matches, loc -> {
                 Rate r = loc.getRate();
                 if (r.getType() == RateType.FIXED) {
-                    return String.format("Fixed fee: Php %.2f (whole stay)", r.getBaseFee());
+                    return String.format("\t\tFixed fee:\t\t\tPhp %.2f", r.getBaseFee());
                 }
-                return String.format("Base: Php %.2f for the first %d hour(s)", r.getBaseFee(), r.getBaseHours());
+                return String.format("\t\tBase fee:\t\t\tPhp %.2f for the first %d hour(s)", r.getBaseFee(), r.getBaseHours());
             });
             pickAndReserve(matches);
         }
@@ -83,13 +85,14 @@ public class LocationFilter {
                                 java.util.function.Function<ParkingLocation, String> detail) {
         int n = 0;
         for (ParkingLocation loc : list) {
-            System.out.println(banner);
-            System.out.println((++n) + ". " + loc.getName());
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,banner));
+            System.out.println("\t"+(++n) + ". " + loc.getName());
             System.out.println(detail.apply(loc));
-            System.out.println("Total Slot Count: " + loc.getCapacity());
-            if (loc.getNotes() != null) System.out.println("Notes: " + loc.getNotes());
+            System.out.println("\t\tTotal Slot Count:\t" + loc.getCapacity());
+            if (loc.getNotes() != null) System.out.println("\t\tNotes:\t\t\t\t" + loc.getNotes());
         }
-        System.out.println(banner);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,banner));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅   ✩   ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
     }
 
     /** Lets the user choose one of the listed locations and continue to the reservation steps. */
@@ -107,7 +110,7 @@ public class LocationFilter {
             } catch (NumberFormatException e) {
                 // fall through to the message
             }
-            System.out.println(Main.Colors.paint(Main.Colors.RED,"Invalid input! Enter a number from 0 to " + list.size() + "."));
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid input! Enter a number from 0 to " + list.size() + "."));
         }
     }
 }
