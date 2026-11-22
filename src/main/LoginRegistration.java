@@ -75,9 +75,8 @@ public class LoginRegistration {
             System.out.println("\n   ⋅  ⋅  ⋅  ⋅  Welcome, " + username +"! ⋅  ⋅  ⋅  ⋅"+ Main.Colors.RESET);
             System.out.println("\n\t\t1. DLSU Parking Status");
             System.out.println("\t\t2. Reserve Parking");
-            System.out.println("\t\t3. Print Receipt");
-            System.out.println("\t\t4. Transaction History");
-            System.out.println("\t\t5. Logout");
+            System.out.println("\t\t3. Transaction History");
+            System.out.println("\t\t4. Logout");
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════════════════╝"));
 
             System.out.print(Main.Colors.paint(Main.Colors.CYAN,"\nEnter choice: "));
@@ -92,22 +91,11 @@ public class LoginRegistration {
                     showReserveParkingMenu(scanner, username);
                     break;
                 case "3":
-                    // 24-hour receipt logic simulation
-                    boolean hasRecentTransaction = false; // Change to true if within 24 hours
-                    if (!hasRecentTransaction) {
-                        System.out.println("\nNo recent transaction to print receipt.");
-                    } else {
-                        System.out.println("\n[Placeholder] Printing receipt for your recent transaction...");
-                    }
-                    System.out.println("\nPress Enter to continue...");
-                    scanner.nextLine();
-                    break;
-                case "4":
                     showTransactionHistory(scanner, username);
                     System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nPress Enter to continue..."));
                     scanner.nextLine();
                     break;
-                case "5":
+                case "4":
                     System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nLogging out..."));
                     studentSession = false;
                     break;
