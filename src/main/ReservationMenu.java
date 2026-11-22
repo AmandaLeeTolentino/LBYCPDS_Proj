@@ -45,7 +45,7 @@ public class ReservationMenu {
             return;
         }
 
-        ParkingSlot slot = chooseSlot(loc.getSlots(), free);
+        ParkingSlot slot = chooseSlot(loc.getSlots(), free, startTime, hours);
         if (slot == null) return;
 
         double fee = loc.getRate().computeFee(hours);
@@ -104,7 +104,7 @@ public class ReservationMenu {
      * shows ALL slots of the location; the ones not free for the chosen time are marked [RESERVED]
      * and can't be picked. Slot numbers stay the same (they no longer shift up).
      */
-    private ParkingSlot chooseSlot(List<ParkingSlot> allSlots, List<ParkingSlot> freeSlots){
+    private ParkingSlot chooseSlot(List<ParkingSlot> allSlots, List<ParkingSlot> freeSlots, LocalDateTime start, double hours){
         Set<String> freeIds = new HashSet<>();
         for (ParkingSlot s : freeSlots) freeIds.add(s.getSlotId());
 
@@ -137,7 +137,12 @@ public class ReservationMenu {
             ParkingSlot picked = allSlots.get(choice - 1);
             if (freeIds.contains(picked.getSlotId())) return picked;
 
-            IO.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time. Choose another slot."));
+            IO.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time:"));
+            for (Reservation r : res.getConflicts(picked.getSlotId(), start, hours)) {
+                IO.println(Main.Colors.paint(Main.Colors.RED, "  " + picked.getSlotId() + " is reserved from "
+                        + r.getStart().format(FORMAT) + " until " + r.getEnd().format(FORMAT)));
+            }
+            IO.println(Main.Colors.paint(Main.Colors.RED, "Choose another slot."));
         }
     }
 

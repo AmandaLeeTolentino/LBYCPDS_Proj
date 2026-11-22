@@ -134,4 +134,22 @@ public class ReservationService {
         }
         return all;
     }
+
+    /**
+     * @return the non-canceled reservations of a slot that overlap the given time window
+     */
+    public List<Reservation> getConflicts(String slotId, LocalDateTime start, double hours) {
+        List<Reservation> found = new ArrayList<>();
+        List<Reservation> list = allReservations.get(slotId);
+        if (list == null) return found;
+
+        LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
+        for (Reservation r : list) {
+            if (r.getStatus() != ReservationStatus.CANCELED && r.overlaps(start, end)) {
+                found.add(r);
+            }
+        }
+        found.sort(Comparator.comparing(Reservation::getStart));
+        return found;
+    }
 }
