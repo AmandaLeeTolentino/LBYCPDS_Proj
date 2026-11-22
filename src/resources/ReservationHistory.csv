@@ -27,3 +27,6 @@ test1,student,R9,EGI Taft Tower,EGI-F1-34,11-19-2026,01:36,03:36,2.0,70.00,CONFI
 Mandy,student,R16,EGI Taft Tower,EGI-F1-33,11-22-2026,14:00,19:00,5.0,110.00,CONFIRMED
 username,student,R19,Green Court Parking,GC-F1-17,11-25-2026,08:00,16:00,8.0,150.00,CONFIRMED
 STDjanine,student,R20,Green Court Parking,GC-F1-35,11-25-2026,08:00,16:00,8.0,150.00,CONFIRMED
+STDjanine,student,R21,EGI Taft Tower,EGI-F1-3,11-30-2026,08:00,20:00,12.0,250.00,CONFIRMED
+STDjanine,student,R22,Razon Sports Complex,RAZ-F3-70,11-28-2026,08:00,20:00,12.0,60.00,CONFIRMED
+STDjanine,student,R23,Razon Sports Complex,RAZ-F1-67,11-25-2026,12:00,20:00,8.0,60.00,CONFIRMED
