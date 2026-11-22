@@ -13,6 +13,8 @@ public class ReservationMenu {
     private final String banner = "=".repeat(100);
     private static final double MIN_HOURS = 0.25; //15mins
     private static final double MAX_HOURS = 24;
+    private static final int GRID_COLUMNS = 4;   //slots per row in the slot grid
+    private static final int CELL_WIDTH = 25;    //width of one cell (number + slot id + [RESERVED] tag)
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a");
 
     public ReservationMenu(List<ParkingLocation> locations,
@@ -101,34 +103,55 @@ public class ReservationMenu {
     }
 
     /**
-     * shows ALL slots of the location; the ones not free for the chosen time are marked [RESERVED]
-     * and can't be picked. Slot numbers stay the same (they no longer shift up).
+     * shows ALL slots of the location in a grid per floor; the ones not free for the chosen time
+     * are marked [RESERVED] and can't be picked. Slot numbers stay the same.
      */
-    private ParkingSlot chooseSlot(List<ParkingSlot> allSlots, List<ParkingSlot> freeSlots, LocalDateTime start, double hours){
+    private ParkingSlot chooseSlot(List<ParkingSlot> allSlots, List<ParkingSlot> freeSlots,
+                                   LocalDateTime start, double hours){
         Set<String> freeIds = new HashSet<>();
         for (ParkingSlot s : freeSlots) freeIds.add(s.getSlotId());
 
         IO.println("\nSlots (" + freeSlots.size() + " free):");
-        int lastFloor = -1;
-        int count = 0;
 
-        for (int i = 0; i < allSlots.size(); i++) {
-            ParkingSlot slot = allSlots.get(i);
+        String line = "+" + ("-".repeat(CELL_WIDTH + 2) + "+").repeat(GRID_COLUMNS); // horizontal grid line
+        int i = 0;
 
-            if (slot.getFloor() != lastFloor) {//new floor, print a heading
-                if (lastFloor != -1 && count % 4 != 0) IO.println();
-                IO.println("\nFloor " + slot.getFloor() + ":");
-                lastFloor = slot.getFloor();
-                count = 0;
+        while (i < allSlots.size()) {
+            int floor = allSlots.get(i).getFloor();
+            IO.println("\nFloor " + floor + ":");
+            IO.println(line);
+
+            StringBuilder row = new StringBuilder("|");
+            int col = 0;
+
+            while (i < allSlots.size() && allSlots.get(i).getFloor() == floor) {
+                ParkingSlot slot = allSlots.get(i);
+                boolean isFree = freeIds.contains(slot.getSlotId());
+
+                String tag = String.format("%-10s", isFree ? "" : "[RESERVED]");
+                if (!isFree) tag = Main.Colors.paint(Main.Colors.RED, tag);
+
+                row.append(String.format(" %3d. %-9s %s |", i + 1, slot.getSlotId(), tag));
+                col++;
+                i++;
+
+                if (col == GRID_COLUMNS) {//row is full: print it with a line under it
+                    IO.println(row);
+                    IO.println(line);
+                    row = new StringBuilder("|");
+                    col = 0;
+                }
             }
 
-            String tag = String.format("%-10s", freeIds.contains(slot.getSlotId()) ? "" : "[RESERVED]");
-            if (!freeIds.contains(slot.getSlotId())) tag = Main.Colors.paint(Main.Colors.RED, tag);
-            IO.print(String.format("%3d. %-9s %s", i + 1, slot.getSlotId(), tag));
-            count++;
-            if (count % 4 == 0) IO.println();//4 slots per row
+            if (col != 0) {//last row of the floor isn't full: fill with empty cells so the grid stays aligned
+                while (col < GRID_COLUMNS) {
+                    row.append(" ".repeat(CELL_WIDTH + 2)).append("|");
+                    col++;
+                }
+                IO.println(row);
+                IO.println(line);
+            }
         }
-        if (count % 4 != 0) IO.println();
 
         while (true) {
             int choice = Input.readInt("\nChoose a slot (0 to go back): ", 0, allSlots.size());
