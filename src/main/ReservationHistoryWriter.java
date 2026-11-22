@@ -62,6 +62,7 @@ public class ReservationHistoryWriter {
                 }
             }
         } catch (IOException e) {
+            System.out.println("Warning: could not read users from " + USERS_PATH + " (" + e.getMessage() + ")");
         }
         return "unknown";
     }
