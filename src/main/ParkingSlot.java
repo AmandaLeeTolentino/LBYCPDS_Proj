@@ -25,4 +25,13 @@ public class ParkingSlot {
     public int getFloor() {
         return floor;
     }
+
+    /** slot id without the floor, for display only "RAZ-21".  */
+    public String getDisplayId() {
+        return displayId(slotId);
+    }
+
+    public static String displayId(String slotId) {
+        return slotId.replaceFirst("-F\\d+-", "-");
+    }
 }
