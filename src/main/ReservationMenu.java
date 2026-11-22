@@ -45,7 +45,7 @@ public class ReservationMenu {
             return;
         }
 
-        ParkingSlot slot = chooseSlot(free);
+        ParkingSlot slot = chooseSlot(loc.getSlots(), free);
         if (slot == null) return;
 
         double fee = loc.getRate().computeFee(hours);
@@ -100,13 +100,20 @@ public class ReservationMenu {
         return locations.get(selection - 1);
     }
 
-    private ParkingSlot chooseSlot(List<ParkingSlot> freeSlots){
-        IO.println("\nFree slots:");
+    /**
+     * shows ALL slots of the location; the ones not free for the chosen time are marked [RESERVED]
+     * and can't be picked. Slot numbers stay the same (they no longer shift up).
+     */
+    private ParkingSlot chooseSlot(List<ParkingSlot> allSlots, List<ParkingSlot> freeSlots){
+        Set<String> freeIds = new HashSet<>();
+        for (ParkingSlot s : freeSlots) freeIds.add(s.getSlotId());
+
+        IO.println("\nSlots (" + freeSlots.size() + " free):");
         int lastFloor = -1;
         int count = 0;
 
-        for (int i = 0; i < freeSlots.size(); i++) {
-            ParkingSlot slot = freeSlots.get(i);
+        for (int i = 0; i < allSlots.size(); i++) {
+            ParkingSlot slot = allSlots.get(i);
 
             if (slot.getFloor() != lastFloor) {//new floor, print a heading
                 if (lastFloor != -1 && count % 4 != 0) IO.println();
@@ -115,17 +122,23 @@ public class ReservationMenu {
                 count = 0;
             }
 
-            IO.print(String.format("%3d. %-12s", i + 1, slot.getSlotId()));
+            String tag = String.format("%-10s", freeIds.contains(slot.getSlotId()) ? "" : "[RESERVED]");
+            if (!freeIds.contains(slot.getSlotId())) tag = Main.Colors.paint(Main.Colors.RED, tag);
+            IO.print(String.format("%3d. %-9s %s", i + 1, slot.getSlotId(), tag));
             count++;
             if (count % 4 == 0) IO.println();//4 slots per row
         }
         if (count % 4 != 0) IO.println();
 
-        int choice = Input.readInt("\nChoose a slot (0 to go back): ", 0, freeSlots.size());
-        if (choice == 0) return null;
-        return freeSlots.get(choice - 1);
+        while (true) {
+            int choice = Input.readInt("\nChoose a slot (0 to go back): ", 0, allSlots.size());
+            if (choice == 0) return null;
 
+            ParkingSlot picked = allSlots.get(choice - 1);
+            if (freeIds.contains(picked.getSlotId())) return picked;
 
+            IO.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time. Choose another slot."));
+        }
     }
 
     private boolean isConfirmed(ParkingLocation loc, ParkingSlot slot, LocalDateTime start,

@@ -38,7 +38,7 @@ public class ParkingStatMenu {
 
             }
 
-            int selection = Input.readInt("\n1 - Refresh; 0 - Previous Page: ",0, 1);
+            int selection = Input.readInt("\nPress 1 to refresh the page (0 to go back): ",0, 1);
             if(selection == 0)return;
             if(selection == 1)continue;
         }
