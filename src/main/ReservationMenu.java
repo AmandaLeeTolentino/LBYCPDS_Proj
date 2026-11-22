@@ -43,7 +43,7 @@ public class ReservationMenu {
 
         List<ParkingSlot> free = res.findFree(loc, startTime, hours);
         if (free.isEmpty()) {
-            IO.println("\nNo free slot at " + loc.getName() + " for that time.");
+            System.out.println("\nNo free slot at " + loc.getName() + " for that time.");
             return;
         }
 
@@ -52,24 +52,24 @@ public class ReservationMenu {
 
         double fee = loc.getRate().computeFee(hours);
         if (!isConfirmed(loc, slot, startTime, hours, fee)) {
-            IO.println("\nReservation cancelled.");
+            System.out.println("\nReservation cancelled.");
             return;
         }else{
             double paid = PaymentReceipt.collectPayment(loc.getRate(), hours, fee);
             if (paid <= 0) {
-                IO.println("\nPayment cancelled. Reservation not made.");
+                System.out.println("\nPayment cancelled. Reservation not made.");
                 return;
             }
 
             Reservation made = res.reserve(username, slot, loc, startTime, hours);
             if (made == null) {
-                IO.println("\nSorry, that slot was just taken. You have not been charged.");
+                System.out.println("\nSorry, that slot was just taken. You have not been charged.");
                 return;
             }
 
             ReservationHistoryWriter.save(made);                        // CSV history
             PaymentReceipt.writeReceipt(made, slot, loc.getRate());     // receipt .txt
-            IO.println("\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file.");
+            System.out.println("\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file.");
         }
     }
 
@@ -80,22 +80,22 @@ public class ReservationMenu {
 
         //printing parking locations and their info
         for(ParkingLocation location : locations) {
-            IO.println(banner + "\n" + (++counter) + ". " + location.getName());
-            IO.println("Total Slot Count: "+location.getCapacity());
-            IO.println("Distance from Campus: " + location.getDistance());
+            System.out.println(banner + "\n" + (++counter) + ". " + location.getName());
+            System.out.println("Total Slot Count: "+location.getCapacity());
+            System.out.println("Distance from Campus: " + location.getDistance());
             if (location.getRate().getType() == RateType.FIXED){
-                IO.println("Rate Information: " + location.getRate().getType() + " | Fee: " + location.getRate().getBaseFee());
+                System.out.println("Rate Information: " + location.getRate().getType() + " | Fee: " + location.getRate().getBaseFee());
             }else{
-                IO.println("Rate Information: " + location.getRate().getType() + " | Base fee and hours: Php " +
+                System.out.println("Rate Information: " + location.getRate().getType() + " | Base fee and hours: Php " +
                         location.getRate().getBaseFee() + " for " + location.getRate().getBaseHours() +
                         " hours | Succeeding hr fee: " + location.getRate().getExtraFee());
             }
             if (location.getNotes() != null) {
-                IO.println("Notes: " + location.getNotes());
+                System.out.println("Notes: " + location.getNotes());
             }
         }
 
-        IO.print("\n\n");
+        System.out.print("\n\n");
         selection = Input.readInt("Choose Parking Location (0 to go back): ", 0, locations.size());
         if (selection == 0) return null;
 
@@ -111,15 +111,15 @@ public class ReservationMenu {
         Set<String> freeIds = new HashSet<>();
         for (ParkingSlot s : freeSlots) freeIds.add(s.getSlotId());
 
-        IO.println("\nSlots (" + freeSlots.size() + " free):");
+        System.out.println("\nSlots (" + freeSlots.size() + " free):");
 
         String line = "+" + ("-".repeat(CELL_WIDTH + 2) + "+").repeat(GRID_COLUMNS); // horizontal grid line
         int i = 0;
 
         while (i < allSlots.size()) {
             int floor = allSlots.get(i).getFloor();
-            IO.println("\nFloor " + floor + ":");
-            IO.println(line);
+            System.out.println("\nFloor " + floor + ":");
+            System.out.println(line);
 
             StringBuilder row = new StringBuilder("|");
             int col = 0;
@@ -135,8 +135,8 @@ public class ReservationMenu {
                 i++;
 
                 if (col == GRID_COLUMNS) {//row is full: print it with a line under it
-                    IO.println(row);
-                    IO.println(line);
+                    System.out.println(row);
+                    System.out.println(line);
                     row = new StringBuilder("|");
                     col = 0;
                 }
@@ -147,8 +147,8 @@ public class ReservationMenu {
                     row.append(" ".repeat(CELL_WIDTH + 2)).append("|");
                     col++;
                 }
-                IO.println(row);
-                IO.println(line);
+                System.out.println(row);
+                System.out.println(line);
             }
         }
 
@@ -159,12 +159,12 @@ public class ReservationMenu {
             ParkingSlot picked = allSlots.get(choice - 1);
             if (freeIds.contains(picked.getSlotId())) return picked;
 
-            IO.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time:"));
+            System.out.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time:"));
             for (Reservation r : res.getConflicts(picked.getSlotId(), start, hours)) {
-                IO.println(Main.Colors.paint(Main.Colors.RED, "  " + picked.getDisplayId() + " is reserved from "
+                System.out.println(Main.Colors.paint(Main.Colors.RED, "  " + picked.getDisplayId() + " is reserved from "
                         + r.getStart().format(FORMAT) + " until " + r.getEnd().format(FORMAT)));
             }
-            IO.println(Main.Colors.paint(Main.Colors.RED, "Choose another slot."));
+            System.out.println(Main.Colors.paint(Main.Colors.RED, "Choose another slot."));
         }
     }
 
@@ -172,16 +172,16 @@ public class ReservationMenu {
                                 double hours, double fee){
         LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
-        IO.println("\n" + banner);
+        System.out.println("\n" + banner);
         System.out.println(Main.Colors.YELLOW + "\nRESERVATION DETAILS:");
 
-        IO.println("\nLocation:\t" + loc.getName());
-        IO.println("Slot:\t\t" + slot.getDisplayId() + " (Floor " + slot.getFloor() + ")");
-        IO.println("\nFrom:\t\t" + start.format(FORMAT));
-        IO.println("Until:\t\t" + end.format(FORMAT));
-        IO.println("Duration:\t" + hours + " hours");
-        IO.println(String.format("\nFee:\t\tPhp %.2f\n"+ Main.Colors.RESET, fee));
-        IO.println(banner);
+        System.out.println("\nLocation:\t" + loc.getName());
+        System.out.println("Slot:\t\t" + slot.getDisplayId() + " (Floor " + slot.getFloor() + ")");
+        System.out.println("\nFrom:\t\t" + start.format(FORMAT));
+        System.out.println("Until:\t\t" + end.format(FORMAT));
+        System.out.println("Duration:\t" + hours + " hours");
+        System.out.println(String.format("\nFee:\t\tPhp %.2f\n"+ Main.Colors.RESET, fee));
+        System.out.println(banner);
 
         return Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN,"\nConfirm reservation"));
     }
@@ -195,7 +195,7 @@ public class ReservationMenu {
             LocalDateTime start = LocalDateTime.of(date, time);
 
             if (start.isAfter(LocalDateTime.now())) return start;
-            IO.println(Main.Colors.paint(Main.Colors.RED,"That time has already passed. Enter a future date and time."));
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"That time has already passed. Enter a future date and time."));
         }
     }
 
@@ -206,8 +206,59 @@ public class ReservationMenu {
             if (hours >= MIN_HOURS && hours <= MAX_HOURS) {
                 return hours;
             }else{
-                IO.println(Main.Colors.paint(Main.Colors.RED,"Duration must be from " + MIN_HOURS + " to " + MAX_HOURS + " hours."));
+                System.out.println(Main.Colors.paint(Main.Colors.RED,"Duration must be from " + MIN_HOURS + " to " + MAX_HOURS + " hours."));
             }
         }
     }
+
+    public void cancelFlow(){
+        List<Reservation> userReservations = res.getResUser(username);
+        List<Reservation> active = new ArrayList<>(); //active resrvations
+
+        //go through each res. by user and get the active ones only
+        for (Reservation r: userReservations) {
+            if (r.getStatus() == ReservationStatus.CONFIRMED && r.getStart().isAfter(LocalDateTime.now())) active.add(r);
+        }
+
+        if (active.isEmpty()) {
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\nYou have no active reservations to cancel."));
+            return;
+        }
+
+        System.out.println("\n" + banner);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "YOUR ACTIVE RESERVATIONS:"));
+        for (Reservation r : active) {
+            System.out.println(String.format("  %-5s | %-22s | Slot: %-9s | %s - %s",
+                    r.getReservationId(),
+                    r.getLocationName(),
+                    r.getSlotId(),
+                    r.getStart().format(FORMAT),
+                    r.getEnd().format(DateTimeFormatter.ofPattern("h:mm a"))));
+        }
+        System.out.println(banner);
+
+        //get user input the reservation they wanna cancel
+        String id = Input.readResId(
+                Main.Colors.paint(Main.Colors.CYAN, "\nEnter Reservation ID to cancel (0 to go back): "), active);
+
+
+        //find reservation obj by given id
+        Reservation target = res.byId(id);
+
+        System.out.println("\nSelected: " + target.getReservationId() + " at " + target.getLocationName()
+                + " (" + target.getSlotId() + ") on " + target.getStart().format(FORMAT));
+
+        //if user doesnt want to cancel
+        if (!Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN, "Are you sure you want to cancel this reservation"))) {
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "Reservation remains"));
+            return;
+        }
+
+        //continues if user wants to go through with cancellation
+        if (res.cancelReservation(target.getReservationId())) {
+            System.out.println(Main.Colors.paint(Main.Colors.GREEN,
+                    "\nReservation " + target.getReservationId() + " has been CANCELED and saved."));
+        }
+    }
+
 }

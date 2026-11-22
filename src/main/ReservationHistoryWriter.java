@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ import java.util.List;
 public class ReservationHistoryWriter {
 
     private static final String HISTORY_PATH = "src/resources/ReservationHistory.csv";
-    private static final String USERS_PATH = "Users.csv";
+    private static final String USERS_PATH = "src/resources/Users.csv";
     private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("MM-dd-yyyy");
     private static final DateTimeFormatter TIME_FMT = DateTimeFormatter.ofPattern("HH:mm");
     private static final String HEADER =  "Username,Role,ReservationID,Building,Slot,Date,StartTime,EndTime,DurationHours,Fee,Status";
@@ -61,6 +62,7 @@ public class ReservationHistoryWriter {
                 }
             }
         } catch (IOException e) {
+            System.out.println("Warning: could not read users from " + USERS_PATH + " (" + e.getMessage() + ")");
         }
         return "unknown";
     }
@@ -118,6 +120,31 @@ public class ReservationHistoryWriter {
         }
 
         return loaded;
+    }
+
+    //rewrite whole thing for canceling
+    public static void saveAll(Collection<List<Reservation>> allReservations){
+        try (PrintWriter pw = new PrintWriter(new FileWriter(HISTORY_PATH, false))) {
+            pw.println(HEADER);
+            for (List<Reservation> list : allReservations) {
+                for (Reservation r : list) {
+                    pw.println(String.join(",",
+                            escape(r.getUsername()),
+                            escape(findRole(r.getUsername())),
+                            escape(r.getReservationId()),
+                            escape(r.getLocationName()),
+                            escape(r.getSlotId()),
+                            r.getStart().format(DATE_FMT),
+                            r.getStart().format(TIME_FMT),
+                            r.getEnd().format(TIME_FMT),
+                            String.valueOf(r.getDurationHours()),
+                            String.format("%.2f", r.getTotalAmount()),
+                            r.getStatus().toString()));
+                }
+            }
+        }catch (IOException e) {
+            System.out.println("Warning: could not save " + HISTORY_PATH + " (" + e.getMessage() + ")");
+        }
     }
 
 }

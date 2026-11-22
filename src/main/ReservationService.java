@@ -1,7 +1,6 @@
 package main;
 
 
-import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -151,5 +150,55 @@ public class ReservationService {
         }
         found.sort(Comparator.comparing(Reservation::getStart));
         return found;
+    }
+
+    /**
+     * finds the reservation given the reservation id and returns the reservation obj
+     */
+    public Reservation byId(String reservationId){
+        if (reservationId == null) return null;
+
+        //for each info grp in all reservation
+        for (List<Reservation> list : allReservations.values()) {
+
+            //each specific info in grp
+            for (Reservation r : list) {
+                if  (r.getReservationId().equals(reservationId)) return r;
+            }
+        }
+        return null;
+    }
+
+
+    /**
+     * cancels reservation and returns true if successful
+     */
+    public boolean cancelReservation(String reservationId){
+        Reservation r = byId(reservationId);
+        if (r == null || r.getStatus() == ReservationStatus.CANCELED) return false; //if null or alrdy cancelled
+
+        r.cancel();
+        ReservationHistoryWriter.saveAll(allReservations.values());
+        return true;
+    }
+
+    /**
+     * get all the reservations of a user
+     */
+    public List<Reservation> getResUser(String username){
+        List<Reservation> userReservations = new ArrayList<>();
+
+        for (List<Reservation> list : allReservations.values()) {
+
+            for (Reservation r : list) {
+                //add to final list if booking is by given user
+                if (r.getUsername().equals(username)) {
+                    userReservations.add(r);
+                }
+            }
+        }
+        //sort all reservations so the more recent starting ones are first
+        userReservations.sort(Comparator.comparing(Reservation::getStart));
+        return userReservations;
     }
 }

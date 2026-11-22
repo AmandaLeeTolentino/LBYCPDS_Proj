@@ -1,24 +1,27 @@
 Username,Role,ReservationID,Building,Slot,Date,StartTime,EndTime,DurationHours,Fee,Status
-STDjanine,student,R1,University Mall,UM-F1-6,11-19-2026,13:00,18:00,5.0,110.00,CONFIRMED
-STDjanine,student,R2,Green Mall,GM-F1-2,11-18-2026,15:30,18:30,3.0,110.00,CONFIRMED
-STDjanine,student,R1,Razon Sports Complex,RAZ-F3-81,12-20-2026,06:00,14:00,8.0,60.00,CONFIRMED
 STDjanine,student,R2,Green Court Parking,GC-F1-21,11-20-2026,06:00,14:00,8.0,150.00,CONFIRMED
-Mandy,student,R3,EGI Taft Tower,EGI-F1-1,11-18-2026,13:00,16:00,3.0,70.00,CONFIRMED
 Mandy,student,R4,EGI Taft Tower,EGI-F1-2,11-18-2026,13:00,17:00,4.0,90.00,CONFIRMED
-Mandy,student,R5,Green Mall,GM-F1-1,11-18-2026,13:00,16:00,3.0,110.00,CONFIRMED
+test3,student,R15,EGI Taft Tower,EGI-F1-2,11-22-2026,12:00,17:00,5.0,110.00,CONFIRMED
+Mandy,student,R3,EGI Taft Tower,EGI-F1-1,11-18-2026,13:00,16:00,3.0,70.00,CONFIRMED
+Mandy,student,R8,EGI Taft Tower,EGI-F1-1,11-19-2026,01:50,04:50,3.0,70.00,CONFIRMED
+test1,student,R10,EGI Taft Tower,EGI-F1-1,11-19-2026,09:32,10:32,1.0,70.00,CONFIRMED
+test1,student,R11,EGI Taft Tower,EGI-F1-1,11-21-2026,23:00,00:00,1.0,70.00,CONFIRMED
+test1,student,R13,EGI Taft Tower,EGI-F1-1,11-22-2026,12:00,14:00,2.0,70.00,CONFIRMED
 Mandy,student,R6,Green Mall,GM-F1-3,11-18-2026,13:00,18:00,5.0,210.00,CONFIRMED
+STDjanine,student,R2,Green Mall,GM-F1-3,11-18-2026,15:30,19:00,3.5,135.00,CONFIRMED
+STDjanine,student,R12,Green Court Parking,GC-F1-45,11-25-2026,10:00,18:00,8.0,150.00,CONFIRMED
 Mandy,student,R7,Green Mall,GM-F1-4,11-18-2026,13:00,16:00,3.0,110.00,CONFIRMED
 STDjanine,student,R1,Green Court Parking,GC-F1-2,11-18-2026,13:00,18:00,5.0,90.00,CONFIRMED
-STDjanine,student,R1,University Mall,UM-F1-5,11-19-2026,14:00,17:00,3.0,70.00,CONFIRMED
-STDjanine,student,R2,Green Mall,GM-F1-3,11-18-2026,15:30,19:00,3.5,135.00,CONFIRMED
-test1,student,R8,University Mall,UM-F1-1,11-19-2026,21:00,00:00,3.0,70.00,CONFIRMED
-test1,student,R9,EGI Taft Tower,EGI-F1-34,11-19-2026,01:36,03:36,2.0,70.00,CONFIRMED
-Mandy,student,R8,EGI Taft Tower,EGI-F1-1,11-19-2026,01:50,04:50,3.0,70.00,CONFIRMED
+Mandy,student,R5,Green Mall,GM-F1-1,11-18-2026,13:00,16:00,3.0,110.00,CONFIRMED
 janine,unknown,R9,University Mall,UM-F1-17,11-21-2026,08:00,20:00,12.0,250.00,CONFIRMED
-test1,unknown,R10,EGI Taft Tower,EGI-F1-1,11-19-2026,09:32,10:32,1.0,70.00,CONFIRMED
-test1,unknown,R11,EGI Taft Tower,EGI-F1-1,11-21-2026,23:00,00:00,1.0,70.00,CONFIRMED
-STDjanine,unknown,R11,University Mall,UM-F1-2,11-25-2026,08:00,16:00,8.0,170.00,CONFIRMED
-STDjanine,unknown,R12,Green Court Parking,GC-F1-45,11-25-2026,10:00,18:00,8.0,150.00,CONFIRMED
-test1,unknown,R13,EGI Taft Tower,EGI-F1-1,11-22-2026,12:00,14:00,2.0,70.00,CONFIRMED
-test1,unknown,R14,Razon Sports Complex,RAZ-F1-1,11-22-2026,14:40,18:40,4.0,60.00,CONFIRMED
-test3,unknown,R15,EGI Taft Tower,EGI-F1-2,11-22-2026,12:00,17:00,5.0,110.00,CONFIRMED
+STDjanine,student,R2,Green Mall,GM-F1-2,11-18-2026,15:30,18:30,3.0,110.00,CONFIRMED
+STDjanine,student,R1,Razon Sports Complex,RAZ-F3-81,12-20-2026,06:00,14:00,8.0,60.00,CONFIRMED
+STDjanine,student,R11,University Mall,UM-F1-2,11-25-2026,08:00,16:00,8.0,170.00,CONFIRMED
+test1,student,R8,University Mall,UM-F1-1,11-19-2026,21:00,00:00,3.0,70.00,CONFIRMED
+Mandy,student,R17,University Mall,UM-F1-1,11-23-2026,13:00,16:00,3.0,70.00,CANCELED
+test1,student,R14,Razon Sports Complex,RAZ-F1-1,11-22-2026,14:40,18:40,4.0,60.00,CONFIRMED
+Mandy,student,R18,Razon Sports Complex,RAZ-F1-1,11-23-2026,12:00,16:00,4.0,60.00,CONFIRMED
+STDjanine,student,R1,University Mall,UM-F1-6,11-19-2026,13:00,18:00,5.0,110.00,CONFIRMED
+STDjanine,student,R1,University Mall,UM-F1-5,11-19-2026,14:00,17:00,3.0,70.00,CONFIRMED
+test1,student,R9,EGI Taft Tower,EGI-F1-34,11-19-2026,01:36,03:36,2.0,70.00,CONFIRMED
+Mandy,student,R16,EGI Taft Tower,EGI-F1-33,11-22-2026,14:00,19:00,5.0,110.00,CONFIRMED

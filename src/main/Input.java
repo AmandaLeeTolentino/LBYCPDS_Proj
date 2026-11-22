@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
@@ -22,7 +23,7 @@ public class Input {
      */
     public static int readInt(String prompt, int min, int max) {
         while (true) {
-            IO.print(prompt);
+            System.out.print(prompt);
             try {
                 int value = input.nextInt();
                 input.nextLine(); //discard enter key (i noticed scanner doesn't work properly sometimes w/o it?)
@@ -30,7 +31,7 @@ public class Input {
             } catch (InputMismatchException e) {
                 input.nextLine();//discard the bad input
             }
-            IO.println("Enter a number from " + min + " to " + max + ".");
+            System.out.println("Enter a number from " + min + " to " + max + ".");
         }
     }
 
@@ -39,7 +40,7 @@ public class Input {
      */
     public static double readPositiveDouble(String prompt) {
         while (true) {
-            IO.print(prompt);
+            System.out.print(prompt);
             try {
                 double value = input.nextDouble();
                 input.nextLine();
@@ -47,7 +48,7 @@ public class Input {
             } catch (InputMismatchException e) {
                 input.nextLine(); //get rid of bad input
             }
-            IO.println("Enter a number greater than 0.");
+            System.out.println("Enter a number greater than 0.");
         }
     }
 
@@ -56,7 +57,7 @@ public class Input {
      */
     public static double readNonNegativeDouble(String prompt) {
         while (true) {
-            IO.print(prompt);
+            System.out.print(prompt);
             try {
                 double value = input.nextDouble();
                 input.nextLine();
@@ -64,7 +65,7 @@ public class Input {
             } catch (InputMismatchException e) {
                 input.nextLine(); //get rid of bad input
             }
-            IO.println("Enter 0 or a positive amount.");
+            System.out.println("Enter 0 or a positive amount.");
         }
     }
     /**
@@ -72,10 +73,10 @@ public class Input {
      */
     public static String readNonBlank(String prompt) {
         while (true) {
-            IO.print(prompt);
+            System.out.print(prompt);
             String line = input.nextLine().trim();
             if (!line.isEmpty()) return line;
-            IO.println("This cannot be blank.");
+            System.out.println("This cannot be blank.");
         }
     }
 
@@ -85,11 +86,11 @@ public class Input {
      */
     public static boolean readYesNo(String prompt) {
         while (true) {
-            IO.print(prompt + " (Y/N): ");
+            System.out.print(prompt + " (Y/N): ");
             String line = input.nextLine().trim().toLowerCase();
             if (line.equals("y") || line.equals("yes")) return true;
             if (line.equals("n") || line.equals("no")) return false;
-            IO.println("Enter Y or N.");
+            System.out.println("Enter Y or N.");
         }
     }
 
@@ -99,27 +100,47 @@ public class Input {
      */
     public static LocalTime readTime(String prompt) {
         while (true) {
-            IO.print(prompt);
+            System.out.print(prompt);
             String line = input.nextLine().trim();
             if (line.equals("0")) return null;      //  0 = go back
             try {
                 return LocalTime.parse(line);
             } catch (DateTimeParseException e) {
-                IO.println("Use 24-hour HH:mm, for example 14:30.");
+                System.out.println("Use 24-hour HH:mm, for example 14:30.");
             }
         }
     }
 
     public static LocalDate readDate(String prompt) {
         while (true) {
-            IO.print(prompt);
+            System.out.print(prompt);
             String line = input.nextLine().trim();
             if (line.equals("0")) return null;      //  0 = go back
             try {
                 return LocalDate.parse(line, DATE_FORMAT);
             } catch (DateTimeParseException e) {
-                IO.println("Use MM-dd-yyyy, for example 05-20-2026.");
+                System.out.println("Use MM-dd-yyyy, for example 05-20-2026.");
             }
+        }
+    }
+
+    /**
+     * Read valid reservation ID and checks if it is in given list
+     * @param reservations list of user's reservations
+     * @return valid reservation id
+     */
+    public static String readResId(String prompt, List<Reservation> reservations) {
+        while (true) {
+            System.out.print(prompt);
+            String id = input.nextLine().trim().toUpperCase();
+
+            if (id.equals("0")) return null;      //  0 = go back
+
+            for (Reservation r: reservations) {
+                if (r.getReservationId().equals(id))return id;
+            }
+
+            System.out.println(Main.Colors.paint(Main.Colors.RED, "Invalid Reservation ID"));
         }
     }
 }
