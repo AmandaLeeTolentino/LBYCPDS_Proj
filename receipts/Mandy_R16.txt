@@ -1,0 +1,14 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R16
+Username: Mandy
+
+Building: EGI Taft Tower
+Floor/Slot: Floor 1 / Slot EGI-33
+
+Entry:     Nov 22, 2026    2:00 PM
+Exit:      Nov 22, 2026    7:00 PM
+Duration: 5.0 hours
+
+Rate: HOURLY - Php 70.00 for the first 3 hours + Php 20.00 per succeeding hour
+TOTAL: Php 110.00
