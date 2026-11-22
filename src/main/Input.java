@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
@@ -120,6 +121,26 @@ public class Input {
             } catch (DateTimeParseException e) {
                 IO.println("Use MM-dd-yyyy, for example 05-20-2026.");
             }
+        }
+    }
+
+    /**
+     * Read valid reservation ID and checks if it is in given list
+     * @param reservations list of user's reservations
+     * @return valid reservation id
+     */
+    public static String readResId(String prompt, List<Reservation> reservations) {
+        while (true) {
+            IO.print(prompt);
+            String id = input.nextLine().trim().toUpperCase();
+
+            if (id.equals("0")) return null;      //  0 = go back
+
+            for (Reservation r: reservations) {
+                if (r.getReservationId().equals(id))return id;
+            }
+
+            IO.println(Main.Colors.paint(Main.Colors.RED, "Invalid Reservation ID"));
         }
     }
 }
