@@ -181,4 +181,24 @@ public class ReservationService {
         ReservationHistoryWriter.saveAll(allReservations.values());
         return true;
     }
+
+    /**
+     * get all the reservations of a user
+     */
+    public List<Reservation> getResUser(String username){
+        List<Reservation> userReservations = new ArrayList<>();
+
+        for (List<Reservation> list : allReservations.values()) {
+
+            for (Reservation r : list) {
+                //add to final list if booking is by given user
+                if (r.getUsername().equals(username)) {
+                    userReservations.add(r);
+                }
+            }
+        }
+        //sort all reservations so the more recent starting ones are first
+        userReservations.sort(Comparator.comparing(Reservation::getStart));
+        return userReservations;
+    }
 }
