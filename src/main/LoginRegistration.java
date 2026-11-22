@@ -141,6 +141,7 @@ public class LoginRegistration {
         String username = "";
         String password = "";
         String confirmation = "";
+        String name = "";
         String role = "";
         boolean registration = true;
 
@@ -156,16 +157,19 @@ public class LoginRegistration {
             boolean validation = true;
 
             while (validation) {
-                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter username:\t\t"));
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter Username:\t\t"));
                 username = scanner.nextLine().trim();
 
-                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter password:\t\t"));
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter Display Name:\t"));
+                name = scanner.nextLine().trim();
+
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter Password:\t\t"));
                 password = scanner.nextLine().trim();
 
-                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Confirm password:\t"));
+                System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Confirm Password:\t"));
                 confirmation = scanner.nextLine().trim();
 
-                if (username.isEmpty() || password.isEmpty() || confirmation.isEmpty()) {
+                if (username.isEmpty() || password.isEmpty() || confirmation.isEmpty() || name.isEmpty()) {
                     System.out.println(Main.Colors.paint(Main.Colors.RED,"\nInvalid input! Fields cannot be empty.\n"));
                 }
                 else if (!password.equals(confirmation)) {
@@ -228,9 +232,9 @@ public class LoginRegistration {
             }
 
             try (PrintWriter pw = new PrintWriter(new FileWriter(usersPath, true))) {
-                pw.println(username + "," + password + "," + role);
+                pw.println(username + "," + password + "," + role + "," + name);
 
-                System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\n" + username + " (" + role + ") successfully registered! Press Enter to continue..."));
+                System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\n" + name + " (" + role + ") successfully registered! Press Enter to continue..."));
                 scanner.nextLine();
 
                 registration = false;

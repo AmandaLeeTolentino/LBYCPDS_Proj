@@ -24,26 +24,21 @@ public class PaymentReceipt {
      * @return the amount paid, or 0 if the user backed out by entering 0
      */
     public static double collectPayment(Rate rate, double hours, double total) {
-        System.out.println("\n========================================");
-        System.out.println("                PAYMENT");
-        System.out.println("========================================");
-        System.out.println();
-        System.out.println("Rate: " + describeRate(rate));
+        System.out.println(Main.Colors.YELLOW +"\n╔═════════ ≪ PAYMENT ≫ ═════════╗" + Main.Colors.RESET);
+        System.out.println("\nRate: " + describeRate(rate));
         System.out.println("Duration: " + hours + " hours");
-        System.out.println();
-        System.out.println(String.format("TOTAL: Php %.2f", total));
-        System.out.println("========================================");
-
+        System.out.println(String.format("\nTOTAL: Php %.2f", total));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════╝"));
         long totalCents = Math.round(total * 100);
 
         while (true) {
-            double paid = Input.readNonNegativeDouble("\nEnter amount to pay (0 to go back): ");
+            double paid = Input.readNonNegativeDouble(Main.Colors.paint(Main.Colors.CYAN,"\nEnter amount to pay (0 to go back): "));
 
             if (paid == 0) {
                 return 0; // user backed out
             }
             if (Math.round(paid * 100) < totalCents) {
-                System.out.println(String.format("Insufficient amount. You need to pay at least Php %.2f.", total));
+                System.out.println(Main.Colors.paint(Main.Colors.RED,String.format("Insufficient amount. You need to pay at least Php %.2f.", total)));
                 continue;
             }
 
@@ -79,6 +74,7 @@ public class PaymentReceipt {
             pw.println("PARKING RESERVATION RECEIPT");
             pw.println();
             pw.println("Reservation ID: " + r.getReservationId());
+            // print name "Name: " + name
             pw.println("Username: " + r.getUsername());
             pw.println();
             pw.println("Building: " + r.getLocationName());
