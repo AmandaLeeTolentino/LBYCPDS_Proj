@@ -24,11 +24,11 @@ public class PaymentReceipt {
      * @return the amount paid, or 0 if the user backed out by entering 0
      */
     public static double collectPayment(Rate rate, double hours, double total) {
-        System.out.println(Main.Colors.YELLOW +"\n╔═════════ ≪ PAYMENT ≫ ═════════╗" + Main.Colors.RESET);
+        System.out.println(Main.Colors.YELLOW +"\n╔════════════════════════════════════ ≪ PAYMENT ≫ ════════════════════════════════════╗" + Main.Colors.RESET);
         System.out.println("\nRate: " + describeRate(rate));
         System.out.println("Duration: " + hours + " hours");
         System.out.println(String.format("\nTOTAL: Php %.2f", total));
-        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════╝"));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═════════════════════════════════════════════════════════════════════════════════════╝"));
         long totalCents = Math.round(total * 100);
 
         while (true) {
@@ -74,7 +74,7 @@ public class PaymentReceipt {
             pw.println("PARKING RESERVATION RECEIPT");
             pw.println();
             pw.println("Reservation ID: " + r.getReservationId());
-            // print name "Name: " + name
+            pw.println("Name: " + LoginRegistration.getDisplayName(r.getUsername()));
             pw.println("Username: " + r.getUsername());
             pw.println();
             pw.println("Building: " + r.getLocationName());

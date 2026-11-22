@@ -16,10 +16,11 @@ public class AdminMenu {
     public static void showAdminMenu(String username) {
         Scanner scanner = new Scanner(System.in);
         boolean adminSession = true;
+        String name = LoginRegistration.getDisplayName(username);
 
         while (adminSession) {
             System.out.println(Main.Colors.YELLOW +"\n╔══════════ ≪ ADMIN DASHBOARD ≫ ══════════╗");
-            System.out.println("\n  ⋅  ⋅  ⋅  ⋅  Welcome, " + username +"! ⋅  ⋅  ⋅  ⋅"+ Main.Colors.RESET);
+            System.out.println("\n  ⋅  ⋅  ⋅  ⋅  Welcome, " + name +"! ⋅  ⋅  ⋅  ⋅"+ Main.Colors.RESET);
             System.out.println("\n\t\t1. View Current Reserved Slots");
             System.out.println("\t\t2. View Statistics");
             System.out.println("\t\t3. Logout\n" );

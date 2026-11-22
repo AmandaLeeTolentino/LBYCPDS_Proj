@@ -161,7 +161,7 @@ public class LoginRegistration {
                 username = scanner.nextLine().trim();
 
                 System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter Display Name:\t"));
-                name = scanner.nextLine().trim();
+                name = scanner.nextLine().trim().replace(",", ""); // so it doesn't mess with the CSV
 
                 System.out.print(Main.Colors.paint(Main.Colors.CYAN,"Enter Password:\t\t"));
                 password = scanner.nextLine().trim();
@@ -243,5 +243,24 @@ public class LoginRegistration {
                 return;
             }
         }
+    }
+
+    /** Returns the display name saved for this username in Users.csv (falls back to the username). */
+    public static String getDisplayName(String username) {
+        File file = new File("src/resources/Users.csv");
+        if (file.exists()) {
+            try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    String[] d = line.split(",", -1);
+                    if (d.length >= 4 && d[0].trim().equals(username) && !d[3].trim().isEmpty()) {
+                        return d[3].trim();
+                    }
+                }
+            } catch (IOException e) {
+                // ignore and fall back to the username
+            }
+        }
+        return username;
     }
 }

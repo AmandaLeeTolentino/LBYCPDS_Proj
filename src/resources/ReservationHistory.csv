@@ -25,3 +25,5 @@ STDjanine,student,R1,University Mall,UM-F1-6,11-19-2026,13:00,18:00,5.0,110.00,C
 STDjanine,student,R1,University Mall,UM-F1-5,11-19-2026,14:00,17:00,3.0,70.00,CONFIRMED
 test1,student,R9,EGI Taft Tower,EGI-F1-34,11-19-2026,01:36,03:36,2.0,70.00,CONFIRMED
 Mandy,student,R16,EGI Taft Tower,EGI-F1-33,11-22-2026,14:00,19:00,5.0,110.00,CONFIRMED
+username,student,R19,Green Court Parking,GC-F1-17,11-25-2026,08:00,16:00,8.0,150.00,CONFIRMED
+STDjanine,student,R20,Green Court Parking,GC-F1-35,11-25-2026,08:00,16:00,8.0,150.00,CONFIRMED

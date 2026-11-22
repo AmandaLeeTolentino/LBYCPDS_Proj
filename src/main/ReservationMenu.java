@@ -10,7 +10,7 @@ public class ReservationMenu {
     private final List<ParkingLocation> locations;
     private ReservationService res;
     private final String username;
-    private final String banner = "=".repeat(100);
+    private final String banner = " ⋅".repeat(75);
     private static final double MIN_HOURS = 0.25; //15mins
     private static final double MAX_HOURS = 24;
     private static final int GRID_COLUMNS = 4;   //slots per row in the slot grid
@@ -80,7 +80,8 @@ public class ReservationMenu {
 
         //printing parking locations and their info
         for(ParkingLocation location : locations) {
-            System.out.println(banner + "\n" + (++counter) + ". " + location.getName());
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,banner));
+            System.out.println("\n" + (++counter) + ". " + location.getName());
             System.out.println("Total Slot Count: "+location.getCapacity());
             System.out.println("Distance from Campus: " + location.getDistance());
             if (location.getRate().getType() == RateType.FIXED){
@@ -172,7 +173,7 @@ public class ReservationMenu {
                                 double hours, double fee){
         LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
-        System.out.println("\n" + banner);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n" + banner));
         System.out.println(Main.Colors.YELLOW + "\nRESERVATION DETAILS:");
 
         System.out.println("\nLocation:\t" + loc.getName());
@@ -181,7 +182,7 @@ public class ReservationMenu {
         System.out.println("Until:\t\t" + end.format(FORMAT));
         System.out.println("Duration:\t" + hours + " hours");
         System.out.println(String.format("\nFee:\t\tPhp %.2f\n"+ Main.Colors.RESET, fee));
-        System.out.println(banner);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,banner));
 
         return Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN,"\nConfirm reservation"));
     }
