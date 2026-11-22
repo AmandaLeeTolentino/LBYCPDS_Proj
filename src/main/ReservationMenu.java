@@ -210,4 +210,55 @@ public class ReservationMenu {
             }
         }
     }
+
+    public void cancelFlow(){
+        List<Reservation> userReservations = res.getResUser(username);
+        List<Reservation> active = new ArrayList<>(); //active resrvations
+
+        //go through each res. by user and get the active ones only
+        for (Reservation r: userReservations) {
+            if (r.getStatus() == ReservationStatus.CONFIRMED && r.getStart().isAfter(LocalDateTime.now())) active.add(r);
+        }
+
+        if (active.isEmpty()) {
+            IO.println(Main.Colors.paint(Main.Colors.YELLOW, "\nYou have no active reservations to cancel."));
+            return;
+        }
+
+        IO.println("\n" + banner);
+        IO.println(Main.Colors.paint(Main.Colors.YELLOW, "YOUR ACTIVE RESERVATIONS:"));
+        for (Reservation r : active) {
+            IO.println(String.format("  %-5s | %-22s | Slot: %-9s | %s - %s",
+                    r.getReservationId(),
+                    r.getLocationName(),
+                    r.getSlotId(),
+                    r.getStart().format(FORMAT),
+                    r.getEnd().format(DateTimeFormatter.ofPattern("h:mm a"))));
+        }
+        IO.println(banner);
+
+        //get user input the reservation they wanna cancel
+        String id = Input.readResId(
+                Main.Colors.paint(Main.Colors.CYAN, "\nEnter Reservation ID to cancel (0 to go back): "), active);
+
+
+        //find reservation obj by given id
+        Reservation target = res.byId(id);
+
+        IO.println("\nSelected: " + target.getReservationId() + " at " + target.getLocationName()
+                + " (" + target.getSlotId() + ") on " + target.getStart().format(FORMAT));
+
+        //if user doesnt want to cancel
+        if (!Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN, "Are you sure you want to cancel this reservation"))) {
+            IO.println(Main.Colors.paint(Main.Colors.YELLOW, "Reservation remains"));
+            return;
+        }
+
+        //continues if user wants to go through with cancellation
+        if (res.cancelReservation(target.getReservationId())) {
+            IO.println(Main.Colors.paint(Main.Colors.GREEN,
+                    "\nReservation " + target.getReservationId() + " has been CANCELED and saved."));
+        }
+    }
+
 }
