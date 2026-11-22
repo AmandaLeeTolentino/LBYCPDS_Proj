@@ -1,0 +1,14 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R10
+Username: test3
+
+Building: Green Mall
+Floor/Slot: Floor 1 / Slot GM-F1-5
+
+Entry:     Nov 18, 2026    12:26 PM
+Exit:      Nov 18, 2026    12:56 PM
+Duration: 0.5 hours
+
+Rate: HOURLY - Php 60.00 for the first 2 hours + Php 50.00 per succeeding hour
+TOTAL: Php 60.00

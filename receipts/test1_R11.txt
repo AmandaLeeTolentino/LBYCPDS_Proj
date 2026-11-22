@@ -1,0 +1,14 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R11
+Username: test1
+
+Building: EGI Taft Tower
+Floor/Slot: Floor 1 / Slot EGI-F1-1
+
+Entry:     Nov 21, 2026    11:00 PM
+Exit:      Nov 22, 2026    12:00 AM
+Duration: 1.0 hours
+
+Rate: HOURLY - Php 70.00 for the first 3 hours + Php 20.00 per succeeding hour
+TOTAL: Php 70.00
