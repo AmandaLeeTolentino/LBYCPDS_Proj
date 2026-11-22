@@ -72,7 +72,7 @@ public class PaymentReceipt {
         File file = RECEIPT_DIR.isEmpty() ? new File(fileName) : new File(dir, fileName);
 
         String floorSlot = (slot != null)
-                ? "Floor " + slot.getFloor() + " / Slot " + slot.getSlotId()
+                ? "Floor " + slot.getFloor() + " / Slot " + slot.getDisplayId()
                 : "Slot " + r.getSlotId();
 
         try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {

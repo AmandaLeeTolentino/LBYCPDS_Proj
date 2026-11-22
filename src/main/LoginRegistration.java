@@ -334,7 +334,7 @@ public class LoginRegistration {
                 case "3": {
                     Map<String, Integer> counts = new LinkedHashMap<>();
                     for (Reservation r : all) {
-                        counts.merge(r.getLocationName() + " - " + r.getSlotId() + " (Floor " + floorOf(r) + ")",
+                        counts.merge(r.getLocationName() + " - " + ParkingSlot.displayId(r.getSlotId()) + " (Floor " + floorOf(r) + ")",
                                 1, Integer::sum);
                     }
                     System.out.println("\n--- MOST RESERVED SLOTS (ALL AREAS) ---");
@@ -715,7 +715,7 @@ public class LoginRegistration {
                     floor = loc.getSlot(r.getSlotId()).getFloor();
                 }
             }
-            System.out.println("  Slot " + r.getSlotId() + " | Floor " + floor + " | "
+            System.out.println("  Slot " + ParkingSlot.displayId(r.getSlotId()) + " | Floor " + floor + " | "
                     + r.getStart().format(showFmt) + " - " + r.getEnd().format(showFmt)
                     + " (" + r.getDurationHours() + " hrs)");
         }

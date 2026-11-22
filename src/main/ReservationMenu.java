@@ -14,7 +14,7 @@ public class ReservationMenu {
     private static final double MIN_HOURS = 0.25; //15mins
     private static final double MAX_HOURS = 24;
     private static final int GRID_COLUMNS = 4;   //slots per row in the slot grid
-    private static final int CELL_WIDTH = 25;    //width of one cell (number + slot id + [RESERVED] tag)
+    private static final int CELL_WIDTH = 23;    //width of one cell (number + slot id + [RESERVED] tag)
     private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("MMM d, yyyy h:mm a");
 
     public ReservationMenu(List<ParkingLocation> locations,
@@ -131,8 +131,7 @@ public class ReservationMenu {
                 String tag = String.format("%-10s", isFree ? "" : "[RESERVED]");
                 if (!isFree) tag = Main.Colors.paint(Main.Colors.RED, tag);
 
-                row.append(String.format(" %3d. %-9s %s |", i + 1, slot.getSlotId(), tag));
-                col++;
+                row.append(String.format(" %3d. %-7s %s |", i + 1, slot.getDisplayId(), tag));                col++;
                 i++;
 
                 if (col == GRID_COLUMNS) {//row is full: print it with a line under it
@@ -161,7 +160,7 @@ public class ReservationMenu {
             if (freeIds.contains(picked.getSlotId())) return picked;
 
             IO.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time:"));
-            for (Reservation r : res.getConflicts(picked.getSlotId(), start, hours)) {
+            for (Reservation r : res.getConflicts(picked.getDisplayId(), start, hours)) {
                 IO.println(Main.Colors.paint(Main.Colors.RED, "  " + picked.getSlotId() + " is reserved from "
                         + r.getStart().format(FORMAT) + " until " + r.getEnd().format(FORMAT)));
             }
@@ -177,7 +176,7 @@ public class ReservationMenu {
         System.out.println(Main.Colors.YELLOW + "\nRESERVATION DETAILS:");
 
         IO.println("\nLocation:\t" + loc.getName());
-        IO.println("Slot:\t\t" + slot.getSlotId() + " (Floor " + slot.getFloor() + ")");
+        IO.println("Slot:\t\t" + slot.getDisplayId() + " (Floor " + slot.getFloor() + ")");
         IO.println("\nFrom:\t\t" + start.format(FORMAT));
         IO.println("Until:\t\t" + end.format(FORMAT));
         IO.println("Duration:\t" + hours + " hours");
