@@ -21,3 +21,4 @@ STDjanine,unknown,R11,University Mall,UM-F1-2,11-25-2026,08:00,16:00,8.0,170.00,
 STDjanine,unknown,R12,Green Court Parking,GC-F1-45,11-25-2026,10:00,18:00,8.0,150.00,CONFIRMED
 test1,unknown,R13,EGI Taft Tower,EGI-F1-1,11-22-2026,12:00,14:00,2.0,70.00,CONFIRMED
 test1,unknown,R14,Razon Sports Complex,RAZ-F1-1,11-22-2026,14:40,18:40,4.0,60.00,CONFIRMED
+test3,unknown,R15,EGI Taft Tower,EGI-F1-2,11-22-2026,12:00,17:00,5.0,110.00,CONFIRMED

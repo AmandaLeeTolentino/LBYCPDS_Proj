@@ -160,8 +160,8 @@ public class ReservationMenu {
             if (freeIds.contains(picked.getSlotId())) return picked;
 
             IO.println(Main.Colors.paint(Main.Colors.RED, "That slot is already reserved for that time:"));
-            for (Reservation r : res.getConflicts(picked.getDisplayId(), start, hours)) {
-                IO.println(Main.Colors.paint(Main.Colors.RED, "  " + picked.getSlotId() + " is reserved from "
+            for (Reservation r : res.getConflicts(picked.getSlotId(), start, hours)) {
+                IO.println(Main.Colors.paint(Main.Colors.RED, "  " + picked.getDisplayId() + " is reserved from "
                         + r.getStart().format(FORMAT) + " until " + r.getEnd().format(FORMAT)));
             }
             IO.println(Main.Colors.paint(Main.Colors.RED, "Choose another slot."));
