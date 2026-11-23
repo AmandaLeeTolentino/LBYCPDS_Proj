@@ -60,7 +60,8 @@ public class StudentMenu {
         java.time.format.DateTimeFormatter timeFmt = java.time.format.DateTimeFormatter.ofPattern("h:mm a");
         String name = LoginRegistration.getDisplayName(username);
 
-        System.out.println(Main.Colors.paint(Main.Colors.CYAN,"\n╭── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ TRANSACTION HISTORY for " + name + " ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ──╮")); // change to name
+        String top = "╭── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ TRANSACTION HISTORY for " + name + " ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ──╮";
+        System.out.println(Main.Colors.paint(Main.Colors.CYAN,"\n" + top));
 
         int counter = 0;
         double totalSpent = 0;
@@ -99,6 +100,13 @@ public class StudentMenu {
             System.out.println("\nTotal reservations:\t\t" + counter);
             System.out.println(String.format("Total spent:\t\t\tPhp %.2f", totalSpent));
         }
+
+        // footer: same width as the header above (the header gets longer with longer names)
+        String middle = "  ✩  ";
+        int rest = top.length() - 2 - middle.length();
+        String pattern = "── ⋅ ⋅ ".repeat(top.length() / 6 + 1);
+        String footer = "╰" + pattern.substring(0, rest / 2) + middle + pattern.substring(0, rest - rest / 2) + "╯";
+        System.out.println(Main.Colors.paint(Main.Colors.CYAN, "\n" + footer));
     }
 
     public static void showReserveParkingMenu(Scanner scanner, String username) {
