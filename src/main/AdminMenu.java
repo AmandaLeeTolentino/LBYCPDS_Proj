@@ -380,4 +380,5 @@ public class AdminMenu {
     private static String prettyDate(java.time.LocalDate date) {
         return "(" + date.format(java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy")) + ")";
     }
+
 }
