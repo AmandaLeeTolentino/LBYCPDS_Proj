@@ -30,3 +30,7 @@ STDjanine,student,R20,Green Court Parking,GC-F1-35,11-25-2026,08:00,16:00,8.0,15
 STDjanine,student,R21,EGI Taft Tower,EGI-F1-3,11-30-2026,08:00,20:00,12.0,250.00,CONFIRMED
 STDjanine,student,R22,Razon Sports Complex,RAZ-F3-70,11-28-2026,08:00,20:00,12.0,60.00,CONFIRMED
 STDjanine,student,R23,Razon Sports Complex,RAZ-F1-67,11-25-2026,12:00,20:00,8.0,60.00,CONFIRMED
+Mandy,student,R24,EGI Taft Tower,EGI-F1-1,12-12-2026,12:00,13:00,1.0,70.00,CONFIRMED
+Mandy,student,R25,Razon Sports Complex,RAZ-F1-2,12-12-2026,12:00,15:00,3.0,60.00,CONFIRMED
+Mandy,student,R26,Green Court Parking,GC-F1-1,12-12-2026,12:00,16:00,4.0,70.00,CONFIRMED
+Mandy,student,R27,University Mall,UM-F1-1,12-12-2026,12:00,15:00,3.0,70.00,CONFIRMED

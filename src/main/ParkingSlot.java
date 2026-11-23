@@ -8,7 +8,7 @@ public class ParkingSlot {
 
     public ParkingSlot(String slotId, String location, int floor) {
        if (slotId == null || slotId.isEmpty() || location == null || location == null) {
-           throw new IllegalArgumentException("Invalid slot vlaues");
+           throw new IllegalArgumentException("Invalid slot values");
        }
 
         this.slotId = slotId;

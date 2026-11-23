@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R27
+Name: Mandy
+Username: Mandy
+
+Building: University Mall
+Floor/Slot: Floor 1 / Slot UM-1
+
+Entry:     Dec 12, 2026    12:00 PM
+Exit:      Dec 12, 2026    3:00 PM
+Duration: 3.0 hours
+
+Rate: HOURLY - Php 50.00 for the first 2 hours + Php 20.00 per succeeding hour
+TOTAL: Php 70.00

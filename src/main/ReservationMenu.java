@@ -50,26 +50,119 @@ public class ReservationMenu {
         ParkingSlot slot = chooseSlot(loc.getSlots(), free, startTime, hours);
         if (slot == null) return;
 
-        double fee = loc.getRate().computeFee(hours);
-        if (!isConfirmed(loc, slot, startTime, hours, fee)) {
-            System.out.println("\nReservation cancelled.");
-            return;
-        }else{
-            double paid = PaymentReceipt.collectPayment(loc.getRate(), hours, fee);
-            if (paid <= 0) {
-                System.out.println("\nPayment cancelled. Reservation not made.");
-                return;
-            }
+        while(true) {
+            double fee = loc.getRate().computeFee(hours);
+            int action = confirmationMenu(loc, slot, startTime, hours, fee);
 
-            Reservation made = res.reserve(username, slot, loc, startTime, hours);
-            if (made == null) {
-                System.out.println("\nSorry, that slot was just taken. You have not been charged.");
-                return;
-            }
+            switch (action) {
+                case 0 -> { //cancel reservation
+                    System.out.println("\nReservation cancelled.");
+                    return;
+                }
+                case 1 -> { //confirm and proceed to payment
+                    double paid = PaymentReceipt.collectPayment(loc.getRate(), hours, fee);
+                    if (paid <= 0) {
+                        System.out.println("\nPayment cancelled. Reservation not made.");
+                        return;
+                    }
 
-            ReservationHistoryWriter.save(made);                        // CSV history
-            PaymentReceipt.writeReceipt(made, slot, loc.getRate());     // receipt .txt
-            System.out.println("\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file.");
+                    Reservation made = res.reserve(username, slot, loc, startTime, hours);
+                    if (made == null) {
+                        System.out.println("\nSorry, that slot was just taken. You have not been charged.");
+                        return;
+                    }
+
+                    ReservationHistoryWriter.save(made);                        // CSV history
+                    PaymentReceipt.writeReceipt(made, slot, loc.getRate());     // receipt .txt
+                    System.out.println("\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file.");
+                    return;
+                }
+
+                case 2 -> { //edit location
+                    ParkingLocation newLoc = chooseLocation();
+                    if (newLoc == null) continue;
+                    List<ParkingSlot> newFree = res.findFree(newLoc, startTime, hours);
+
+                    if (newFree.isEmpty()) {//if location has no free slots at all during time
+                        System.out.println(Main.Colors.paint(Main.Colors.RED,
+                                "\nNo free slots at " + newLoc.getName() + " for that time. Keeping previous location."));
+                        continue;
+                    }
+
+                    ParkingSlot newSlot = chooseSlot(newLoc.getSlots(), newFree, startTime, hours);
+                    if (newSlot != null) {
+                        loc = newLoc;
+                        slot = newSlot;
+                    }
+                }
+
+                case 3 -> { //edit date and time
+                    LocalDateTime newStart = askStartTime();
+                    if (newStart == null) continue;
+
+                    if (res.isSlotFree(slot.getSlotId(), newStart, hours)) {
+                        startTime = newStart;
+
+                        System.out.println(Main.Colors.paint(Main.Colors.GREEN,
+                                "Slot " + slot.getDisplayId() + " is still free for the new time!"));
+
+                    } else {
+                        List<ParkingSlot> newFree = res.findFree(loc, newStart, hours);
+
+                        if (newFree.isEmpty()) {
+                            System.out.println(Main.Colors.paint(Main.Colors.RED,
+                                    "No free slots at " + loc.getName() + " for that time. Keeping previous schedule."));
+                            continue;
+                        }
+
+                        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,
+                                slot.getDisplayId() + " is already booked at that time. Please pick another slot:"));
+                        ParkingSlot newSlot = chooseSlot(loc.getSlots(), newFree, newStart, hours);
+
+                        if (newSlot != null) {
+                            startTime = newStart;
+                            slot = newSlot;
+                        }
+                    }
+                }
+                case 4 -> {
+                    double newHours = askHours();
+                    if (newHours == 0) continue;
+
+                    if (res.isSlotFree(slot.getSlotId(), startTime, newHours)) {
+                        hours = newHours;
+
+                        System.out.println(Main.Colors.paint(Main.Colors.GREEN,
+                                "Slot " + slot.getDisplayId() + " is still free for the new duration!"));
+                    } else {
+                        List<ParkingSlot> newFree = res.findFree(loc, startTime, newHours);
+
+                        if (newFree.isEmpty()) {
+                            System.out.println(Main.Colors.paint(Main.Colors.RED,
+                                    "No free slots at " + loc.getName() + " for that duration. Keeping previous duration."));
+                            continue;
+                        }
+
+                        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,
+                                slot.getDisplayId() + " has a conflict with the new duration. Please pick another slot:"));
+                        ParkingSlot newSlot = chooseSlot(loc.getSlots(), newFree, startTime, newHours);
+
+                        if (newSlot != null) {
+                            hours = newHours;
+                            slot = newSlot;
+                        }
+                    }
+                }
+                case 5 -> {//edit slot
+                    List<ParkingSlot> currentFree = res.findFree(loc, startTime, hours);
+
+                    ParkingSlot newSlot = chooseSlot(loc.getSlots(), currentFree, startTime, hours);
+                    if (newSlot != null) {
+                        slot = newSlot;
+                    }
+                }
+
+            }
         }
     }
 
@@ -169,7 +262,7 @@ public class ReservationMenu {
         }
     }
 
-    private boolean isConfirmed(ParkingLocation loc, ParkingSlot slot, LocalDateTime start,
+    private int confirmationMenu(ParkingLocation loc, ParkingSlot slot, LocalDateTime start,
                                 double hours, double fee){
         LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
 
@@ -184,7 +277,14 @@ public class ReservationMenu {
         System.out.println(String.format("\nFee:\t\tPhp %.2f\n"+ Main.Colors.RESET, fee));
         System.out.println(Main.Colors.paint(Main.Colors.YELLOW,banner));
 
-        return Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN,"\nConfirm reservation"));
+        System.out.println("1. Confirm & Proceed to Payment");
+        System.out.println("2. Edit Location");
+        System.out.println("3. Edit Date & Time");
+        System.out.println("4. Edit Duration");
+        System.out.println("5. Edit Slot");
+        System.out.println("0. Cancel Reservation");
+
+        return Input.readInt(Main.Colors.paint(Main.Colors.CYAN, "\nChoose an option: "), 0, 5);
     }
 
     private LocalDateTime askStartTime() {
