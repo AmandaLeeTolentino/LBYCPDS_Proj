@@ -113,7 +113,8 @@ public class ReservationService {
         List<Reservation> found = new ArrayList<>();
         for (List<Reservation> list : allReservations.values()) {
             for (Reservation r : list) {
-                if (r.getStatus() != ReservationStatus.CANCELED && r.overlaps(from, to)) {
+                if (r.getStatus() != ReservationStatus.CANCELED
+                        && !r.getStart().isBefore(from) && r.getStart().isBefore(to)) {
                     found.add(r);
                 }
             }
