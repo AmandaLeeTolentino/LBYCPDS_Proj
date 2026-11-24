@@ -123,8 +123,9 @@ public class StudentMenu {
             System.out.println("""
                     1.  Filter Category (rate/distance)
                     2.  Reserve Slot Directly
-                    3.  Cancel Reservation
-                    4.  Back to Student Menu
+                    3.  Reschedule Reservation
+                    4.  Cancel Reservation
+                    5.  Back to Student Menu
                                                         
        """);
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅  ✩  ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
@@ -140,9 +141,12 @@ public class StudentMenu {
                     reservationMenu.start();
                     break;
                 case "3":
-                    new ReservationMenu(locations, reservationService, username).cancelFlow();
+                    new ReservationMenu(locations, reservationService, username).rescheduleFlow();
                     break;
                 case "4":
+                    new ReservationMenu(locations, reservationService, username).cancelFlow();
+                    break;
+                case "5":
                     reserveSession = false;
                     break;
                 default:
