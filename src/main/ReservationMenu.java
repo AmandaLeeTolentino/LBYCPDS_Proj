@@ -77,27 +77,34 @@ public class ReservationMenu {
     private ParkingLocation chooseLocation() {
         int counter = 0;
         int selection;
+        String divider = " ⋅".repeat(75);
+
+        IO.println(Main.Colors.paint(Main.Colors.YELLOW,
+                "\n╭─ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅─ RESERVE SLOT DIRECTLY ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅ ── ⋅ ⋅─ ─╮"));
 
         //printing parking locations and their info
         for(ParkingLocation location : locations) {
-            System.out.println(Main.Colors.paint(Main.Colors.YELLOW,banner));
-            System.out.println("\n" + (++counter) + ". " + location.getName());
-            System.out.println("Total Slot Count: "+location.getCapacity());
-            System.out.println("Distance from Campus: " + location.getDistance());
+            IO.println(Main.Colors.paint(Main.Colors.YELLOW, divider));
+            IO.println("\t" + (++counter) + ". " + location.getName());
+            IO.println("\t\tDistance to Campus:\t" + location.getDistance());
+            IO.println("\t\tTotal Slot Count:\t" + location.getCapacity());
             if (location.getRate().getType() == RateType.FIXED){
-                System.out.println("Rate Information: " + location.getRate().getType() + " | Fee: " + location.getRate().getBaseFee());
+                IO.println("\t\tRate Type:\t\t\tFIXED");
+                IO.println("\t\tFixed Fee:\t\t\tPhp " + location.getRate().getBaseFee());
             }else{
-                System.out.println("Rate Information: " + location.getRate().getType() + " | Base fee and hours: Php " +
-                        location.getRate().getBaseFee() + " for " + location.getRate().getBaseHours() +
-                        " hours | Succeeding hr fee: " + location.getRate().getExtraFee());
+                IO.println("\t\tRate Type:\t\t\tHOURLY");
+                IO.println("\t\tBase Fee:\t\t\tPhp " + location.getRate().getBaseFee() + " for " + location.getRate().getBaseHours() + " hours");
+                IO.println("\t\tSucceeding Hr Fee:\tPhp " + location.getRate().getExtraFee());
             }
             if (location.getNotes() != null) {
-                System.out.println("Notes: " + location.getNotes());
+                IO.println("\t\tNotes:\t\t\t\t" + location.getNotes());
             }
         }
+        IO.println(Main.Colors.paint(Main.Colors.YELLOW, divider));
+        IO.println(Main.Colors.paint(Main.Colors.YELLOW,
+                "╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅   ✩   ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯"));
 
-        System.out.print("\n\n");
-        selection = Input.readInt("Choose Parking Location (0 to go back): ", 0, locations.size());
+        selection = Input.readInt(Main.Colors.paint(Main.Colors.CYAN, "\nChoose Parking Location (0 to go back): "), 0, locations.size());
         if (selection == 0) return null;
 
         return locations.get(selection - 1);
