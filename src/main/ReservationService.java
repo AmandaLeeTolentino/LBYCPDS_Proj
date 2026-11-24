@@ -201,4 +201,62 @@ public class ReservationService {
         userReservations.sort(Comparator.comparing(Reservation::getStart));
         return userReservations;
     }
+
+
+    //check if slot free and find free plus ignore certain slot if (cuz if same user wants to reserve same slot during overlapping time, might block)
+    public boolean isSlotFreeIgnore(String slotId, LocalDateTime start, double hours, String ignoreId) {
+        List<Reservation> resInSlot = allReservations.get(slotId);
+        if (resInSlot == null) return true;
+
+        LocalDateTime end = start.plusMinutes(Math.round(hours * 60));
+
+        for (Reservation r : resInSlot) {
+            if (r.getStatus() == ReservationStatus.CANCELED) continue;
+            if (ignoreId != null && r.getReservationId().equalsIgnoreCase(ignoreId)) continue;
+            if (r.overlaps(start, end)) return false;
+        }
+
+        return true;
+    }
+    public List<ParkingSlot> findFreeIgnore(ParkingLocation loc, LocalDateTime start, double hours, String ignoreId) {
+        List<ParkingSlot> free = new ArrayList<>();
+
+        for (ParkingSlot slot : loc.getSlots()) {
+            if (isSlotFreeIgnore(slot.getSlotId(), start, hours, ignoreId)) {
+                free.add(slot);
+            }
+        }
+        return free;
+    }
+
+    public Reservation rescheduleReservation(String reservationId, ParkingSlot newSlot, ParkingLocation newLoc,
+                                             LocalDateTime newStart, double newHours) {
+
+        Reservation old = byId(reservationId); //old reservation
+
+        if (old == null || old.getStatus() == ReservationStatus.CANCELED) return null;
+        if (!isSlotFreeIgnore(newSlot.getSlotId(), newStart, newHours, reservationId)) return null;
+
+        //remove old entry from its previous slot list in the map
+        List<Reservation> oldList = allReservations.get(old.getSlotId());
+        if (oldList != null) {
+            oldList.remove(old);
+        }
+
+        double newFee = newLoc.getRate().computeFee(newHours);
+        Reservation updated = new Reservation(
+                old.getReservationId(),
+                old.getUsername(),
+                newSlot.getSlotId(),
+                newLoc.getName(),
+                ReservationStatus.CONFIRMED,
+                newHours,
+                newFee,
+                newStart
+        );
+
+        addToMap(updated);
+        ReservationHistoryWriter.saveAll(allReservations.values());
+        return updated;
+    }
 }
