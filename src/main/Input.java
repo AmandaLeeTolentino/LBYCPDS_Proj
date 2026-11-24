@@ -90,7 +90,7 @@ public class Input {
             String line = input.nextLine().trim().toLowerCase();
             if (line.equals("y") || line.equals("yes")) return true;
             if (line.equals("n") || line.equals("no")) return false;
-            System.out.println("Enter Y or N.");
+            System.out.println(Main.Colors.paint(Main.Colors.RED, "\nInvalid input! Enter Y or N."));
         }
     }
 
@@ -140,7 +140,7 @@ public class Input {
                 if (r.getReservationId().equals(id))return id;
             }
 
-            System.out.println(Main.Colors.paint(Main.Colors.RED, "Invalid Reservation ID"));
+            System.out.println(Main.Colors.paint(Main.Colors.RED, "\nInvalid input! Enter one of the Reservation IDs listed above."));
         }
     }
 }

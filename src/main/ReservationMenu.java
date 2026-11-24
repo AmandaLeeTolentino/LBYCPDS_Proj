@@ -219,6 +219,45 @@ public class ReservationMenu {
         }
     }
 
+    private static final String FOOTER = "╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅   ✩   ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯";
+
+    private static void printHeader(String title, String subtitle) {
+        String pattern = "── ⋅ ⋅ ".repeat(30);
+        int side = Math.max(4, (FOOTER.length() - title.length() - 4) / 2);
+        String left = "╭─ " + pattern.substring(0, side - 3).replaceAll(" $", "─");
+        int rightLength = Math.max(0, FOOTER.length() - left.length() - title.length() - 5);
+        String right = pattern.substring(0, rightLength).replaceAll(" $", "─");
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n" + left + " " + title + " " + right + " ─╮"));
+        if (subtitle != null) System.out.println(Main.Colors.paint(Main.Colors.CYAN, "\t\t\t\t" + subtitle));
+    }
+
+    private static void printFooter() {
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, FOOTER));
+    }
+
+    private static void printMenu(String title, String... options) {
+        String top = "╔══════════ ≪ " + title + " ≫ ══════════╗";
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n" + top));
+        System.out.println();
+        for (String option : options) System.out.println("\t\t" + option);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n╚" + "═".repeat(top.length() - 2) + "╝"));
+    }
+
+    /** one reservation as a block of aligned lines (used by cancel and reschedule) */
+    private void printReservationBlock(Reservation r, boolean showFee) {
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, banner));
+        System.out.println("\t" + r.getReservationId());
+        System.out.println(String.format("\t\t%-14s%s", "Location:", r.getLocationName()));
+        System.out.println(String.format("\t\t%-14s%s", "Slot:", ParkingSlot.displayId(r.getSlotId())));
+        System.out.println(String.format("\t\t%-14s%s", "From:", r.getStart().format(FORMAT)));
+        System.out.println(String.format("\t\t%-14s%s", "Until:", r.getEnd().format(FORMAT)));
+        if (showFee) System.out.println(String.format("\t\t%-14sPhp %.2f", "Total Fee:", r.getTotalAmount()));
+    }
+
+    private static void noActive(String action) {
+        System.out.println(Main.Colors.paint(Main.Colors.RED, "\nYou have no active reservations to " + action + "."));
+    }
+
     public void cancelFlow(){
         List<Reservation> userReservations = res.getResUser(username);
         List<Reservation> active = new ArrayList<>(); //active resrvations
@@ -229,36 +268,34 @@ public class ReservationMenu {
         }
 
         if (active.isEmpty()) {
-            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\nYou have no active reservations to cancel."));
+            noActive("cancel");
             return;
         }
 
-        System.out.println("\n" + banner);
-        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "YOUR ACTIVE RESERVATIONS:"));
-        for (Reservation r : active) {
-            System.out.println(String.format("  %-5s | %-22s | Slot: %-9s | %s - %s",
-                    r.getReservationId(),
-                    r.getLocationName(),
-                    r.getSlotId(),
-                    r.getStart().format(FORMAT),
-                    r.getEnd().format(DateTimeFormatter.ofPattern("h:mm a"))));
-        }
-        System.out.println(banner);
+        printHeader("CANCEL RESERVATION", "Your active reservations");
+        for (Reservation r : active) printReservationBlock(r, true);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, banner));
+        printFooter();
 
         //get user input the reservation they wanna cancel
         String id = Input.readResId(
                 Main.Colors.paint(Main.Colors.CYAN, "\nEnter Reservation ID to cancel (0 to go back): "), active);
-
+        if (id == null) return;
 
         //find reservation obj by given id
         Reservation target = res.byId(id);
 
-        System.out.println("\nSelected: " + target.getReservationId() + " at " + target.getLocationName()
-                + " (" + target.getSlotId() + ") on " + target.getStart().format(FORMAT));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n" + banner));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "SELECTED RESERVATION:"));
+        System.out.println(String.format("\n\t\t%-14s%s", "ID:", target.getReservationId()));
+        System.out.println(String.format("\t\t%-14s%s", "Location:", target.getLocationName()));
+        System.out.println(String.format("\t\t%-14s%s", "Slot:", ParkingSlot.displayId(target.getSlotId())));
+        System.out.println(String.format("\t\t%-14s%s", "From:", target.getStart().format(FORMAT)));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, banner));
 
         //if user doesnt want to cancel
-        if (!Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN, "Are you sure you want to cancel this reservation"))) {
-            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "Reservation remains"));
+        if (!Input.readYesNo(Main.Colors.paint(Main.Colors.CYAN, "\nAre you sure you want to cancel this reservation"))) {
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\nReservation remains."));
             return;
         }
 
@@ -281,22 +318,14 @@ public class ReservationMenu {
         }
 
         if (active.isEmpty()) {
-            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\nYou have no active reservations to reschedule."));
+            noActive("reschedule");
             return;
         }
 
-        System.out.println("\n" + banner);
-        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "YOUR ACTIVE RESERVATIONS:"));
-        for (Reservation r : active) {
-            System.out.println(String.format("  %-5s | %-22s | Slot: %-9s | %s - %s (Php %.2f)",
-                    r.getReservationId(),
-                    r.getLocationName(),
-                    r.getSlotId(),
-                    r.getStart().format(FORMAT),
-                    r.getEnd().format(DateTimeFormatter.ofPattern("h:mm a")),
-                    r.getTotalAmount()));
-        }
-        System.out.println(banner);
+        printHeader("RESCHEDULE RESERVATION", "Your active reservations");
+        for (Reservation r : active) printReservationBlock(r, true);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, banner));
+        printFooter();
 
         String id = Input.readResId(
                 Main.Colors.paint(Main.Colors.CYAN, "\nEnter Reservation ID to reschedule (0 to go back): "), active);
@@ -305,7 +334,7 @@ public class ReservationMenu {
         Reservation target = res.byId(id);
         ParkingLocation loc = findLocationByName(target.getLocationName());
         if (loc == null) {
-            System.out.println(Main.Colors.paint(Main.Colors.RED, "Could not find location details for this reservation."));
+            System.out.println(Main.Colors.paint(Main.Colors.RED, "\nCould not find location details for this reservation."));
             return;
         }
 
@@ -317,28 +346,27 @@ public class ReservationMenu {
             double newFee = loc.getRate().computeFee(newHours);
             LocalDateTime newEnd = newStart.plusMinutes(Math.round(newHours * 60));
 
-            System.out.println("\n" + banner);
-            System.out.println(Main.Colors.YELLOW + "RESCHEDULING " + target.getReservationId() + ":");
-            System.out.println("Location:\t" + loc.getName());
-            System.out.println("Slot:\t\t" + slot.getDisplayId() + " (Floor " + slot.getFloor() + ")");
-            System.out.println("New From:\t" + newStart.format(FORMAT));
-            System.out.println("New Until:\t" + newEnd.format(FORMAT));
-            System.out.println("Duration:\t" + newHours + " hours");
-            System.out.println(String.format("Updated Fee:\tPhp %.2f (Previous: Php %.2f)" + Main.Colors.RESET,
-                    newFee, target.getTotalAmount()));
-            System.out.println(banner);
+            printHeader("RESCHEDULING " + target.getReservationId(), null);
+            System.out.println(String.format("\n\t\t%-16s%s", "Location:", loc.getName()));
+            System.out.println(String.format("\t\t%-16s%s (Floor %d)", "Slot:", slot.getDisplayId(), slot.getFloor()));
+            System.out.println(String.format("\t\t%-16s%s", "New From:", newStart.format(FORMAT)));
+            System.out.println(String.format("\t\t%-16s%s", "New Until:", newEnd.format(FORMAT)));
+            System.out.println(String.format("\t\t%-16s%s hours", "Duration:", newHours));
+            System.out.println(String.format("\t\t%-16sPhp %.2f (Previous: Php %.2f)\n", "Updated Fee:", newFee, target.getTotalAmount()));
+            printFooter();
 
-            System.out.println("1. Save Rescheduled Reservation");
-            System.out.println("2. Change Date & Time");
-            System.out.println("3. Change Duration");
-            System.out.println("4. Change Slot");
-            System.out.println("5. Change Location");
-            System.out.println("0. Cancel Reschedule");
+            printMenu("RESCHEDULE OPTIONS",
+                    "1. Save Rescheduled Reservation",
+                    "2. Change Date & Time",
+                    "3. Change Duration",
+                    "4. Change Slot",
+                    "5. Change Location",
+                    "0. Cancel Reschedule");
 
-            int choice = Input.readInt(Main.Colors.paint(Main.Colors.CYAN, "\nChoose an option: "), 0, 5);
+            int choice = Input.readInt(Main.Colors.paint(Main.Colors.CYAN, "\nEnter choice (0-5): "), 0, 5);
             switch (choice) {
                 case 0 ->{
-                    System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "Reschedule canceled. Original reservation unchanged."));
+                    System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\nReschedule canceled. Original reservation unchanged."));
                     return;
                 }
                 case 1 ->{
@@ -346,7 +374,7 @@ public class ReservationMenu {
                     Reservation updated = res.rescheduleReservation(
                             target.getReservationId(), slot, loc, newStart, newHours);
                     if (updated == null) {
-                        System.out.println(Main.Colors.paint(Main.Colors.RED, "Slot is no longer available for that time."));
+                        System.out.println(Main.Colors.paint(Main.Colors.RED, "\nSlot is no longer available for that time."));
                         continue;
                     }
 
@@ -369,7 +397,7 @@ public class ReservationMenu {
 
                         //no free found
                         if (free.isEmpty()) {
-                            System.out.println(Main.Colors.paint(Main.Colors.RED, "No slots free at that time."));
+                            System.out.println(Main.Colors.paint(Main.Colors.RED, "\nNo slots free at that time."));
                             continue;
                         }
 
@@ -395,7 +423,7 @@ public class ReservationMenu {
                         List<ParkingSlot> free = res.findFreeIgnore(loc, newStart, pickedHours, target.getReservationId());
 
                         if (free.isEmpty()) {
-                            System.out.println(Main.Colors.paint(Main.Colors.RED, "No slots free for that duration."));
+                            System.out.println(Main.Colors.paint(Main.Colors.RED, "\nNo slots free for that duration."));
                             continue;
                         }
 
