@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R23
+Name: Janine
+Username: STDjanine
+
+Building: Razon Sports Complex
+Floor/Slot: Floor 1 / Slot RAZ-67
+
+Entry:     Nov 25, 2026    12:00 PM
+Exit:      Nov 25, 2026    8:00 PM
+Duration: 8.0 hours
+
+Rate: FIXED - Php 60.00 flat fee
+TOTAL: Php 60.00

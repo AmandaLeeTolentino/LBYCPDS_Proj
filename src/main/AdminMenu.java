@@ -49,18 +49,18 @@ public class AdminMenu {
     }
 
     //==========================================
-    //NEW STATISTICS MENU DASHBOARD
+    // STATISTICS MENU DASHBOARD
     //==========================================
     public static void showStatisticsMenu(Scanner scanner) {
         boolean statsEntry = true;
         while (statsEntry) {
-            System.out.println("\n--- VIEW STATISTICS ---");
-            System.out.println("1. Most Used Parking Summary");
-            System.out.println("2. Average Parking Hours per Day");
-            System.out.println("3. Peak Hours");
-            System.out.println("4. Total Earnings of the Day");
-            System.out.println("5. Back to Admin Menu");
-            System.out.print("\nEnter choice: ");
+            printMenu("VIEW STATISTICS",
+                    "1. Most Used Parking Summary",
+                    "2. Average Parking Hours per Day",
+                    "3. Peak Hours",
+                    "4. Total Earnings of the Day",
+                    "5. Back to Admin Menu");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN, "\nEnter choice: "));
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -69,7 +69,7 @@ public class AdminMenu {
                 case "3": showPeakHours(scanner); break;
                 case "4": showDailyEarnings(scanner); break;
                 case "5": statsEntry = false; break;
-                default: System.out.println("Enter a number from 1 to 5.");
+                default: invalid("Enter a number from 1 to 5.");
             }
         }
     }
@@ -88,12 +88,12 @@ public class AdminMenu {
 
         boolean inMenu = true;
         while (inMenu) {
-            System.out.println("\n--- MOST USED PARKING SUMMARY (" + date + ") ---");
-            System.out.println("1. Most reserved area");
-            System.out.println("2. Most reserved floor (multi-floor areas only)");
-            System.out.println("3. Most reserved slot (all areas)");
-            System.out.println("4. Back to Statistics");
-            System.out.print("\nEnter choice: ");
+            printMenu("MOST USED PARKING SUMMARY",
+                    "1. Most reserved area",
+                    "2. Most reserved floor (multi-floor areas only)",
+                    "3. Most reserved slot (all areas)",
+                    "4. Back to Statistics");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN, "\nEnter choice: "));
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -101,8 +101,7 @@ public class AdminMenu {
                     Map<String, Integer> counts = new LinkedHashMap<>();
                     for (ParkingLocation loc : locations) counts.put(loc.getName(), 0);
                     for (Reservation r : all) counts.merge(r.getLocationName(), 1, Integer::sum);
-                    System.out.println("\n--- RESERVATIONS PER AREA ---");
-                    printRanking(counts, "area");
+                    printRanking("RESERVATIONS PER AREA", prettyDate(date), counts, "area", Integer.MAX_VALUE);
                     break;
                 }
                 case "2":
@@ -115,8 +114,7 @@ public class AdminMenu {
                                 counts.merge("Floor " + floorOf(r), 1, Integer::sum);
                             }
                         }
-                        System.out.println("\n--- " + loc.getName().toUpperCase() + ": RESERVATIONS PER FLOOR ---");
-                        printRanking(counts, "floor");
+                        printRanking(loc.getName().toUpperCase() + ": RESERVATIONS PER FLOOR", prettyDate(date), counts, "floor", Integer.MAX_VALUE);
                     }
                     break;
                 case "3": {
@@ -125,12 +123,11 @@ public class AdminMenu {
                         counts.merge(r.getLocationName() + " - " + ParkingSlot.displayId(r.getSlotId()) + " (Floor " + floorOf(r) + ")",
                                 1, Integer::sum);
                     }
-                    System.out.println("\n--- MOST RESERVED SLOTS (ALL AREAS) ---");
-                    printRanking(counts, "slot", 5);
+                    printRanking("MOST RESERVED SLOTS (ALL AREAS)", prettyDate(date), counts, "slot", 5);
                     break;
                 }
                 case "4": inMenu = false; break;
-                default: System.out.println("Enter a number from 1 to 4.");
+                default: invalid("Enter a number from 1 to 4.");
             }
         }
     }
@@ -146,16 +143,18 @@ public class AdminMenu {
                 count++;
             }
         }
-        System.out.println("\n--- AVERAGE PARKING HOURS on " + date + " ---");
+        printHeader("AVERAGE PARKING HOURS", prettyDate(date));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
         if (count == 0) {
-            System.out.println("No reservations on that day.");
+            System.out.println("\t\tNo reservations on that day.");
         } else {
-            System.out.println("Total reservations: " + count);
-            System.out.println("Total hours: " + total);
-            System.out.println(String.format("Average hours per parking: %.2f", total / count));
+            System.out.println("\t\tTotal Reservations:\t" + count);
+            System.out.println("\t\tTotal Hours:\t\t" + total);
+            System.out.println("\t\tAverage Hours:\t\t" + Main.Colors.paint(Main.Colors.GREEN, String.format("%.2f hours per parking", total / count)));
         }
-        System.out.print("\nPress Enter to continue...");
-        scanner.nextLine();
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+        printFooter();
+        pressEnter(scanner);
     }
 
     // ---------- 3. PEAK HOURS ----------
@@ -168,34 +167,38 @@ public class AdminMenu {
             perHour[r.getStart().getHour()]++;
             total++;
         }
-        System.out.println("\n--- PEAK HOURS on " + date + " (by reservation start time) ---");
+        printHeader("PEAK HOURS (by reservation start time)", prettyDate(date));
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
         if (total == 0) {
-            System.out.println("No reservations on that day.");
+            System.out.println("\t\tNo reservations on that day.");
         } else {
             int max = 0;
             for (int c : perHour) max = Math.max(max, c);
             for (int h = 0; h < 24; h++) {
                 if (perHour[h] == 0) continue;
-                System.out.println(String.format("%02d:00 - %02d:59 | %d reservation(s)%s",
-                        h, h, perHour[h], perHour[h] == max ? "   <-- PEAK" : ""));
+                String line = String.format("\t\t%02d:00 - %02d:59\t%d reservation(s)", h, h, perHour[h]);
+                if (perHour[h] == max) line += Main.Colors.paint(Main.Colors.GREEN, "   <-- PEAK");
+                System.out.println(line);
             }
         }
-        System.out.print("\nPress Enter to continue...");
-        scanner.nextLine();
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+        printFooter();
+        pressEnter(scanner);
     }
 
     // ---------- 4. EARNINGS ----------
     private static void showDailyEarnings(Scanner scanner) {
         java.time.LocalDate date = askDate(scanner);
         while (true) {
-            System.out.println("\n--- TOTAL EARNINGS on " + date + " ---");
+            List<String> options = new ArrayList<>();
             int n = 0;
             for (ParkingLocation loc : locations) {
-                System.out.println((++n) + ". " + loc.getName());
+                options.add((++n) + ". " + loc.getName());
             }
-            System.out.println((++n) + ". All areas");
-            System.out.println((++n) + ". Back to Statistics");
-            System.out.print("\nEnter choice: ");
+            options.add((++n) + ". All areas");
+            options.add((++n) + ". Back to Statistics");
+            printMenu("TOTAL EARNINGS - " + prettyDate(date), options.toArray(new String[0]));
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN, "\nEnter choice: "));
             int pick;
             try {
                 pick = Integer.parseInt(scanner.nextLine().trim());
@@ -204,7 +207,7 @@ public class AdminMenu {
             }
             if (pick == n) return;
             if (pick < 1 || pick > n) {
-                System.out.println("Enter a number from 1 to " + n + ".");
+                invalid("Enter a number from 1 to " + n + ".");
                 continue;
             }
             boolean allAreas = pick == n - 1;
@@ -219,8 +222,12 @@ public class AdminMenu {
                     count++;
                 }
             }
-            System.out.println("\n" + name + " | " + count + " reservation(s)");
-            System.out.println(String.format("Total amount paid: Php %.2f", sum));
+            printHeader("EARNINGS: " + name.toUpperCase(), prettyDate(date));
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+            System.out.println("\t\tReservations:\t\t" + count);
+            System.out.println("\t\tTotal Paid:\t\t\t" + Main.Colors.paint(Main.Colors.GREEN, String.format("Php %.2f", sum)));
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+            printFooter();
         }
     }
 
@@ -229,11 +236,11 @@ public class AdminMenu {
         java.time.format.DateTimeFormatter fmt = java.time.format.DateTimeFormatter
                 .ofPattern("M-d-uuuu").withResolverStyle(java.time.format.ResolverStyle.STRICT);
         while (true) {
-            System.out.print("\nDate (mm-dd-yyyy): ");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN, "\nDate (mm-dd-yyyy): "));
             try {
                 return java.time.LocalDate.parse(scanner.nextLine().trim(), fmt);
             } catch (java.time.format.DateTimeParseException e) {
-                System.out.println("Use MM-dd-yyyy, for example 05-20-2026.");
+                invalid("Use MM-dd-yyyy, for example 05-20-2026.");
             }
         }
     }
@@ -253,24 +260,26 @@ public class AdminMenu {
         return 0;
     }
 
-    private static void printRanking(Map<String, Integer> counts, String what) {
-        printRanking(counts, what, Integer.MAX_VALUE);
-    }
-
     /** prints highest first and marks the top one(s); shows at most 'limit' rows */
-    private static void printRanking(Map<String, Integer> counts, String what, int limit) {
+    private static void printRanking(String title, String subtitle, Map<String, Integer> counts, String what, int limit) {
         List<Map.Entry<String, Integer>> rows = new ArrayList<>(counts.entrySet());
         rows.sort((a, b) -> b.getValue() - a.getValue());
+
+        printHeader(title, subtitle);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
         if (rows.isEmpty() || rows.get(0).getValue() == 0) {
-            System.out.println("No reservations yet.");
-            return;
+            System.out.println("\t\tNo reservations on that day.");
+        } else {
+            int max = rows.get(0).getValue();
+            for (int i = 0; i < rows.size() && i < limit; i++) {
+                Map.Entry<String, Integer> e = rows.get(i);
+                String line = String.format("\t%d. %-42s %d reservation(s)", i + 1, e.getKey(), e.getValue());
+                if (e.getValue() == max) line += Main.Colors.paint(Main.Colors.GREEN, "   <-- MOST RESERVED " + what.toUpperCase());
+                System.out.println(line);
+            }
         }
-        int max = rows.get(0).getValue();
-        for (int i = 0; i < rows.size() && i < limit; i++) {
-            Map.Entry<String, Integer> e = rows.get(i);
-            System.out.println(e.getKey() + " | " + e.getValue() + " reservation(s)"
-                    + (e.getValue() == max ? "   <-- MOST RESERVED " + what.toUpperCase() : ""));
-        }
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+        printFooter();
     }
 
     public static void showCurrentSlots(Scanner scanner) {
@@ -281,26 +290,26 @@ public class AdminMenu {
         // ask date
         java.time.LocalDate date;
         while (true) {
-            System.out.print("\nDate (mm-dd-yyyy): ");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN, "\nDate (mm-dd-yyyy): "));
             try {
                 date = java.time.LocalDate.parse(scanner.nextLine().trim(), dateFmt);
                 break;
             } catch (java.time.format.DateTimeParseException e) {
-                System.out.println("Use MM-dd-yyyy, for example 05-20-2026.");
+                invalid("Use MM-dd-yyyy, for example 05-20-2026.");
             }
         }
 
         // ask time (Enter = whole day)
         java.time.LocalTime time = java.time.LocalTime.MIDNIGHT;
         while (true) {
-            System.out.print("Time (HH:mm, 24-hour) or press Enter for the whole day: ");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN, "Time (HH:mm, 24-hour) or press Enter for the whole day: "));
             String line = scanner.nextLine().trim();
             if (line.isEmpty()) break;
             try {
                 time = java.time.LocalTime.parse(line);
                 break;
             } catch (java.time.format.DateTimeParseException e) {
-                System.out.println("Use 24-hour HH:mm, for example 14:30.");
+                invalid("Use 24-hour HH:mm, for example 14:30.");
             }
         }
 
@@ -309,27 +318,67 @@ public class AdminMenu {
 
         java.util.List<Reservation> taken = reservationService.getReservationsBetween(from, to);
 
-        System.out.println("\n--- RESERVED SLOTS from " + from.format(showFmt) + " to end of day ---");
+        printHeader("CURRENT RESERVED SLOTS", "\t\t\t\t\t(from " + from.format(showFmt) + " to end of day)");
         if (taken.isEmpty()) {
-            System.out.println("No reserved slots for that period.");
+            System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+            System.out.println("\t\tNo reserved slots for that period.");
         }
         String lastBuilding = "";
         for (Reservation r : taken) {
             if (!r.getLocationName().equals(lastBuilding)) {
-                System.out.println("\n" + r.getLocationName());
+                System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+                System.out.println("\t" + r.getLocationName());
                 lastBuilding = r.getLocationName();
             }
-            int floor = 0;
-            for (ParkingLocation loc : locations) {
-                if (loc.getName().equals(r.getLocationName()) && loc.getSlot(r.getSlotId()) != null) {
-                    floor = loc.getSlot(r.getSlotId()).getFloor();
-                }
-            }
-            System.out.println("  Slot " + ParkingSlot.displayId(r.getSlotId()) + " | Floor " + floor + " | "
-                    + r.getStart().format(showFmt) + " - " + r.getEnd().format(showFmt)
-                    + " (" + r.getDurationHours() + " hrs)");
+            int floor = floorOf(r);
+            System.out.println(String.format("\t\tSlot %-7s Floor %-3d %s - %s  (%s hrs)",
+                    ParkingSlot.displayId(r.getSlotId()), floor,
+                    r.getStart().format(showFmt), r.getEnd().format(showFmt), r.getDurationHours()));
         }
-        System.out.print("\nPress Enter to continue...");
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, DIVIDER));
+        printFooter();
+        pressEnter(scanner);
+    }
+
+    private static final String DIVIDER = " ⋅".repeat(75);
+    private static final String FOOTER = "╰─ ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅   ✩   ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ── ⋅ ⋅ ── ─╯";
+
+    /** yellow title bar */
+    private static void printHeader(String title, String subtitle) {
+        String pattern = "── ⋅ ⋅ ".repeat(30);
+        int side = Math.max(4, (FOOTER.length() - title.length() - 4) / 2);   // decoration on each side of the title
+        String left = "╭─ " + pattern.substring(0, side - 3).replaceAll(" $", "─");   // don't end on a space
+        int rightLength = Math.max(0, FOOTER.length() - left.length() - title.length() - 5);
+        String right = pattern.substring(0, rightLength).replaceAll(" $", "─");   // don't end on a space
+        String bar = left + " " + title + " " + right + " ─╮";
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n" + bar));
+        if (subtitle != null) System.out.println(Main.Colors.paint(Main.Colors.CYAN, "\t\t\t\t" + subtitle));
+    }
+
+    private static void printFooter() {
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, FOOTER));
+    }
+
+    /** yellow boxed menu with tab-indented options */
+    private static void printMenu(String title, String... options) {
+        String top = "╔══════════ ≪ " + title + " ≫ ══════════╗";
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n" + top));
+        System.out.println();
+        for (String option : options) System.out.println("\t\t" + option);
+        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\n╚" + "═".repeat(top.length() - 2) + "╝"));
+    }
+
+    private static void invalid(String message) {
+        System.out.println(Main.Colors.paint(Main.Colors.RED, "\nInvalid input! " + message));
+    }
+
+    private static void pressEnter(Scanner scanner) {
+        System.out.print(Main.Colors.paint(Main.Colors.GREEN, "\nPress Enter to continue..."));
         scanner.nextLine();
     }
+
+    private static String prettyDate(java.time.LocalDate date) {
+        return "(" + date.format(java.time.format.DateTimeFormatter.ofPattern("MMM d, yyyy")) + ")";
+    }
+
 }
