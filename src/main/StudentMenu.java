@@ -22,7 +22,7 @@ public class StudentMenu {
             System.out.println(Main.Colors.YELLOW +"\n╔══════════ ≪ STUDENT DASHBOARD ≫ ══════════╗");
             System.out.println("\n   ⋅  ⋅  ⋅  ⋅  Welcome, " + name +"! ⋅  ⋅  ⋅  ⋅"+ Main.Colors.RESET);
             System.out.println("\n\t\t1. DLSU Parking Status");
-            System.out.println("\t\t2. Reservation & Cancellation");
+            System.out.println("\t\t2. Reservation Features");
             System.out.println("\t\t3. Transaction History");
             System.out.println("\t\t4. Logout");
             System.out.println(Main.Colors.paint(Main.Colors.YELLOW,"\n╚═══════════════════════════════════════════╝"));
