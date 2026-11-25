@@ -123,7 +123,7 @@ public class StudentMenu {
             System.out.println("""
                     1.  Filter Category (rate/distance)
                     2.  Reserve Slot Directly
-                    3.  Reschedule Reservation
+                    3.  Edit Reservation Details
                     4.  Cancel Reservation
                     5.  Back to Student Menu
                                                         
