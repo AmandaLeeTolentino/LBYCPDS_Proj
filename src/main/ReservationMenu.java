@@ -69,7 +69,7 @@ public class ReservationMenu {
 
             ReservationHistoryWriter.save(made);                        // CSV history
             PaymentReceipt.writeReceipt(made, slot, loc.getRate());     // receipt .txt
-            System.out.println("\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file.");
+            System.out.println(Main.Colors.paint(Main.Colors.GREEN,"\nYour parking reservation has been CONFIRMED! Details can be found in the receipt file."));
         }
     }
 
@@ -161,7 +161,7 @@ public class ReservationMenu {
         }
 
         while (true) {
-            int choice = Input.readInt("\nChoose a slot (0 to go back): ", 0, allSlots.size());
+            int choice = Input.readInt(Main.Colors.paint(Main.Colors.CYAN,"\nChoose a slot (0 to go back): "), 0, allSlots.size());
             if (choice == 0) return null;
 
             ParkingSlot picked = allSlots.get(choice - 1);
@@ -371,6 +371,19 @@ public class ReservationMenu {
                 }
                 case 1 ->{
 
+                    //make sure the slot is still free BEFORE asking for any payment
+                    if (!res.isSlotFreeIgnore(slot.getSlotId(), newStart, newHours, target.getReservationId())) {
+                        System.out.println(Main.Colors.paint(Main.Colors.RED, "\nSlot is no longer available for that time."));
+                        continue;
+                    }
+
+                    //extra payment or refund for the difference between old and new fee
+                    double previousTotal = target.getTotalAmount();
+                    if (!PaymentReceipt.settleAdjustment(loc.getRate(), newHours, previousTotal, newFee)) {
+                        System.out.println(Main.Colors.paint(Main.Colors.YELLOW, "\nPayment cancelled. Reservation not changed."));
+                        continue;   //back to the reschedule options
+                    }
+
                     Reservation updated = res.rescheduleReservation(
                             target.getReservationId(), slot, loc, newStart, newHours);
                     if (updated == null) {
@@ -378,7 +391,7 @@ public class ReservationMenu {
                         continue;
                     }
 
-                    PaymentReceipt.writeReceipt(updated, slot, loc.getRate());
+                    PaymentReceipt.writeReceipt(updated, slot, loc.getRate(), previousTotal);   //rewrites the old receipt
                     System.out.println(Main.Colors.paint(Main.Colors.GREEN,
                             "\nReservation " + updated.getReservationId() + " has been RESCHEDULED and saved!"));
                     return;
@@ -402,7 +415,7 @@ public class ReservationMenu {
                         }
 
                         //it's a valid slot but alrd taken at date and time
-                        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,
+                        System.out.println(Main.Colors.paint(Main.Colors.RED,
                                 slot.getDisplayId() + " is occupied at the new time. Pick another slot:"));
                         ParkingSlot pickedSlot = chooseSlot(loc.getSlots(), free, pickedStart, newHours);//ask for replacement
 
@@ -427,7 +440,7 @@ public class ReservationMenu {
                             continue;
                         }
 
-                        System.out.println(Main.Colors.paint(Main.Colors.YELLOW,
+                        System.out.println(Main.Colors.paint(Main.Colors.RED,
                                 slot.getDisplayId() + " conflicts with that duration. Pick another slot:"));
                         ParkingSlot pickedSlot = chooseSlot(loc.getSlots(), free, newStart, pickedHours);
 

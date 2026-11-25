@@ -2,10 +2,10 @@ Testing,hello,ADMIN,Testing
 BreadOnFire,Mandy,ADMIN,BreadOnFire
 Student,hi,STUDENT,Student
 Mandy,Hello,STUDENT,Mandy
-ADMjanine,123,ADMIN,Janine
-STDjanine,123,STUDENT,Janine
+ADMjanine,123,ADMIN,Janine Claire
+STDjanine,123,STUDENT,Janine Claire
 ADMINISTRATOR,12345,ADMIN,Administrator
 newStudent,new,STUDENT,New Student
 m,a,STUDENT,m
-janine,123,STUDENT,Janine
+janine,123,STUDENT,Janine Claire
 username,123,STUDENT,DISPLAY

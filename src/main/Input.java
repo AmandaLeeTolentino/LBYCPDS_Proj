@@ -31,7 +31,7 @@ public class Input {
             } catch (InputMismatchException e) {
                 input.nextLine();//discard the bad input
             }
-            System.out.println("Enter a number from " + min + " to " + max + ".");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"Enter a number from " + min + " to " + max + "."));
         }
     }
 
@@ -48,7 +48,7 @@ public class Input {
             } catch (InputMismatchException e) {
                 input.nextLine(); //get rid of bad input
             }
-            System.out.println("Enter a number greater than 0.");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"Enter a number greater than 0."));
         }
     }
 
@@ -65,7 +65,7 @@ public class Input {
             } catch (InputMismatchException e) {
                 input.nextLine(); //get rid of bad input
             }
-            System.out.println("Enter 0 or a positive amount.");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"Enter 0 or a positive amount."));
         }
     }
     /**
@@ -76,7 +76,7 @@ public class Input {
             System.out.print(prompt);
             String line = input.nextLine().trim();
             if (!line.isEmpty()) return line;
-            System.out.println("This cannot be blank.");
+            System.out.println(Main.Colors.paint(Main.Colors.RED,"This cannot be blank."));
         }
     }
 
@@ -86,7 +86,7 @@ public class Input {
      */
     public static boolean readYesNo(String prompt) {
         while (true) {
-            System.out.print(prompt + " (Y/N): ");
+            System.out.print(Main.Colors.paint(Main.Colors.CYAN,prompt + " (Y/N): "));
             String line = input.nextLine().trim().toLowerCase();
             if (line.equals("y") || line.equals("yes")) return true;
             if (line.equals("n") || line.equals("no")) return false;
@@ -106,7 +106,7 @@ public class Input {
             try {
                 return LocalTime.parse(line);
             } catch (DateTimeParseException e) {
-                System.out.println("Use 24-hour HH:mm, for example 14:30.");
+                System.out.println(Main.Colors.paint(Main.Colors.RED,"Use 24-hour HH:mm, for example 14:30."));
             }
         }
     }
@@ -119,7 +119,7 @@ public class Input {
             try {
                 return LocalDate.parse(line, DATE_FORMAT);
             } catch (DateTimeParseException e) {
-                System.out.println("Use MM-dd-yyyy, for example 05-20-2026.");
+                System.out.println(Main.Colors.paint(Main.Colors.RED,"Use MM-dd-yyyy, for example 05-20-2026."));
             }
         }
     }
