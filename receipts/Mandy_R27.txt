@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R27
+Name: Mandy
+Username: Mandy
+
+Building: Razon Sports Complex
+Floor/Slot: Floor 2 / Slot RAZ-5
+
+Entry:     Dec 15, 2026    3:00 PM
+Exit:      Dec 15, 2026    7:00 PM
+Duration: 4.0 hours
+
+Rate: FIXED - Php 60.00 flat fee
+TOTAL: Php 60.00

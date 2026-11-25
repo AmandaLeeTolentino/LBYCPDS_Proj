@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R20
+Name: Janine Claire
+Username: janine
+
+Building: Green Court Parking
+Floor/Slot: Floor 1 / Slot GC-7
+
+Entry:     Dec 15, 2026    2:00 PM
+Exit:      Dec 15, 2026    5:00 PM
+Duration: 3.0 hours
+
+Rate: HOURLY - Php 50.00 for the first 3 hours + Php 20.00 per succeeding hour
+TOTAL: Php 50.00

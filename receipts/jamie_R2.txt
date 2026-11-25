@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R2
+Name: James Chuang
+Username: jamie
+
+Building: Razon Sports Complex
+Floor/Slot: Floor 1 / Slot RAZ-10
+
+Entry:     Dec 15, 2026    1:00 PM
+Exit:      Dec 15, 2026    4:00 PM
+Duration: 3.0 hours
+
+Rate: FIXED - Php 60.00 flat fee
+TOTAL: Php 60.00

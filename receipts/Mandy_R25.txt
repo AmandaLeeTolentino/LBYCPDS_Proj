@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R25
+Name: Mandy
+Username: Mandy
+
+Building: Green Mall
+Floor/Slot: Floor 1 / Slot GM-3
+
+Entry:     Dec 15, 2026    8:00 AM
+Exit:      Dec 15, 2026    9:30 AM
+Duration: 1.5 hours
+
+Rate: HOURLY - Php 60.00 for the first 2 hours + Php 50.00 per succeeding hour
+TOTAL: Php 60.00

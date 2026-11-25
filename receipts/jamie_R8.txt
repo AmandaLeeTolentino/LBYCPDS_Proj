@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R8
+Name: James Chuang
+Username: jamie
+
+Building: Green Court Parking
+Floor/Slot: Floor 1 / Slot GC-12
+
+Entry:     Dec 15, 2026    5:00 PM
+Exit:      Dec 15, 2026    9:00 PM
+Duration: 4.0 hours
+
+Rate: HOURLY - Php 50.00 for the first 3 hours + Php 20.00 per succeeding hour
+TOTAL: Php 70.00

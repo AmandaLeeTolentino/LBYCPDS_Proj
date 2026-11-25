@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R3
+Name: James Chuang
+Username: jamie
+
+Building: EGI Taft Tower
+Floor/Slot: Floor 1 / Slot EGI-22
+
+Entry:     Dec 15, 2026    5:00 PM
+Exit:      Dec 15, 2026    8:00 PM
+Duration: 3.0 hours
+
+Rate: HOURLY - Php 70.00 for the first 3 hours + Php 20.00 per succeeding hour
+TOTAL: Php 70.00

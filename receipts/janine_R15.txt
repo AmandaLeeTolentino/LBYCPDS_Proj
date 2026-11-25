@@ -1,0 +1,15 @@
+PARKING RESERVATION RECEIPT
+
+Reservation ID: R15
+Name: Janine Claire
+Username: janine
+
+Building: University Mall
+Floor/Slot: Floor 1 / Slot UM-2
+
+Entry:     Nov 30, 2026    9:00 AM
+Exit:      Nov 30, 2026    11:00 AM
+Duration: 2.0 hours
+
+Rate: HOURLY - Php 50.00 for the first 2 hours + Php 20.00 per succeeding hour
+TOTAL: Php 50.00
