@@ -1,14 +1,7 @@
-hi,h,STUDENT,hi
-haha,a,ADMIN,haha
-jameschuang,hello!,STUDENT,James Chuang
-james david chuang,hello,STUDENT,James David Chuang
 Testing,hello,ADMIN,Testing
 BreadOnFire,Mandy,ADMIN,BreadOnFire
 Student,hi,STUDENT,Student
 Mandy,Hello,STUDENT,Mandy
-test1,test1,STUDENT,test1
-test2,test2,ADMIN,test2
-test3,test3,STUDENT,test3
 ADMjanine,123,ADMIN,Janine
 STDjanine,123,STUDENT,Janine
 ADMINISTRATOR,12345,ADMIN,Administrator
@@ -16,5 +9,3 @@ newStudent,new,STUDENT,New Student
 m,a,STUDENT,m
 janine,123,STUDENT,Janine
 username,123,STUDENT,DISPLAY
-STDjamie,test123,STUDENT,james chuang
-jamestest,jamestest,STUDENT,Jamie
